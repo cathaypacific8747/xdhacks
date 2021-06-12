@@ -3,7 +3,7 @@ body {
     background: linear-gradient(90deg, rgba(244,219,114,1) 0%, rgba(134,241,145,1) 50%, rgba(107,221,255,1) 100%);
 	background-size: 400% 400%;
 	animation: gradient 15s ease infinite;
-	font-family: 'Source Sans Pro', sans-serif;
+	font-family: 'Source Sans Pro', 'Segoe UI', sans-serif !important;
 }
 
 @keyframes gradient {
@@ -18,11 +18,16 @@ body {
 	}
 }
 
+.container-fluid {
+	overflow: hidden;
+}
+
 .navbar {
 	background: rgba(0,0,0,0);
 	border: 0;
+	min-height: 5rem;
 }
 
-.container-fluid {
-	overflow: hidden;
+.nav-item {
+	font-size: 16px;
 }

@@ -1,42 +1,53 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="column is-4 is-offset-4">
-    <div class="box translucent is-shadowless">
-        <h3 class="title has-text-centered">Login</h3>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        {% for category, message in messages %}
-        <div class="notification has-text-{{ category }}-dark translucent">{{ message }}</div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-        <form method="POST" action="/login">
-            <div class="field">
-                <div class="control has-icons-right">
-                    <input class="input translucent" type="email" name="email" placeholder="Email">
-                    <span class="icon is-small is-right">
-                        <i class="fas fa-envelope"></i>
-                    </span>
-                </div>
+<div class="container-fluid h-full w-full d-flex justify-content-center align-items-center">
+    <div class="w-400 mw-full">
+        <div class="card p-0 translucent">
+            <div class="content">
+                <h2 class="card-title text-center font-size-48 m-0 pb-10">
+                    Log in
+                </h2>
+                <form action="/login" method="POST" class="w-400 mw-full">
+                    <div class="form-group">
+                        <input class="form-control translucent" type="email" name="email" placeholder="School Email" required="required">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control translucent" type="password" name="password" placeholder="Password" required="required">
+                    </div>
+                    <div class="custom-checkbox">
+                        <input type="checkbox" id="remember" name="remember" value="">
+                        <label for="remember">Remember Me</label>
+                    </div>
+                    <input class="btn btn-primary w-full" type="submit" value="Log in">
+                </form>
             </div>
-
-            <div class="field">
-                <div class="control has-icons-right">
-                    <input class="input translucent" type="password" name="password" placeholder="Password">
-                    <span class="icon is-small is-right">
-                        <i class="fas fa-lock"></i>
-                    </span>
-                </div>
-            </div>
-            <div class="field">
-                <label class="checkbox">
-                    <input type="checkbox">
-                    Remember me
-                </label>
-            </div>
-            <button class="button is-block is-info is-fullwidth">Login</button>
-        </form>
+        </div>
     </div>
 </div>
+<script>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    setTimeout(function() {
+        halfmoon.initStickyAlert({
+            content: "{{ message }}",
+            alertType: "alert-{{ category }}"
+        })
+    }, 200)
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+</script>
+<style>
+    .form-group, .custom-checkbox {
+        margin-bottom: 6px;
+    }
+    .content {
+        margin: 18px;
+    }
+    .translucent {
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+</style>
 {% endblock %}
