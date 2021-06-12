@@ -1,0 +1,30 @@
+html {
+    overflow-y: hidden; /* fix scroll bar issues */
+}
+
+body {
+    background: rgb(244,219,114);
+    background: linear-gradient(90deg, rgba(244,219,114,1) 0%, rgba(134,241,145,1) 50%, rgba(107,221,255,1) 100%);
+	background-size: 300% 300%;
+	animation: gradient 20s ease infinite;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+#banner {
+    height: 100%;
+}
+
+.translucent {
+    background-color: #ffffff55;
+}

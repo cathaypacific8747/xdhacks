@@ -16,11 +16,18 @@ def signup_post():
     stdid = request.form.get('stdid') # unique
     name = request.form.get('name')
     password = request.form.get('password')
+    err = False
 
     user = User.query.filter_by(stdid=stdid).first()
     if user: # user exists in database, redirect to signup to retry
-        print(User.__dict__)
         flash('User already exists!', 'danger')
+        err = True
+
+    if len(stdid) != 10:
+        flash('Student ID must be 10 characters long!', 'warning')
+        err = True
+    
+    if err:
         return redirect(url_for('auth.signup'))
 
     # otherwise create new user with hashed pwd.
@@ -39,12 +46,20 @@ def login_post():
     stdid = request.form.get('stdid')
     password = request.form.get('password')
     remember = bool(request.form.get('remember'))
+    err = False
 
     user = User.query.filter_by(stdid=stdid).first()
 
     if not user or not check_password_hash(user.password, password):
-        flash('Please check your login details and try again!', 'danger')
-        return redirect(url_for('auth.login')) # if user not found or password hash does not match, try again
+        flash('Please check your login details and try again!', 'danger') # if user not found or password hash does not match, try again
+        err = True
+    
+    if len(stdid) != 10:
+        flash('Student ID must be 10 characters long!', 'warning')
+        err = True
+    
+    if err:
+        return redirect(url_for('auth.login'))
 
     login_user(user, remember=remember)
     return redirect(url_for('main.profile')) # redirect to profile page when signup is successful
