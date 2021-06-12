@@ -7,6 +7,6 @@ $ ./setup.sh
 $ flask run
 ```
 
-#References 
+# References 
 - https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login
 - https://codepen.io/P1N2O/pen/pyBNzX
