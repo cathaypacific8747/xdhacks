@@ -1,0 +1,26 @@
+#introName {
+    font-size: 56px;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 2s ease;
+}
+
+#introDesc {
+    font-size: 28px;
+    opacity: 0;
+    transition: opacity 5s ease;
+}
+
+#bookL {
+    width: 30%;
+    opacity: 10%;
+    transform: translate(-100%, 0);
+    transition: transform 10s linear;
+}
+
+#bookR {
+    width: 30%;
+    opacity: 10%;
+    transform: translate(350%, 0);
+    transition: transform 10s linear;
+}

@@ -1,47 +1,50 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>TEST</title>
-        <meta charset="utf-8">
-        <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.2/css/bulma.min.css" integrity="sha512-byErQdWdTqREz6DLAA9pCnLbdoGGhXfU6gm1c8bkf7F51JVmUBlayGe2A31VpXWQP+eiJ3ilTAZHCR3vmMyybA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />        <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
-    </head>
+<head>
+    {% block head %}
+    <title>TEST</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" name="viewport">
+    <meta name="viewport" content="width=device-width">
 
-    <body>
-        <section class="hero is-fullheight">
-            <div class="hero-head">
-                <nav class="navbar">
-                    <div class="navbar-brand" id="banner">
-                        <a class="navbar-item" href="{{ url_for('main.index') }}">
-                            <img src="{{ url_for('static', filename='img/logo/banner.png') }}" alt="Swappy">
-                        </a>
-                    </div>
-                  
-                    <div id="navbarExampleTransparentExample" class="navbar-menu">
-                        <div class="navbar-end">
-                            {% if current_user.is_authenticated %}
-                            <a href="{{ url_for('main.profile') }}" class="navbar-item">Profile</a>
-                            <a href="{{ url_for('main.market') }}" class="navbar-item">Market</a>
-                            {% endif %}
-                            {% if not current_user.is_authenticated %}
-                            <a href="{{ url_for('auth.login') }}" class="navbar-item">Login</a>
-                            <a href="{{ url_for('auth.signup') }}" class="navbar-item">Sign Up</a>
-                            {% endif %}
-                            {% if current_user.is_authenticated %}
-                            <a href="{{ url_for('auth.logout') }}" class="navbar-item">Logout</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </nav>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/css/halfmoon-variables.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700;900&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    {% endblock %}
+</head>
+<body class="with-custom-webkit-scrollbars with-custom-css-scrollbars">
+    <div class="page-wrapper with-navbar with-transitions">
+        <div class="sticky-alerts"></div>
+        <nav class="navbar">
+            <a class="navbar-brand ml-10 ml-sm-15" href="{{ url_for('main.index') }}">
+                <img class="mr-5 mr-sm-10" src="{{ url_for('static', filename='img/logo/banner.png') }}" alt="Swappy">
+            </a>
+            <div class="navbar-content ml-auto mr-10">
+                <ul class="navbar-nav mr-5">
+                    {% if current_user.is_authenticated %}
+                    <li class="nav-item"><a href="{{ url_for('main.profile') }}" class="nav-link">Profile</a></li>
+                    <li class="nav-item"><a href="{{ url_for('main.market') }}" class="nav-link">Market</a></li>
+                    {% endif %}
+                    {% if not current_user.is_authenticated %}
+                    <li class="nav-item"><a href="{{ url_for('auth.login') }}" class="nav-link">Login</a></li>
+                    <li class="nav-item"><a href="{{ url_for('auth.signup') }}" class="nav-link">Sign Up</a></li>
+                    {% endif %}
+                    {% if current_user.is_authenticated %}
+                    <li class="nav-item"><a href="{{ url_for('auth.logout') }}" class="nav-link">Logout</a></li>
+                    {% endif %}
+                </ul>
             </div>
-            <div class="hero-body">
-                <div class="container">
+        </nav>
+        <div class="content-wrapper">
+            <div class="container-fluid h-full w-full">
                 {% block content %}
                 {% endblock %}
-                </div>
             </div>
-        </section>
-    </body>
+        </div>
+    </div>
+</body>
 </html>

@@ -1,7 +1,18 @@
 {% extends "base.html" %}
 
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
 {% block content %}
-<h1 class="title">
-    Swappy
-</h1>
+<div class="content d-flex flex-column align-items-center">
+    <h1 class="content-title mb-0" id="introName">Swappy</h1>
+    <h2 class="mt-0" id="introDesc">The premier book exchange platform.</p>
+</div>
+<div class="position-relative">
+    <img id="bookL" class="position-absolute" src="{{ url_for('static', filename='img/index/1.png') }}">
+    <img id="bookR" class="position-absolute" src="{{ url_for('static', filename='img/index/2.png') }}">
+</div>
+<script type="text/javascript" src="{{ url_for('static', filename='js/index.js') }}"></script>
 {% endblock %}
