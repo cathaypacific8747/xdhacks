@@ -12,3 +12,8 @@ def index():
 @login_required
 def profile():
     return render_template('profile.html', name=current_user.name)
+
+@main.route('/market')
+@login_required
+def market():
+    return render_template('market.html', name=current_user.name)
