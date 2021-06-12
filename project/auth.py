@@ -4,8 +4,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required
 from .models import User
 from . import db
+import re
 
 auth = Blueprint('auth', __name__)
+emailChk = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
 
 @auth.route('/signup')
 def signup():
@@ -13,25 +15,25 @@ def signup():
 
 @auth.route('/signup', methods=['POST'])
 def signup_post():
-    stdid = request.form.get('stdid') # unique
+    email = request.form.get('email') # unique
     name = request.form.get('name')
     password = request.form.get('password')
     err = False
 
-    user = User.query.filter_by(stdid=stdid).first()
+    user = User.query.filter_by(email=email).first()
     if user: # user exists in database, redirect to signup to retry
         flash('User already exists!', 'danger')
         err = True
 
-    if len(stdid) != 10:
-        flash('Student ID must be 10 characters long!', 'warning')
+    if not emailChk.search(email):
+        flash('Email format is invalid!', 'danger')
         err = True
     
     if err:
         return redirect(url_for('auth.signup'))
 
     # otherwise create new user with hashed pwd.
-    new_user = User(stdid=stdid, name=name, password=generate_password_hash(password, method='sha256'))
+    new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'), balance=0)
     db.session.add(new_user)
     db.session.commit()
     flash('Signup successful! You may now log in.', 'success')
@@ -43,19 +45,23 @@ def login():
 
 @auth.route('/login', methods=['POST'])
 def login_post():
-    stdid = request.form.get('stdid')
+    email = request.form.get('email') # unique
     password = request.form.get('password')
     remember = bool(request.form.get('remember'))
     err = False
 
-    user = User.query.filter_by(stdid=stdid).first()
+    if not emailChk.search(email):
+        flash('Email is invalid! Format: []@cky.edu.hk', 'danger')
+        err = True
 
-    if not user or not check_password_hash(user.password, password):
-        flash('Please check your login details and try again!', 'danger') # if user not found or password hash does not match, try again
+    user = User.query.filter_by(email=email).first()
+
+    if not user:
+        flash('Email Address not found.', 'danger')
         err = True
     
-    if len(stdid) != 10:
-        flash('Student ID must be 10 characters long!', 'warning')
+    if not check_password_hash(user.password, password):
+        flash('Password is incorrect.', 'danger') # if user not found or password hash does not match, try again
         err = True
     
     if err:
