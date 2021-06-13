@@ -45,10 +45,6 @@ def login():
 
 @auth.route('/login', methods=['POST'])
 def login_post():
-    for i in range(1, 22):
-        x = generate_password_hash(str(i), method='sha256')
-        print(x)
-
     email = request.form.get('email') # unique
     password = request.form.get('password')
     remember = bool(request.form.get('remember'))
@@ -64,6 +60,7 @@ def login_post():
         flash('Email Address not found.', 'danger')
         err = True
     
+    # print(generate_password_hash(password, method='sha256'), user.password)
     if not check_password_hash(user.password, password):
         flash('Password is incorrect.', 'danger') # if user not found or password hash does not match, try again
         err = True
