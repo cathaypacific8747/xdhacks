@@ -1,6 +1,6 @@
 import csv
 from project import db, create_app
-from project.models import Book, User
+from project.models import Book, Inventory, User
 import os
 
 # attempt to delete the old database
@@ -29,8 +29,15 @@ if success:
         with open('project/static/csv/books.csv', 'r+', newline='') as f:
             data = list(csv.reader(f))
             for d in data[1:]:
-                u = Book(id=int(d[0]), name=d[1], isbn=int(d[2]), imagepath=d[3])
-                db.session.add(u)
+                b = Book(id=int(d[0]), name=d[1], isbn=int(d[2]), imagepath=d[3])
+                db.session.add(b)
+            db.session.commit()
+
+        with open('project/static/csv/inventory.csv', 'r+', newline='') as f:
+            data = list(csv.reader(f))
+            for d in data[1:]:
+                i = Inventory(id=int(d[0]), bookId=int(d[1]), ownerId=int(d[2]), price=int(d[3]), condition=int(d[4]))
+                db.session.add(i)
             db.session.commit()
 else:
     print('Database removal failed. Try doing it manually.')

@@ -13,3 +13,10 @@ class Book(db.Model):
     name = db.Column(db.String(1000))
     isbn = db.Column(db.BigInteger)
     imagepath = db.Column(db.String(100))
+
+class Inventory(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    bookId = db.Column(db.Integer)
+    ownerId = db.Column(db.Integer)
+    price = db.Column(db.Integer)
+    condition = db.Column(db.Integer)
