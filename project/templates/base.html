@@ -2,7 +2,7 @@
 <html>
 <head>
     {% block head %}
-    <title>TEST</title>
+    <title>Swappy</title>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" name="viewport">
     <meta name="viewport" content="width=device-width">
@@ -14,9 +14,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700;900&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/logo/trans_book.png') }}" type="image/gif" sizes="16x16"> 
     {% endblock %}
 </head>
 <body class="with-custom-webkit-scrollbars with-custom-css-scrollbars">
+    <div class="modal" id="modal-1" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 80%;">
+                <a href="#" class="close" role="button" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+                {% block modal %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
     <div class="page-wrapper with-navbar with-transitions">
         <div class="sticky-alerts"></div>
         <nav class="navbar">

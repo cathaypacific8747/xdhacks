@@ -14,6 +14,8 @@
 .debugArea {
     opacity: 0;
     transition: opacity 3s ease;
+    width: 250px;
+    text-align: center;
 }
 
 button {

@@ -18,7 +18,9 @@ $('#addCredits').click((e) => {
                 fillType: "filled-lm",
                 hasDismissButton: false,
             });
-            $('#balance').html(parseInt($('#balance').html(), 10) + 10);
+            const newBal = parseInt($('#balance').html(), 10) + 10
+            $('#balance').html(newBal);
+            $('#balanceS').html((newBal == 1) ? '' : 's')
         } else {
             halfmoon.initStickyAlert({
                 content: "Server had problems with updating the balance, please try again later",
@@ -52,6 +54,7 @@ $('#resetCredits').click((e) => {
                 hasDismissButton: false,
             });
             $('#balance').html(0);
+            $('#balanceS').html('s')
         } else {
             halfmoon.initStickyAlert({
                 content: "Server had problems with updating the balance, please try again later",

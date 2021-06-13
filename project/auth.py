@@ -5,6 +5,7 @@ from flask_login import login_user, logout_user, login_required
 from .models import User
 from . import db
 import re
+import bleach
 
 auth = Blueprint('auth', __name__)
 emailChk = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
@@ -15,8 +16,8 @@ def signup():
 
 @auth.route('/signup', methods=['POST'])
 def signup_post():
-    email = request.form.get('email') # unique
-    name = request.form.get('name')
+    email = bleach.clean(request.form.get('email')) # unique
+    name = bleach.clean(request.form.get('name'))
     password = request.form.get('password')
     err = False
 
@@ -45,7 +46,7 @@ def login():
 
 @auth.route('/login', methods=['POST'])
 def login_post():
-    email = request.form.get('email') # unique
+    email = bleach.clean(request.form.get('email')) # unique
     password = request.form.get('password')
     remember = bool(request.form.get('remember'))
     err = False
