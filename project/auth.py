@@ -1,75 +1,93 @@
-from flask import Blueprint, render_template, redirect, url_for, request
+from os import name
+from flask import Blueprint, render_template, redirect, url_for, request, current_app
 from flask.helpers import flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required
 from .models import User
 from . import db
 import re
+import json
 import bleach
+import requests
+import subprocess # regen
 
 auth = Blueprint('auth', __name__)
 emailChk = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
+def get_google_provider_cfg():
+    try:
+        return requests.get(current_app.config['GOOGLE_DISCOVERY_URL']).json()
+    except:
+        return {}
 
-@auth.route('/signup')
-def signup():
-    return render_template('signup.html')
+@auth.route('/regenDB')
+def regenDB():
+    subprocess.call(args=['python3', 'gendb.py']) # DANGEROUS, REMOVE.
+    return "OK"
 
-@auth.route('/signup', methods=['POST'])
-def signup_post():
-    email = bleach.clean(request.form.get('email')) # unique
-    name = bleach.clean(request.form.get('name'))
-    password = request.form.get('password')
-    err = False
+@auth.route('/login_google')
+def login_google():
+    google_provider_cfg = get_google_provider_cfg()
+    if not google_provider_cfg:
+        print('ERROR: Google provider config failed.')
 
-    user = User.query.filter_by(email=email).first()
-    if user: # user exists in database, redirect to signup to retry
-        flash('User already exists!', 'danger')
-        err = True
+    request_uri = current_app.client.prepare_request_uri(
+        google_provider_cfg["authorization_endpoint"],
+        redirect_uri=f'{request.base_url}/callback',
+        scope=["openid", "email", "profile"],
+        prompt="select_account", # enforce CKY-only accounts.
+    )
 
-    if not emailChk.search(email):
-        flash('Email format is invalid!', 'danger')
-        err = True
-    
-    if err:
-        return redirect(url_for('auth.signup'))
+    return redirect(request_uri)
 
-    # otherwise create new user with hashed pwd.
-    new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'), balance=0)
-    db.session.add(new_user)
-    db.session.commit()
-    flash('Signup successful! You may now log in.', 'success')
-    return redirect(url_for('auth.login')) # redirect to login page when signup is successful
+@auth.route('/login_google/callback')
+def login_google_callback():
+    code = request.args.get("code") # get auth code from google
+    google_provider_cfg = get_google_provider_cfg()
+    if not google_provider_cfg:
+        print('ERROR: Google provider config failed.')
+
+    token_url, headers, body = current_app.client.prepare_token_request(
+        google_provider_cfg["token_endpoint"],
+        authorization_response=request.url,
+        redirect_url=request.base_url,
+        code=code
+    )
+    token_response = requests.post(
+        token_url,
+        headers=headers,
+        data=body,
+        auth=(current_app.config['GOOGLE_CLIENT_ID'], current_app.config['GOOGLE_CLIENT_SECRET']),
+    )
+
+    current_app.client.parse_request_body_response(json.dumps(token_response.json()))
+
+    uri, headers, body = current_app.client.add_token(google_provider_cfg["userinfo_endpoint"])
+    userinfo_response = requests.get(uri, headers=headers, data=body).json()
+
+    # add if email_verified
+    googleId = userinfo_response["sub"]
+    email = userinfo_response["email"]
+    name = userinfo_response["name"]
+    profilePic = userinfo_response["picture"]
+    # print(userinfo_response)
+
+    user = User.query.filter_by(googleId=googleId).first()
+    if user is not None:
+        login_user(user)
+        return redirect(url_for('main.index'))
+    else: # if user doesn't exist, sign up for user.
+        user_new = User(googleId=googleId, email=email, name=name, profilePic=profilePic)
+        print(user_new.profilePic)
+        db.session.add(user_new)
+        db.session.commit()
+        login_user(user_new)
+        flash('Signup successful!', 'success')
+        return redirect(url_for('main.index'))
+
 
 @auth.route('/login')
 def login():
     return render_template('login.html')
-
-@auth.route('/login', methods=['POST'])
-def login_post():
-    email = bleach.clean(request.form.get('email')) # unique
-    password = request.form.get('password')
-    remember = bool(request.form.get('remember'))
-    err = False
-
-    if not emailChk.search(email):
-        flash('Email is invalid! Format: []@cky.edu.hk', 'danger')
-        err = True
-
-    user = User.query.filter_by(email=email).first()
-
-    if not user:
-        flash('Email Address not found.', 'danger')
-        err = True
-    
-    if not check_password_hash(user.password, password):
-        flash('Password is incorrect.', 'danger') # if user not found or password hash does not match, try again
-        err = True
-    
-    if err:
-        return redirect(url_for('auth.login'))
-
-    login_user(user, remember=remember)
-    return redirect(url_for('main.profile')) # redirect to profile page when signup is successful
 
 @auth.route('/logout')
 @login_required

@@ -1,12 +1,17 @@
+from enum import unique
 from flask_login import UserMixin
 from . import db
 
 class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True) # pk
-    email = db.Column(db.String(100), unique=True)
-    name = db.Column(db.String(1000))
-    password = db.Column(db.String(100))
-    balance = db.Column(db.Integer)
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True) # pk, ai
+    googleId = db.Column(db.BigInteger, unique=True, index=True)
+    email = db.Column(db.String(50), unique=True, index=True)
+    name = db.Column(db.String(100), index=True)
+    profilePic = db.Column(db.String(100))
+    # password = db.Column(db.String(100))
+    # balance = db.Column(db.Integer)
 
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
