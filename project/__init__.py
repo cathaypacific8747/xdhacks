@@ -1,14 +1,19 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from os import environ as env
+from dotenv import load_dotenv
 
+load_dotenv()
 db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
 
-    app.config['SECRET_KEY'] = 'qva7^kex686hk@im^5l2vofr68!2-'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+    app.config['FLASK_APP'] = env['FLASK_APP']
+    app.config['SECRET_KEY'] = env['SECRET_KEY']
+    app.config['SQLALCHEMY_DATABASE_URI'] = env['SQLALCHEMY_DATABASE_URI']
+    app.config['FLASK_DEBUG'] = env['FLASK_DEBUG']
 
     db.init_app(app)
     login_manager = LoginManager()
