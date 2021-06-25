@@ -22,10 +22,10 @@ $ ./start.sh
 - [x] Log in with Google
 - [ ] Signup
 - [x] CSRF, especially during log-in
-- [ ] Profile API - Get self (all information)
-- [ ] Profile API - Get by id (personal information hidden)
+- [x] Profile API - Get self (all information)
+- [x] Profile API - Get by id (personal information hidden)
 - [ ] Profile Template
-- [ ] Optimise Error Handling Algorithm
+- [x] Optimise Error Handling Algorithm
 
 ## Before Production Checklist
 - [ ] Enforce CKY accounts in `login_google`'s `hd` parameter
