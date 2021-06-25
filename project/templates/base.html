@@ -9,7 +9,7 @@
     <meta content="{{ csrf_token() }}" name="csrf-token">
     <link rel="icon" href="{{ url_for('static', filename='img/logo/trans_book.png') }}" type="image/gif" sizes="16x16"> 
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.5/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/css/halfmoon-variables.min.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,7 +37,31 @@
         </div>
     </div>
     <div class="page-wrapper with-navbar with-transitions">
-        <div class="sticky-alerts"></div>
+        <div class="sticky-alerts">
+            <div class="alert alert-primary filled" role="alert" id="precompiled-alert-1">
+                <table>
+                  <tbody>
+                    <tr>
+                        <td>
+                            <div class="w-50 h-50 d-flex align-items-center rounded-circle bg-white">
+                            <div class="m-auto text-primary">
+                                <i class="fa fa-commenting" aria-hidden="true"></i>
+                                <span class="sr-only">Commenting</span> <!-- sr-only = only for screen readers -->
+                            </div>
+                            </div>
+                        </td>
+                        <td class="pl-20">
+                            <h4 class="alert-heading mb-5">New message!</h4> <!-- mb-5 = margin-bottom: 0.5rem (5px) -->
+                            <div>
+                            Jane Doe just sent you a new message.
+                            </div>
+                        </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        </div>
         <nav class="navbar">
             <a class="navbar-brand ml-10 ml-sm-15" href="{{ url_for('main.index') }}">
                 <img class="mr-5 mr-sm-10" src="{{ url_for('static', filename='img/logo/banner.png') }}" alt="Swappy">
@@ -68,4 +92,10 @@
         </div>
     </div>
 </body>
+<script>
+    setTimeout(() => {
+        halfmoon.toastAlert("precompiled-alert-1", 99999);
+    }, 500) // just to stop animation being slow
+    /* TEMPORARY TESTING */
+</script>
 </html>

@@ -14,7 +14,7 @@ def index():
 @main.route('/settings')
 @login_required
 def settings():
-    return render_template('settings.html', name=current_user.name)
+    return render_template('settings.html')
 
 @main.route('/market')
 @login_required

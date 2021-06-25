@@ -13,12 +13,11 @@ def regendb():
         'success': True
     })
 
-@api.get('/api/v1/users/detail')
+@api.get('/api/v1/user/detail')
 @login_required
 def users():
-    id = request.args.get("id") # for checking if id supplied
-
-    user = User.query.filter_by(id=id).first() if id else current_user
+    id = request.args.get("id")
+    user = User.query.filter_by(id=id).first() if id else current_user # get user information if specific user id not supplied
     
     data = {}
     for (k, v) in dict(vars(user)).items():
