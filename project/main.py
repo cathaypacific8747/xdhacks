@@ -1,5 +1,5 @@
 from project.auth import login
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, render_template, redirect, url_for, request, current_app
 from flask_login import login_required, current_user
 from flask.helpers import flash
 from . import db

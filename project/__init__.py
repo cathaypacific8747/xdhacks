@@ -4,9 +4,11 @@ from flask_login import LoginManager
 from os import environ as env
 from dotenv import load_dotenv
 from oauthlib.oauth2 import WebApplicationClient
+from flask_wtf.csrf import CSRFProtect
 
 load_dotenv()
 db = SQLAlchemy()
+csrf = CSRFProtect()
 
 def create_app():
     app = Flask(__name__)
@@ -24,6 +26,7 @@ def create_app():
 
     # setup database
     db.init_app(app)
+    csrf.init_app(app)
 
     # setup login
     login_manager = LoginManager()
@@ -43,5 +46,8 @@ def create_app():
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    from .error_handler import err as error_blueprint
+    app.register_blueprint(error_blueprint)
 
     return app

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid h-full w-full">
+    <div class="content d-flex flex-column align-items-center">
+        <h1 class="font-size-24 my-0">Error {{ code }}</h1>
+        <h2 class="font-size-36 my-0">{{ description }}</h2>
+        <h3 class="font-size-12 my-0">{{ helpMessage }}</h3>
+    </div>
+</div>
+{% endblock %}

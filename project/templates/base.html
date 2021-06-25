@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" name="viewport">
     <meta name="viewport" content="width=device-width">
+    <meta content="{{ csrf_token() }}" name="csrf-token">
     <link rel="icon" href="{{ url_for('static', filename='img/logo/trans_book.png') }}" type="image/gif" sizes="16x16"> 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -20,6 +21,7 @@
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js" async></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/base.js') }}" async></script>
     {% endblock %}
 </head>
 <body class="with-custom-webkit-scrollbars with-custom-css-scrollbars">

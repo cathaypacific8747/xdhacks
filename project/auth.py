@@ -1,5 +1,5 @@
 from os import name
-from flask import Blueprint, render_template, redirect, url_for, request, current_app
+from flask import Blueprint, render_template, redirect, url_for, request, session, current_app, abort
 from flask.helpers import flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required
@@ -19,13 +19,16 @@ def get_google_provider_cfg():
     except:
         return {}
 
-@auth.route('/regenDB')
+@auth.route('/regenDB') # DANGEROUS, REMOVE.
 def regenDB():
-    subprocess.call(args=['python3', 'gendb.py']) # DANGEROUS, REMOVE.
+    subprocess.call(args=['python3', 'gendb.py'])
     return "OK"
 
 @auth.route('/login_google')
 def login_google():
+    token = request.args.get("token") # csrf
+    session['token'] = token
+
     google_provider_cfg = get_google_provider_cfg()
     if not google_provider_cfg:
         print('ERROR: Google provider config failed.')
@@ -34,17 +37,21 @@ def login_google():
         google_provider_cfg["authorization_endpoint"],
         redirect_uri=f'{request.base_url}/callback',
         scope=["openid", "email", "profile"],
-        prompt="select_account", # enforce CKY-only accounts.
+        state=token,
+        hd="cky.edu.hk", # enforce CKY-only accounts.
+        prompt="select_account"
     )
 
     return redirect(request_uri)
 
 @auth.route('/login_google/callback')
 def login_google_callback():
+    if request.args.get("token") != session['token']:
+        abort(403, description="Invalid state.")
     code = request.args.get("code") # get auth code from google
     google_provider_cfg = get_google_provider_cfg()
     if not google_provider_cfg:
-        print('ERROR: Google provider config failed.')
+        abort(500, description="Connection error with Google") # google provider config failed.
 
     token_url, headers, body = current_app.client.prepare_token_request(
         google_provider_cfg["token_endpoint"],
