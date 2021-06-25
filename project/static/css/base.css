@@ -1,37 +1,73 @@
 /* Background */
 
 body {
-    background: rgb(244,219,114);
-    background: linear-gradient(90deg, rgba(244,219,114,1) 0%, rgba(134,241,145,1) 50%, rgba(107,221,255,1) 100%);
+	background: rgb(238,228,181);
+	background: linear-gradient(90deg, rgba(238,228,181,1) 0%, rgba(183,249,191,1) 50%, rgba(176,223,237,1) 100%);
 	background-size: 400% 400%;
 	animation: gradient 15s ease infinite;
-	font-family: 'Inter', 'Segoe UI', sans-serif !important;
+	font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
 @keyframes gradient {
 	0% {
-		background-position: 0% 50%;
+		background-position: 0 50%;
 	}
 	50% {
 		background-position: 100% 50%;
 	}
 	100% {
-		background-position: 0% 50%;
+		background-position: 0 50%;
 	}
 }
 
-.container-fluid {
-	overflow: hidden;
+.nav-material {
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+	color: black;
 }
 
-/* Navbar */
+.logo-banner {
+	height: 60.3px;
+}
 
-.navbar {
-	background: rgba(0,0,0,0);
-	border: 0;
-	min-height: 5rem;
+.mx-16 {
+	margin-left: 16px;
+	margin-right: 16px;
+}
+
+.mr-8 {
+	margin-right: 8px;
+}
+
+.ml-8 {
+	margin-left: 8px;
+}
+
+.px-8 {
+	padding-left: 8px;
+	padding-right: 8px;
 }
 
 .nav-item {
+	color: black;
+}
+
+.no-hover-color-change:hover {
+	background-color: transparent;
+}
+
+#profileDropdown {
+	border-radius: 4px;
+}
+
+#profileDropdown a {
+	padding: 8px 8px 8px 16px;
+	text-align: right;
+	color: black;
 	font-size: 14px;
+}
+
+#profileDropdown li {
+	min-height: 0;
 }

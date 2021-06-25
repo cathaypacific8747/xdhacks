@@ -7,95 +7,60 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" name="viewport">
     <meta name="viewport" content="width=device-width">
     <meta content="{{ csrf_token() }}" name="csrf-token">
-    <link rel="icon" href="{{ url_for('static', filename='img/logo/trans_book.png') }}" type="image/gif" sizes="16x16"> 
+    <link rel="icon" href="{{ url_for('static', filename='img/logo/icon.svg') }}" type="image/gif" sizes="16x16"> 
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.5/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/css/halfmoon-variables.min.css">
-
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" integrity="sha512-UJfAaOlIRtdR+0P6C3KUoTDAxVTuy3lnSXLyLKlHYJlcSU8Juge/mjeaxDNMlw9LgeIotgz5FP8eUQPhX1q10A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"> 
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/signinButton.css') }}">
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js" async></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/base.js') }}" async></script>
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js" integrity="sha512-m2PhLxj2N91eYrIGU2cmIu2d0SkaE4A14bCjVb9zykvp6WtsdriFCiXQ/8Hdj0kssUB/Nz0dMBcoLsJkSCto0Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script async defer type="text/javascript" src="{{ url_for('static', filename='js/base.js') }}"></script>
     {% endblock %}
 </head>
 <body class="with-custom-webkit-scrollbars with-custom-css-scrollbars">
-    <div class="modal" id="modal-1" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content" style="width: 80%;">
-                <a href="#" class="close" role="button" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </a>
-                {% block modal %}
-                {% endblock %}
-            </div>
-        </div>
-    </div>
+    <!-- modal boxes -->
     <div class="page-wrapper with-navbar with-transitions">
-        <div class="sticky-alerts">
-            <div class="alert alert-primary filled" role="alert" id="precompiled-alert-1">
-                <table>
-                  <tbody>
-                    <tr>
-                        <td>
-                            <div class="w-50 h-50 d-flex align-items-center rounded-circle bg-white">
-                            <div class="m-auto text-primary">
-                                <i class="fa fa-commenting" aria-hidden="true"></i>
-                                <span class="sr-only">Commenting</span> <!-- sr-only = only for screen readers -->
-                            </div>
-                            </div>
-                        </td>
-                        <td class="pl-20">
-                            <h4 class="alert-heading mb-5">New message!</h4> <!-- mb-5 = margin-bottom: 0.5rem (5px) -->
-                            <div>
-                            Jane Doe just sent you a new message.
-                            </div>
-                        </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-        </div>
-        <nav class="navbar">
-            <a class="navbar-brand ml-10 ml-sm-15" href="{{ url_for('main.index') }}">
-                <img class="mr-5 mr-sm-10" src="{{ url_for('static', filename='img/logo/banner.png') }}" alt="Swappy">
-            </a>
-            <div class="navbar-content ml-auto mr-10">
-                <ul class="navbar-nav mr-5">
+        <!-- sticky boxes -->
+        <nav class="nav-material">
+            <div class="nav-wrapper">
+                <a href="{{ url_for('main.index') }}" class="brand-logo">
+                    <img class="logo-banner mx-16" src="{{ url_for('static', filename='img/logo/banner.svg') }}" alt="Swappy">
+                </a>
+                <ul class="right">
                     {% if current_user.is_authenticated %}
-                    <li class="nav-item"><a href="{{ url_for('main.market') }}" class="nav-link">Market</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" data-toggle="dropdown" id="nav-link-dropdown-toggle">
-                            <img class="rounded-circle mr-5 mr-sm-10" style="height: 60%;" src="{{ current_user.profilePic+'=s96-c' }}" alt="Profile Picture">
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="nav-link-dropdown-toggle">
-                            <a href="{{ url_for('main.settings') }}" class="dropdown-item">Account Settings</a>
-                            <div class="dropdown-divider"></div>
-                            <a href="{{ url_for('auth.logout') }}" class="dropdown-item">Logout</a>
-                        </div>
-                      </li>
+                    <li><a class="nav-item mr-8 ml-8 px-8 no-hover-color-change" href="{{ url_for('main.market') }}">Market</a></li>
+                    <li><a class="nav-item mr-8 px-8 dropdown-trigger no-hover-color-change" data-target="profileDropdown">Dropdown</a></li>
+                    <ul id="profileDropdown" class="dropdown-content mx-16">
+                        <li>
+                            Logged in as
+                            {{ current_user.email }}
+                        </li>
+                        <li><a class="nav-dropdown-item" href="{{ url_for('main.settings') }}">Account Settings</a></li>
+                        <li><a class="nav-dropdown-item" href="{{ url_for('auth.logout') }}">Logout</a></li>
+                    </ul>
                     {% else %}
-                    <li class="nav-item"><a href="{{ url_for('auth.login') }}" class="nav-link">Login</a></li>
+                    <li><a class="nav-item px-16 no-hover-color-change" href="{{ url_for('auth.login') }}">Login</a></li>
                     {% endif %}
                 </ul>
             </div>
         </nav>
-        <div class="content-wrapper">
+
+        <div class="content-wrapper">        
             {% block content %}
             {% endblock %}
         </div>
     </div>
 </body>
 <script>
-    setTimeout(() => {
-        halfmoon.toastAlert("precompiled-alert-1", 99999);
-    }, 500) // just to stop animation being slow
-    /* TEMPORARY TESTING */
+    // setTimeout(() => {
+    //     halfmoon.toastAlert("precompiled-alert-1", 99999);
+    // }, 500) // just to stop animation being slow
+    // /* TEMPORARY TESTING */
 </script>
 </html>

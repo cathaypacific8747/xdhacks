@@ -6,3 +6,13 @@ $.ajaxSetup({
         }
     }
 })
+
+$(document).ready(function(){
+    $('.dropdown-trigger').dropdown({
+        alignment: 'right',
+        constrainWidth: false,
+        coverTrigger: false,
+    }).click(function() {
+        $(self).recalculateDimensions()
+    });
+});
