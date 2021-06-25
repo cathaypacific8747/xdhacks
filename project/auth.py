@@ -40,7 +40,7 @@ def login_google():
         redirect_uri=f'{request.base_url}/callback',
         scope=["openid", "email", "profile"],
         state=token,
-        hd="cky.edu.hk", # enforce CKY-only accounts.
+        # hd="cky.edu.hk", # enforce CKY-only accounts.
         prompt="select_account"
     )
 
@@ -48,9 +48,9 @@ def login_google():
 
 @auth.route('/login_google/callback')
 def login_google_callback():
-    if request.args.get("token") != session["token"]:
+    if request.args.get("state") != session["token"]: # request.args.get("token")
         print(request.args.get("token"), session["token"])
-        abort(403, description="Invalid state.", helpMessage=f'{request.args.get("token")}.{session["token"]}')
+        abort(403, description="Invalid state.")
     code = request.args.get("code") # get auth code from google
     google_provider_cfg = get_google_provider_cfg()
     if not google_provider_cfg:

@@ -1,9 +1,14 @@
 from flask import Blueprint, render_template
+import traceback
 
 err = Blueprint('error_handlers', __name__)
 
 @err.app_errorhandler(Exception)
 def handle_error(e):
+    print('____________________________________________________________')
+    traceback.print_exc()
+    print('____________________________________________________________')
+
     # Yes, I understand this is bad.
     try:
         code = e.code
