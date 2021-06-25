@@ -2,9 +2,16 @@ from flask import Blueprint, redirect, url_for, request, session, current_app, a
 from flask_login import login_required, current_user
 from .models import User
 from . import db
-import re
+import subprocess # for regen
 
 api = Blueprint('api', __name__)
+
+@api.get('/api/regendb') # DANGEROUS, REMOVE.
+def regendb():
+    subprocess.call(args=['python3', 'resetdb.py'])
+    return jsonify({
+        'success': True
+    })
 
 @api.get('/api/v1/users/detail')
 @login_required

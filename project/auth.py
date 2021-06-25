@@ -4,10 +4,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required
 from .models import User
 from . import db
-import re
 import json
 import requests
-import subprocess # regen
 
 auth = Blueprint('auth', __name__)
 def get_google_provider_cfg():
@@ -15,11 +13,6 @@ def get_google_provider_cfg():
         return requests.get(current_app.config['GOOGLE_DISCOVERY_URL']).json()
     except:
         return {}
-
-@auth.route('/regenDB') # DANGEROUS, REMOVE.
-def regenDB():
-    subprocess.call(args=['python3', 'gendb.py'])
-    return "OK"
 
 @auth.route('/login')
 def login():
@@ -77,7 +70,7 @@ def login_google_callback():
     googleId = userinfo_response["sub"]
     email = userinfo_response["email"]
     name = userinfo_response["name"]
-    profilePic = userinfo_response["picture"]
+    profilePic = userinfo_response["picture"].split('=s')[0]
     # print(userinfo_response)
 
     user = User.query.filter_by(googleId=googleId).first()
