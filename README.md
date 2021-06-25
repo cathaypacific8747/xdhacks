@@ -12,12 +12,12 @@ $ gunicorn -c wsgi_config_debug.py wsgi:app
 ```
 
 ## Checklist
-[x] Log in with Google
-[ ] Signup
-[x] CSRF, especially during log-in
-[ ] Profile API - Get self (all information)
-[ ] Profile API - Get by id (personal information hidden)
-[ ] Profile Template
+- [x] Log in with Google
+- [ ] Signup
+- [x] CSRF, especially during log-in
+- [ ] Profile API - Get self (all information)
+- [ ] Profile API - Get by id (personal information hidden)
+- [ ] Profile Template
 
 # References
 - https://digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login
