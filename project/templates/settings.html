@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/settings.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid h-full w-full">
+    <div class="content d-flex flex-column align-items-center">
+        <h1 class="content-title mb-0" id="name">{{ name }}</h1>
+    </div>
+</div>
+<script type="text/javascript" src="{{ url_for('static', filename='js/settings.js') }}"></script>
+{% endblock %}

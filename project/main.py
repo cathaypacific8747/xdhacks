@@ -11,36 +11,10 @@ main = Blueprint('main', __name__)
 def index():
     return render_template('index.html')
 
-@main.route('/profile')
+@main.route('/settings')
 @login_required
-def profile():
-    return render_template('profile.html', name=current_user.name, balance=current_user.balance)
-
-@main.route('/addcredits')
-@login_required
-def addcredits():
-    user = User.query.filter_by(email=current_user.email).first()
-    if user:
-        try:
-            user.balance = user.balance + 10 # not using += to avoid race conditions.
-            db.session.commit()
-            return {'success': True}
-        except:
-            pass
-    return {'success': False}
-
-@main.route('/resetcredits')
-@login_required
-def resetcredits():
-    user = User.query.filter_by(email=current_user.email).first()
-    if user:
-        try:
-            user.balance = 0
-            db.session.commit()
-            return {'success': True}
-        except:
-            pass
-    return {'success': False}
+def settings():
+    return render_template('settings.html', name=current_user.name)
 
 @main.route('/market')
 @login_required

@@ -1,4 +1,3 @@
-from os import name
 from flask import Blueprint, render_template, redirect, url_for, request, session, current_app, abort
 from flask.helpers import flash
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -7,7 +6,6 @@ from .models import User
 from . import db
 import re
 import json
-import bleach
 import requests
 import subprocess # regen
 
@@ -24,6 +22,10 @@ def regenDB():
     subprocess.call(args=['python3', 'gendb.py'])
     return "OK"
 
+@auth.route('/login')
+def login():
+    return render_template('login.html')
+
 @auth.route('/login_google')
 def login_google():
     token = request.args.get("token") # csrf
@@ -31,7 +33,7 @@ def login_google():
 
     google_provider_cfg = get_google_provider_cfg()
     if not google_provider_cfg:
-        print('ERROR: Google provider config failed.')
+        abort(500, description="Connection error with Google") # google provider config failed.
 
     request_uri = current_app.client.prepare_request_uri(
         google_provider_cfg["authorization_endpoint"],
@@ -46,8 +48,9 @@ def login_google():
 
 @auth.route('/login_google/callback')
 def login_google_callback():
-    if request.args.get("token") != session['token']:
-        abort(403, description="Invalid state.")
+    if request.args.get("token") != session["token"]:
+        print(request.args.get("token"), session["token"])
+        abort(403, description="Invalid state.", helpMessage=f'{request.args.get("token")}.{session["token"]}')
     code = request.args.get("code") # get auth code from google
     google_provider_cfg = get_google_provider_cfg()
     if not google_provider_cfg:
@@ -90,11 +93,6 @@ def login_google_callback():
         login_user(user_new)
         flash('Signup successful!', 'success')
         return redirect(url_for('main.index'))
-
-
-@auth.route('/login')
-def login():
-    return render_template('login.html')
 
 @auth.route('/logout')
 @login_required
