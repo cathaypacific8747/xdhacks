@@ -17,12 +17,16 @@ def regendb():
 @login_required
 def users():
     id = request.args.get("id") # for checking if id supplied
-    data = {}
 
     user = User.query.filter_by(id=id).first() if id else current_user
-    data['email'] = user.email
-    data['name'] = user.name
-    data['profilePic'] = user.profilePic
-    data['profilePicLarge'] = f"{user.profilePic.split('=s')[0]}=s512-c"
+    
+    data = {}
+    for (k, v) in dict(vars(user)).items():
+        print(k, v)
+        if '_' not in k and k != "googleId":
+            data[k] = v
 
-    return jsonify(data)
+    return jsonify({
+        "status": "success",
+        "data": data
+    })

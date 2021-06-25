@@ -6,6 +6,7 @@ from .models import User
 from . import db
 import json
 import requests
+from .error_handler import InvalidState, GoogleConnectionError
 
 auth = Blueprint('auth', __name__)
 def get_google_provider_cfg():
@@ -25,7 +26,7 @@ def login_google():
 
     google_provider_cfg = get_google_provider_cfg()
     if not google_provider_cfg:
-        abort(500, description="Connection error with Google") # google provider config failed.
+        raise GoogleConnectionError() # google provider config failed.
 
     request_uri = current_app.client.prepare_request_uri(
         google_provider_cfg["authorization_endpoint"],
@@ -41,12 +42,11 @@ def login_google():
 @auth.route('/login_google/callback')
 def login_google_callback():
     if request.args.get("state") != session["token"]: # request.args.get("token")
-        print(request.args.get("token"), session["token"])
-        abort(403, description="Invalid state.")
+        raise InvalidState()
     code = request.args.get("code") # get auth code from google
     google_provider_cfg = get_google_provider_cfg()
     if not google_provider_cfg:
-        abort(500, description="Connection error with Google") # google provider config failed.
+        raise GoogleConnectionError() # google provider config failed.
 
     token_url, headers, body = current_app.client.prepare_token_request(
         google_provider_cfg["token_endpoint"],
@@ -71,14 +71,14 @@ def login_google_callback():
     email = userinfo_response["email"]
     name = userinfo_response["name"]
     profilePic = userinfo_response["picture"].split('=s')[0]
-    # print(userinfo_response)
+    cky = "hd" in userinfo_response and userinfo_response["hd"] == 'cky.edu.hk'
 
     user = User.query.filter_by(googleId=googleId).first()
     if user is not None:
         login_user(user)
         return redirect(url_for('main.index'))
     else: # if user doesn't exist, sign up for user.
-        user_new = User(googleId=googleId, email=email, name=name, profilePic=profilePic)
+        user_new = User(googleId=googleId, email=email, name=name, profilePic=profilePic, cky=cky)
         print(user_new.profilePic)
         db.session.add(user_new)
         db.session.commit()

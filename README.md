@@ -25,7 +25,7 @@ $ ./start.sh
 - [ ] Profile API - Get self (all information)
 - [ ] Profile API - Get by id (personal information hidden)
 - [ ] Profile Template
-- [ ] Fix Error Handling
+- [ ] Optimise Error Handling Algorithm
 
 ## Before Production Checklist
 - [ ] Enforce CKY accounts in `login_google`'s `hd` parameter
