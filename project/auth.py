@@ -10,7 +10,6 @@ import requests
 import subprocess # regen
 
 auth = Blueprint('auth', __name__)
-emailChk = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
 def get_google_provider_cfg():
     try:
         return requests.get(current_app.config['GOOGLE_DISCOVERY_URL']).json()

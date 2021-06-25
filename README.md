@@ -39,4 +39,5 @@ $ ./start.sh
 - https://codepen.io/P1N2O/pen/pyBNzX
 - https://gethalfmoon.com/docs/introduction/
 - https://developers.google.com/identity/protocols/oauth2/openid-connect
+- https://developers.google.com/people/image-sizing
 - https://stackoverflow.com/

@@ -10,8 +10,6 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(50), unique=True, index=True)
     name = db.Column(db.String(100), index=True)
     profilePic = db.Column(db.String(100))
-    # password = db.Column(db.String(100))
-    # balance = db.Column(db.Integer)
 
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)

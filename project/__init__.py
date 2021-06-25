@@ -50,4 +50,7 @@ def create_app():
     from .error_handler import err as error_blueprint
     app.register_blueprint(error_blueprint)
 
+    from .api import api as api_blueprint
+    app.register_blueprint(api_blueprint)
+
     return app
