@@ -21,11 +21,24 @@ $ ./start.sh
 ## Checklist
 - [x] Log in with Google
 - [ ] Signup
-- [x] CSRF, especially during log-in
-- [x] Profile API - Get self (all information)
-- [x] Profile API - Get by id (personal information hidden)
-- [ ] Profile Template
+- [x] CSRF Protection, especially during log-in
+- [x] User API - Get self detail (GET `/api/v1/user/detail`)
+- [x] User API - Get other detail (GET `/api/v1/user/detail?userId=_`)
+- [ ] User DB - Add `contactInfo` TEXT(300) field in db + bleach.
+- [ ] User API - Update self detail (POST `/api/v1/user/update`)
+- [ ] User Template
+
+- [ ] Book API - Get book detail by id (GET `/api/v1/book/detail?bookId=_`)
+- [ ] Book API - Get all books with matching ISBN (GET `/api/v1/book/search?isbn=_`)
+- [ ] Book API - Get all books with matching name (GET `/api/v1/book/search?name=_`)
+- [ ] Book API - Get all book details (GET `/api/v1/book/list`)
+- [ ] Book Template
+
+- [ ] Market API - Sell book (POST `/api/v1/market/sell`)
+- [ ] Market API
+
 - [x] Optimise Error Handling Algorithm
+- [ ] Admin accounts (regenDB, inventoryControl)
 
 ## Before Production Checklist
 - [ ] Enforce CKY accounts in `login_google`'s `hd` parameter
@@ -41,3 +54,4 @@ $ ./start.sh
 - https://developers.google.com/identity/protocols/oauth2/openid-connect
 - https://developers.google.com/people/image-sizing
 - https://stackoverflow.com/
+- https://codepen.io/gabrielcojea/pen/ExPaBzQ

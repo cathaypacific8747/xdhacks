@@ -7,8 +7,8 @@ class User(UserMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True) # pk, ai
     googleId = db.Column(db.BigInteger, unique=True, index=True)
-    email = db.Column(db.String(50), unique=True, index=True)
-    name = db.Column(db.String(100), index=True)
+    email = db.Column(db.String(254), unique=True, index=True)
+    name = db.Column(db.String(70), index=True)
     profilePic = db.Column(db.String(100))
     cky = db.Column(db.Boolean, default=False)
     seller = db.Column(db.Boolean, default=False)
@@ -25,6 +25,16 @@ class User(UserMixin, db.Model):
     tapngo = db.Column(db.Boolean, default=False)
     bankTransfer = db.Column(db.Boolean, default=False)
     eCheque = db.Column(db.Boolean, default=False)
+    # contact information
+    public = db.Column(db.Boolean, default=True)
+    discord = db.Column(db.String, default='')
+    instagram = db.Column(db.String(30), default='')
+    phone = db.Column(db.Integer, default='')
+    whatsapp = db.Column(db.Boolean, default=False)
+    signal = db.Column(db.Boolean, default=False)
+    telegram = db.Column(db.Boolean, default=False)
+    wechat = db.Column(db.Boolean, default=False)
+    customContactInfo = db.Column(db.String(200), default='')
 
 class Book(db.Model):
     __tablename__ = 'books'

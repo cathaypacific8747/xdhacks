@@ -12,7 +12,5 @@ $(document).ready(function(){
         alignment: 'right',
         constrainWidth: false,
         coverTrigger: false,
-    }).click(function() {
-        $(self).recalculateDimensions()
-    });
+    })
 });

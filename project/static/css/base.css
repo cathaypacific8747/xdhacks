@@ -5,7 +5,7 @@ body {
 	background: linear-gradient(90deg, rgba(238,228,181,1) 0%, rgba(183,249,191,1) 50%, rgba(176,223,237,1) 100%);
 	background-size: 400% 400%;
 	animation: gradient 15s ease infinite;
-	font-family: 'Inter', 'Segoe UI', sans-serif;
+	font-family: 'Inter', 'Segoe UI', sans-serif !important;
 }
 
 @keyframes gradient {
@@ -28,44 +28,83 @@ body {
 }
 
 .logo-banner {
-	height: 60.3px;
+	height: 3.77rem;
 }
 
 .mx-16 {
-	margin-left: 16px;
-	margin-right: 16px;
+	margin-left: 1rem;
+	margin-right: 1rem;
+}
+
+.mx-auto {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.mt-16 {
+	margin-top: 1rem;
 }
 
 .mr-8 {
-	margin-right: 8px;
+	margin-right: .5rem;
 }
 
 .ml-8 {
-	margin-left: 8px;
+	margin-left: .5rem;
 }
 
 .px-8 {
-	padding-left: 8px;
-	padding-right: 8px;
+	padding-left: .5rem;
+	padding-right: .5rem;
 }
 
 .nav-item {
 	color: black;
+	height: 3.8rem;
+	line-height: 3.8rem;
 }
 
-.no-hover-color-change:hover {
-	background-color: transparent;
+.h-36 {
+	height: 2.25rem;
 }
 
-#profileDropdown {
-	border-radius: 4px;
+.h-72 {
+	height: 4.5rem;
+}
+
+.text-bold {
+	font-weight: 600 !important;
+}
+
+.text-muted {
+	color: grey;
+}
+
+.font-size-16 {
+	font-size: 1rem;
+}
+
+.font-size-14 {
+	font-size: .875rem;
+}
+
+.no-hover-event:hover {
+	background-color: unset !important;
+}
+
+.roundBox {
+	border-radius: .5rem !important;
+}
+
+.translucent {
+	background-color: rgba(255, 255, 255, 0.5);
 }
 
 #profileDropdown a {
-	padding: 8px 8px 8px 16px;
+	padding: .5rem .5rem .5rem 1rem;
 	text-align: right;
 	color: black;
-	font-size: 14px;
+	font-size: .875rem;
 }
 
 #profileDropdown li {

@@ -1,26 +1,47 @@
-#introName {
-    font-size: 56px;
+.indexName {
+    font-size: 3.5rem;
     font-weight: 600;
+    margin-bottom: 0;
+}
+
+.indexDesc {
+    font-size: 1.5rem;
+    opacity: 0;
+    transition: opacity 5s ease;
+    margin-top: 1.25rem;
+}
+
+.show-1 {
     opacity: 0;
     transition: opacity 2s ease;
 }
 
-#introDesc {
-    font-size: 28px;
+.show-2 {
     opacity: 0;
-    transition: opacity 5s ease;
+    transition: opacity 3s ease;
 }
 
-#bookL {
-    width: 30%;
-    opacity: 10%;
-    transform: translate(-100%, 0);
-    transition: transform 10s linear;
+.underline{
+    position: relative;
+    font-size: 1rem;
+    color: #005daf;
 }
 
-#bookR {
-    width: 30%;
-    opacity: 10%;
-    transform: translate(350%, 0);
-    transition: transform 10s linear;
+.underline::before{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height: 0.094rem;
+    background-color: #005daf;
+    transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .underline:hover::before{
+        left: 0;
+        right: auto;
+        width: 100%;
+    }
 }

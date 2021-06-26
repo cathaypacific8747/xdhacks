@@ -16,7 +16,7 @@ def regendb():
 @api.get('/api/v1/user/detail')
 @login_required
 def users():
-    id = request.args.get("id")
+    id = request.args.get("userId")
     user = User.query.filter_by(id=id).first() if id else current_user # get user information if specific user id not supplied
     
     data = {}

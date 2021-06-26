@@ -1,4 +1,4 @@
-$('#introName').css("opacity", 1)
+$('.show-1').css("opacity", 1)
 setTimeout(function() {
-    $('#introDesc').css("opacity", 1)
+    $('.show-2').css("opacity", 1)
 }, 500)
