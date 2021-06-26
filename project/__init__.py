@@ -52,5 +52,6 @@ def create_app():
 
     from .api import api as api_blueprint
     app.register_blueprint(api_blueprint)
+    csrf.exempt(api_blueprint) # REMOVE
 
     return app

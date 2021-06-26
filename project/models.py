@@ -51,6 +51,12 @@ class User(UserMixin, db.Model):
 
         return data
 
+    def updateDetails(self, data):
+        validKeys = self.getValidKeys()
+        for k in data:
+            if k in validKeys:
+                setattr(self, k, data[k])
+
 class Book(db.Model):
     __tablename__ = 'books'
 

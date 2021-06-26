@@ -25,7 +25,7 @@ $ ./start.sh
 - [x] User API - Get self detail (GET `/api/v1/user/detail`)
 - [x] User API - Get other detail (GET `/api/v1/user/detail?userId=_`)
 - [x] User DB - Add `contactInfo` TEXT(300) field in db + bleach.
-- [ ] User API - Update self detail (POST `/api/v1/user/update`)
+- [x] User API - Update self detail (POST `/api/v1/user/update`)
 - [ ] User Template
 
 - [ ] Book API - Get book detail by id (GET `/api/v1/book/detail?bookId=_`)
@@ -45,6 +45,7 @@ $ ./start.sh
 - [ ] Remove DEBUG flag in .env
 - [ ] SSL certificates
 - [ ] Remove useless modules in `requirements.txt`
+- [ ] Enable CSRF in API
 
 # References
 - https://digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login
