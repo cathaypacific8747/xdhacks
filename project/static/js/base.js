@@ -8,9 +8,12 @@ $.ajaxSetup({
 })
 
 $(document).ready(function(){
-    $('.dropdown-trigger').dropdown({
-        alignment: 'right',
-        constrainWidth: false,
-        coverTrigger: false,
-    })
+    let dd = $('.dropdown-trigger')
+    if (dd) {
+        dd.dropdown({
+            alignment: 'right',
+            constrainWidth: false,
+            coverTrigger: false,
+        })
+    }
 });

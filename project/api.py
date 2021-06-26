@@ -18,14 +18,8 @@ def regendb():
 def users():
     id = request.args.get("userId")
     user = User.query.filter_by(id=id).first() if id else current_user # get user information if specific user id not supplied
-    
-    data = {}
-    for (k, v) in dict(vars(user)).items():
-        print(k, v)
-        if '_' not in k and k != "googleId":
-            data[k] = v
 
     return jsonify({
         "status": "success",
-        "data": data
+        "data": user.getDetails()
     })

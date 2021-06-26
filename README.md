@@ -24,7 +24,7 @@ $ ./start.sh
 - [x] CSRF Protection, especially during log-in
 - [x] User API - Get self detail (GET `/api/v1/user/detail`)
 - [x] User API - Get other detail (GET `/api/v1/user/detail?userId=_`)
-- [ ] User DB - Add `contactInfo` TEXT(300) field in db + bleach.
+- [x] User DB - Add `contactInfo` TEXT(300) field in db + bleach.
 - [ ] User API - Update self detail (POST `/api/v1/user/update`)
 - [ ] User Template
 
