@@ -37,44 +37,17 @@ class User(UserMixin, db.Model):
     wechat = db.Column(db.Boolean, default=False)
     customContactInfo = db.Column(db.String(200), default='')
 
+    def getValidKeys(self):
+        exempted_keys = ('googleId')
+        return [k for k in list(vars(self)) if k not in exempted_keys and "_" not in k]
+
     def getDetails(self):
-        data = {
-            "id": self.id,
-            "email": self.email,
-            "name": self.name,
-            "profilePic": self.profilePic,
-            "cky": self.cky,
-            "acceptedPaymentMethods":{
-                "cash": self.cash,
-                "octopus": self.octopus,
-                "payme": self.payme,
-                "tapngo": self.tapngo,
-                "bankTransfer": self.bankTransfer,
-                "eCheque": self.eCheque,
-            }
-        }
-        data["buyer"] = self.buyer
-        data["seller"] = self.seller
-        if self.seller:
-            data["sellerDetails"] = {
-                "negotiable": self.negotiable,
-                "schoolMeetup": self.schoolMeetup,
-                "meetup": self.meetup,
-                "delivery": self.delivery,
-            }
-        
-        data["public"] = self.public
-        if self.public:
-            data["contactInfo"] = {
-                "discord": self.discord,
-                "instagram": self.instagram,
-                "phone": self.phone,
-                "whatsapp": self.whatsapp,
-                "signal": self.signal,
-                "telegram": self.telegram,
-                "wechat": self.wechat,
-                "customContactInfo": self.customContactInfo,
-            }
+        data = vars(self)
+        validKeys = self.getValidKeys()
+
+        for k in data.copy(): # to avoid runtimeError
+            if k not in validKeys:
+                del data[k]
 
         return data
 
