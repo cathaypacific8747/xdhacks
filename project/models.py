@@ -17,6 +17,8 @@ class User(UserMixin, db.Model):
     payme = db.Column(db.Boolean, default=False)
     tapngo = db.Column(db.Boolean, default=False)
     bankTransfer = db.Column(db.Boolean, default=False)
+    wechatPay = db.Column(db.Boolean, default=False)
+    alipay = db.Column(db.Boolean, default=False)
     eCheque = db.Column(db.Boolean, default=False)
     #
     buyer = db.Column(db.Boolean, default=False)
@@ -37,17 +39,20 @@ class User(UserMixin, db.Model):
     wechat = db.Column(db.Boolean, default=False)
     customContactInfo = db.Column(db.String(200), default='')
 
-    def getValidKeys(self, mode):
+    def getValidKeys(self, mode, public=True):
         # returns a list of keys that are readable/writable.
         if mode == 'r':
-            exempted_keys = ("googleId")
+            if public:
+                exempted_keys = ("googleId")
+            else:
+                exempted_keys = ("googleId", "discord", "instagram", "phone", "whatsapp", "signal", "telegram", "wechat", "customContactInfo")
         else:
             exempted_keys = ("id", "googleId", "email", "name", "profilePic", "cky")
         return [k for k in list(vars(self)) if k not in exempted_keys and "_" not in k]
 
     def getDetails(self):
         data = vars(self)
-        validKeys = self.getValidKeys(mode='r')
+        validKeys = self.getValidKeys(mode='r', public=self.public)
 
         for k in data.copy(): # to avoid runtimeError
             if k not in validKeys:

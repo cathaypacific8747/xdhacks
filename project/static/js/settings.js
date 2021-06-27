@@ -33,7 +33,7 @@ $(document).ready(function() {
         if (data["cky"]) {
             $('[data-field="cky"]').attr("data-tooltip", "This user is a verified CKY student.").html("verified").addClass("verified")
         } else {
-            $('[data-field="cky"]').attr("data-tooltip", "This user may not be a CKY student.").html("warning").addClass("unverified")
+            $('[data-field="cky"]').attr("data-tooltip", "This user may not be a CKY student.").html("warning").addClass("not-verified")
         }
     }
 });
