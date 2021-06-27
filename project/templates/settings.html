@@ -9,21 +9,20 @@
 <div class="container">
     <div class="row valign-wrapper">
         <div class="col s3">
-            <div class="profile-picture circle shimmerBG">
-                <img class="w-full" src="https://lh3.googleusercontent.com/a-/AOh14GisTWu4QhxU6QXCgXodT1qo3uL6ujsM5KKcYwuNBQ=s256-c" alt="">
+            <div class="profile-picture rounded shimmerBG">
+                <img class="w-full rounded" data-field="profilePic">
             </div>
         </div>
         <div class="col s9">
-            <div class="row">
-                <div class="col font-size-32 shimmerBG">Abraham Cheung</div>
+            <div class="row mt-0 mb-2 valign-wrapper">
+                <div class="col font-size-32 shimmerBG text-bold" data-field="name">______________________</div>
+                <i class="font-size-32 material-icons unselectable tooltipped" data-position="right" data-tooltip="" data-field="cky"></i>
             </div>
-            <div class="row">
-                <div class="col font-size-16 shimmerBG">cheuna2@cky.edu.hk</div>
+            <div class="row mt-0 mb-0">
+                <div class="col font-size-16 shimmerBG" data-field="email">______________________</div>
             </div>
         </div>
     </div>
-
-
 </div>
-<script type="text/javascript" src="{{ url_for('static', filename='js/settings.js') }}"></script>
+<script async defer type="text/javascript" src="{{ url_for('static', filename='js/settings.js') }}"></script>
 {% endblock %}

@@ -18,7 +18,7 @@ class User(UserMixin, db.Model):
     tapngo = db.Column(db.Boolean, default=False)
     bankTransfer = db.Column(db.Boolean, default=False)
     eCheque = db.Column(db.Boolean, default=False)
-
+    #
     buyer = db.Column(db.Boolean, default=False)
     seller = db.Column(db.Boolean, default=False)
     # sellerDetails

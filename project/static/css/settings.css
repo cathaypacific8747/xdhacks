@@ -17,6 +17,8 @@
     background: rgba(221, 221, 221, 0.5);
     background: linear-gradient(to right, #f6f6f67f 8%, #dfdfdf7f 18%, #F6F6F67f 33%);
     background-size: 1200px 100%;
+
+    color: transparent;
 }
 
 @-webkit-keyframes shimmer {
@@ -45,6 +47,18 @@
     padding-bottom: var(--profile-pic-width);
 }
 
-.fit-contents {
-	display: inline-block;
+.unselectable {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+ }
+
+.verified {
+    color: #007bff;
+}
+
+.unverified {
+    color: #dc3545;
 }

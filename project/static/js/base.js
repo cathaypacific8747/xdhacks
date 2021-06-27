@@ -7,12 +7,10 @@ $.ajaxSetup({
     }
 })
 
-$(document).ready(function(){
-    if ($('.dropdown-trigger')) {
-        $('.dropdown-trigger').dropdown({
-            alignment: 'right',
-            constrainWidth: false,
-            coverTrigger: false,
-        })
-    }
+$(document).ready(function() {
+    $('.dropdown-trigger').dropdown({
+        alignment: 'right',
+        constrainWidth: false,
+        coverTrigger: false,
+    })
 });

@@ -37,6 +37,8 @@ body {
 	line-height: 3.8rem;
 }
 
+/* MARGINS */
+
 .mx-16 {
 	margin-left: 1rem;
 	margin-right: 1rem;
@@ -51,6 +53,18 @@ body {
 	margin-top: 1rem;
 }
 
+.mt-0 {
+	margin-top: 0;
+}
+
+.mb-0 {
+	margin-bottom: 0;
+}
+
+.mb-2 {
+	margin-bottom: .125rem;
+}
+
 .mr-8 {
 	margin-right: .5rem;
 }
@@ -59,10 +73,14 @@ body {
 	margin-left: .5rem;
 }
 
+/* PADDINGS */
+
 .px-8 {
 	padding-left: .5rem;
 	padding-right: .5rem;
 }
+
+/* SIZINGS */
 
 .h-36 {
 	height: 2.25rem;
@@ -75,6 +93,8 @@ body {
 .w-full {
 	width: 100%;
 }
+
+/* FONT AND TEXT */
 
 .text-bold {
 	font-weight: 600 !important;
@@ -106,6 +126,10 @@ body {
 
 .translucent {
 	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.rounded {
+	border-radius: 50%;
 }
 
 #profileDropdown a {
