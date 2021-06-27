@@ -31,6 +31,12 @@ body {
 	height: 3.77rem;
 }
 
+.nav-item {
+	color: black;
+	height: 3.8rem;
+	line-height: 3.8rem;
+}
+
 .mx-16 {
 	margin-left: 1rem;
 	margin-right: 1rem;
@@ -58,12 +64,6 @@ body {
 	padding-right: .5rem;
 }
 
-.nav-item {
-	color: black;
-	height: 3.8rem;
-	line-height: 3.8rem;
-}
-
 .h-36 {
 	height: 2.25rem;
 }
@@ -72,12 +72,20 @@ body {
 	height: 4.5rem;
 }
 
+.w-full {
+	width: 100%;
+}
+
 .text-bold {
 	font-weight: 600 !important;
 }
 
 .text-muted {
 	color: grey;
+}
+
+.font-size-32 {
+	font-size: 2rem;
 }
 
 .font-size-16 {

@@ -37,13 +37,17 @@ class User(UserMixin, db.Model):
     wechat = db.Column(db.Boolean, default=False)
     customContactInfo = db.Column(db.String(200), default='')
 
-    def getValidKeys(self):
-        exempted_keys = ('googleId')
+    def getValidKeys(self, mode):
+        # returns a list of keys that are readable/writable.
+        if mode == 'r':
+            exempted_keys = ("googleId")
+        else:
+            exempted_keys = ("id", "googleId", "email", "name", "profilePic", "cky")
         return [k for k in list(vars(self)) if k not in exempted_keys and "_" not in k]
 
     def getDetails(self):
         data = vars(self)
-        validKeys = self.getValidKeys()
+        validKeys = self.getValidKeys(mode='r')
 
         for k in data.copy(): # to avoid runtimeError
             if k not in validKeys:
@@ -52,7 +56,7 @@ class User(UserMixin, db.Model):
         return data
 
     def updateDetails(self, data):
-        validKeys = self.getValidKeys()
+        validKeys = self.getValidKeys(mode='w')
         for k in data:
             if k in validKeys:
                 setattr(self, k, data[k])

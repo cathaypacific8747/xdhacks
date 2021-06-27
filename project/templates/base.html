@@ -25,57 +25,55 @@
 </head>
 <body class="with-custom-webkit-scrollbars with-custom-css-scrollbars">
     <!-- modal boxes -->
-    <div class="page-wrapper with-navbar with-transitions">
         <!-- sticky boxes -->
-        <nav class="nav-material">
-            <div class="nav-wrapper">
-                <a class="brand-logo valign-wrapper" href="{{ url_for('main.index') }}">
-                    <img class="logo-banner mx-16 show-on-medium-and-up hide-on-small-only" src="{{ url_for('static', filename='img/logo/banner.svg') }}" alt="Swappy">
-                    <img class="logo-banner mx-16 show-on-small hide-on-med-and-up" src="{{ url_for('static', filename='img/logo/banner_logo.svg') }}" alt="Swappy">
-                </a>
-                <ul class="right">
-                    {% if current_user.is_authenticated %}
-                    <li>
-                        <a class="nav-item mr-8 ml-8 px-8 no-hover-event valign-wrapper" href="{{ url_for('main.market') }}">
-                            Market
+    <nav class="nav-material">
+        <div class="nav-wrapper">
+            <a class="brand-logo valign-wrapper" href="{{ url_for('main.index') }}">
+                <img class="logo-banner mx-16 show-on-medium-and-up hide-on-small-only" src="{{ url_for('static', filename='img/logo/banner.svg') }}" alt="Swappy">
+                <img class="logo-banner mx-16 show-on-small hide-on-med-and-up" src="{{ url_for('static', filename='img/logo/banner_logo.svg') }}" alt="Swappy">
+            </a>
+            <ul class="right">
+                {% if current_user.is_authenticated %}
+                <li>
+                    <a class="nav-item mr-8 ml-8 px-8 no-hover-event valign-wrapper" href="{{ url_for('main.market') }}">
+                        Market
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-item mr-8 px-8 dropdown-trigger no-hover-event valign-wrapper roundBox" data-target="profileDropdown">
+                        <img class="rounded h-36" src="{{ current_user.profilePic+'=s96-c' }}" alt="Profile Picture">
+                    </a>
+                </li>
+                <ul id="profileDropdown" class="dropdown-content roundBox translucent mx-16">
+                    <li class="no-hover-event">
+                        <a class="nav-dropdown-item no-hover-event">
+                            <div>
+                                <div class="center-align"><img class="rounded h-72" src="{{ current_user.profilePic+'=s192-c' }}" alt="Profile Picture"></div>
+                                <div class="center-align text-bold font-size-16">{{ current_user.name }}</div>
+                                <div class="center-align text-muted font-size-14">{{ current_user.email }}</div>
+                            </div>
                         </a>
                     </li>
                     <li>
-                        <a class="nav-item mr-8 px-8 dropdown-trigger no-hover-event valign-wrapper roundBox" data-target="profileDropdown">
-                            <img class="rounded h-36" src="{{ current_user.profilePic+'=s96-c' }}" alt="Profile Picture">
+                        <a class="nav-dropdown-item" href="{{ url_for('main.settings') }}">
+                            <div class="center-align">Account Settings</div>
                         </a>
                     </li>
-                    <ul id="profileDropdown" class="dropdown-content roundBox translucent mx-16">
-                        <li class="no-hover-event">
-                            <a class="nav-dropdown-item no-hover-event">
-                                <div>
-                                    <div class="center-align"><img class="rounded h-72" src="{{ current_user.profilePic+'=s192-c' }}" alt="Profile Picture"></div>
-                                    <div class="center-align text-bold font-size-16">{{ current_user.name }}</div>
-                                    <div class="center-align text-muted font-size-14">{{ current_user.email }}</div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="nav-dropdown-item" href="{{ url_for('main.settings') }}">
-                                <div class="center-align">Account Settings</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="nav-dropdown-item" href="{{ url_for('auth.logout') }}">
-                                <div class="center-align">Log out</div>
-                            </a>
-                        </li>
-                    </ul>
-                    {% else %}
-                    <li><a class="nav-item px-16 no-hover-event" href="{{ url_for('auth.login') }}">Login</a></li>
-                    {% endif %}
+                    <li>
+                        <a class="nav-dropdown-item" href="{{ url_for('auth.logout') }}">
+                            <div class="center-align">Log out</div>
+                        </a>
+                    </li>
                 </ul>
-            </div>
-        </nav>
-        <div class="content-wrapper">        
-            {% block content %}
-            {% endblock %}
+                {% else %}
+                <li><a class="nav-item px-16 no-hover-event" href="{{ url_for('auth.login') }}">Login</a></li>
+                {% endif %}
+            </ul>
         </div>
+    </nav>
+    <div class="content-wrapper">        
+        {% block content %}
+        {% endblock %}
     </div>
 </body>
 <script>

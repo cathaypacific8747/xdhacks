@@ -1,24 +1,50 @@
-/* #introName {
-    font-size: 56px;
-    font-weight: 600;
-    opacity: 0;
-    transition: opacity 2s ease;
+:root {
+    --profile-pic-width: 75%
 }
 
-#introDesc {
-    font-size: 28px;
-    opacity: 0;
-    transition: opacity 3s ease;
+.shimmerBG {
+    -webkit-animation-duration: 2.2s;
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-name: shimmer;
+    -webkit-animation-timing-function: linear;
+
+    animation-duration: 2.2s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: shimmer;
+    animation-timing-function: linear;
+    background: rgba(221, 221, 221, 0.5);
+    background: linear-gradient(to right, #f6f6f67f 8%, #dfdfdf7f 18%, #F6F6F67f 33%);
+    background-size: 1200px 100%;
 }
 
-.debugArea {
-    opacity: 0;
-    transition: opacity 3s ease;
-    width: 250px;
-    text-align: center;
+@-webkit-keyframes shimmer {
+    0% {
+        background-position: -100% 0;
+    }
+    100% {
+        background-position: 100% 0;
+    }
 }
 
-button {
-    margin: 3px;
-    width: 125px;
-} */
+@keyframes shimmer {
+    0% {
+        background-position: -1200px 0;
+    }
+    100% {
+        background-position: 1200px 0;
+    }
+}
+
+.profile-picture {
+    display: inline-block;
+    margin-left: calc((100% - var(--profile-pic-width))/2);
+    width: var(--profile-pic-width);
+    height: 0;
+    padding-bottom: var(--profile-pic-width);
+}
+
+.fit-contents {
+	display: inline-block;
+}

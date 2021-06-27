@@ -27,6 +27,7 @@ $ ./start.sh
 - [x] User DB - Add `contactInfo` TEXT(300) field in db + bleach.
 - [x] User API - Update self detail (POST `/api/v1/user/update`)
 - [ ] User Template
+- [ ] Add Toasts for handling API errors.
 
 - [ ] Book API - Get book detail by id (GET `/api/v1/book/detail?bookId=_`)
 - [ ] Book API - Get all books with matching ISBN (GET `/api/v1/book/search?isbn=_`)

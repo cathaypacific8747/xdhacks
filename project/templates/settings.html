@@ -6,11 +6,24 @@
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid h-full w-full">
-    <div class="content d-flex flex-column align-items-center">
-        <img class="rounded-circle w-150" src="https://lh3.googleusercontent.com/a-/AOh14GipBBZkQ2DF3a4jfOgDqNGQ_RJMAQHNtPd0LheA8w=s512-c" alt="Profile Picture">
-        <h1 class="content-title mb-0">NAME</h1>
+<div class="container">
+    <div class="row valign-wrapper">
+        <div class="col s3">
+            <div class="profile-picture circle shimmerBG">
+                <img class="w-full" src="https://lh3.googleusercontent.com/a-/AOh14GisTWu4QhxU6QXCgXodT1qo3uL6ujsM5KKcYwuNBQ=s256-c" alt="">
+            </div>
+        </div>
+        <div class="col s9">
+            <div class="row">
+                <div class="col font-size-32 shimmerBG">Abraham Cheung</div>
+            </div>
+            <div class="row">
+                <div class="col font-size-16 shimmerBG">cheuna2@cky.edu.hk</div>
+            </div>
+        </div>
     </div>
+
+
 </div>
 <script type="text/javascript" src="{{ url_for('static', filename='js/settings.js') }}"></script>
 {% endblock %}

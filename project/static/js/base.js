@@ -8,9 +8,8 @@ $.ajaxSetup({
 })
 
 $(document).ready(function(){
-    let dd = $('.dropdown-trigger')
-    if (dd) {
-        dd.dropdown({
+    if ($('.dropdown-trigger')) {
+        $('.dropdown-trigger').dropdown({
             alignment: 'right',
             constrainWidth: false,
             coverTrigger: false,
