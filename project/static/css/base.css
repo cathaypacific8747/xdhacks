@@ -160,8 +160,8 @@ body {
 	border-radius: 50%;
 }
 
-.right-justify {
-	justify-content: right;
+.align-self-start {
+	align-self: flex-start;
 }
 
 #profileDropdown a {
