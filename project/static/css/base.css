@@ -65,12 +65,20 @@ body {
 	margin-bottom: .125rem;
 }
 
+.mr-4 {
+	margin-right: .25rem;
+}
+
 .mr-8 {
 	margin-right: .5rem;
 }
 
 .ml-8 {
 	margin-left: .5rem;
+}
+
+.ml-12 {
+	margin-left: .75rem;
 }
 
 /* PADDINGS */
@@ -81,6 +89,10 @@ body {
 }
 
 /* SIZINGS */
+
+.h-24 {
+	height: 1.5rem;
+}
 
 .h-36 {
 	height: 2.25rem;
@@ -118,6 +130,10 @@ body {
 
 .font-size-14 {
 	font-size: .875rem;
+}
+
+.font-size-0 {
+	font-size: 0;
 }
 
 .no-hover-event:hover {

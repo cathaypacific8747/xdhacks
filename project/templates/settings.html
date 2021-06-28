@@ -27,10 +27,31 @@
         <div class="col s3 right-align text-bold">
             Payment Methods
         </div>
-        <div class="col s8">
-            <img class="" data-field="profilePic" src="">
+        <div class="col s8 valign-wrapper">
+            <div class="row mb-0 font-size-0">
+                <img class="h-24 mr-4 ml-12" src="{{ url_for('static', filename='img/payment/cash.png') }}">
+                <img class="h-24 mr-4" src="{{ url_for('static', filename='img/payment/bank.png') }}">
+                <img class="h-24 mr-4" src="{{ url_for('static', filename='img/payment/payme.png') }}">
+                <img class="h-24 mr-4" src="{{ url_for('static', filename='img/payment/tapngo.png') }}">
+                <img class="h-24 mr-4" src="{{ url_for('static', filename='img/payment/octopus.png') }}">
+                <img class="h-24 mr-4" src="{{ url_for('static', filename='img/payment/echeque.png') }}">
+                <img class="h-24 mr-4" src="{{ url_for('static', filename='img/payment/alipay.png') }}">
+                <img class="h-24 mr-4" src="{{ url_for('static', filename='img/payment/wechat.png') }}">
+            </div>
         </div>
-        <div class="col s1 valign-wrapper">
+        <div class="col s1">
+            <i class="font-size-20 material-icons unselectable">edit</i>
+        </div>
+    </div>
+    <div class="row valign-wrapper">
+        <div class="col s3 right-align text-bold">
+            Account type
+        </div>
+        <div class="col s8">
+            <div class="chip mb-0">Buyer</div>
+            <div class="chip mb-0">Seller</div>
+        </div>
+        <div class="col s1">
             <i class="font-size-20 material-icons unselectable">edit</i>
         </div>
     </div>
