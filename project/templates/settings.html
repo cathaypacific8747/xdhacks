@@ -27,19 +27,17 @@
         <div class="col s3 right-align text-bold">
             Payment Methods
         </div>
-        <div class="col s8 valign-wrapper">
-            <div class="row mb-0 font-size-0">
-                <img class="h-24 mr-4 ml-12" src="{{ url_for('static', filename='img/payment/cash.png') }}">
-                <img class="h-24 mr-4" src="{{ url_for('static', filename='img/payment/bank.png') }}">
-                <img class="h-24 mr-4" src="{{ url_for('static', filename='img/payment/payme.png') }}">
-                <img class="h-24 mr-4" src="{{ url_for('static', filename='img/payment/tapngo.png') }}">
-                <img class="h-24 mr-4" src="{{ url_for('static', filename='img/payment/octopus.png') }}">
-                <img class="h-24 mr-4" src="{{ url_for('static', filename='img/payment/echeque.png') }}">
-                <img class="h-24 mr-4" src="{{ url_for('static', filename='img/payment/alipay.png') }}">
-                <img class="h-24 mr-4" src="{{ url_for('static', filename='img/payment/wechat.png') }}">
-            </div>
+        <div class="col s8 valign-wrapper font-size-0">
+            <img class="payment-icon mr-4" src="{{ url_for('static', filename='img/payment/cash.png') }}">
+            <img class="payment-icon mr-4" src="{{ url_for('static', filename='img/payment/bank.png') }}">
+            <img class="payment-icon mr-4" src="{{ url_for('static', filename='img/payment/payme.png') }}">
+            <img class="payment-icon mr-4" src="{{ url_for('static', filename='img/payment/tapngo.png') }}">
+            <img class="payment-icon mr-4" src="{{ url_for('static', filename='img/payment/octopus.png') }}">
+            <img class="payment-icon mr-4" src="{{ url_for('static', filename='img/payment/echeque.png') }}">
+            <img class="payment-icon mr-4" src="{{ url_for('static', filename='img/payment/alipay.png') }}">
+            <img class="payment-icon mr-4" src="{{ url_for('static', filename='img/payment/wechat.png') }}">
         </div>
-        <div class="col s1">
+        <div class="col s1 valign-wrapper">
             <i class="font-size-20 material-icons unselectable">edit</i>
         </div>
     </div>
@@ -51,10 +49,53 @@
             <div class="chip mb-0">Buyer</div>
             <div class="chip mb-0">Seller</div>
         </div>
-        <div class="col s1">
+        <div class="col s1 valign-wrapper">
             <i class="font-size-20 material-icons unselectable">edit</i>
         </div>
     </div>
+    <div class="row valign-wrapper">
+        <div class="col s3 right-align text-bold">
+            Seller Delivery Methods
+        </div>
+        <div class="col s8">
+            <div class="chip mb-0">In-school exchange</div>
+            <div class="chip mb-0">Meetup</div>
+            <div class="chip mb-0">Door-to-door delivery</div>
+        </div>
+        <div class="col s1 valign-wrapper">
+            <i class="font-size-20 material-icons unselectable">edit</i>
+        </div>
+    </div>
+    <div class="row valign-wrapper">
+        <div class="col s3 right-align text-bold">
+            Negotiable
+        </div>
+        <div class="col s8 valign-wrapper">
+            <i class="font-size-20 material-icons unselectable">check</i>
+        </div>
+        <div class="col s1 valign-wrapper">
+            <i class="font-size-20 material-icons unselectable">edit</i>
+        </div>
+    </div>
+    <div class="row valign-wrapper">
+        <div class="col s3 right-align text-bold valign-wrapper">
+            Contact Information
+        </div>
+        <div class="col s8 valign-wrapper">
+            <div class="row mb-0 p-inherit valign-wrapper">
+                Public
+                <i class="font-size-16 material-icons unselectable text-muted ml-6">public</i>
+            </div>
+            <div class="row mb-0 p-inherit valign-wrapper">
+                Public
+                <i class="font-size-16 material-icons unselectable text-muted ml-6">public</i>
+            </div>
+        </div>
+        <div class="col s1 valign-wrapper">
+            <i class="font-size-20 material-icons unselectable">edit</i>
+        </div>
+    </div>
+    
 </div>
 <script async defer type="text/javascript" src="{{ url_for('static', filename='js/settings.js') }}"></script>
 {% endblock %}

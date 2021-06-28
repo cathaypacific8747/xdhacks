@@ -69,6 +69,10 @@ body {
 	margin-right: .25rem;
 }
 
+.ml-6 {
+	margin-left: .375rem;
+}
+
 .mr-8 {
 	margin-right: .5rem;
 }
@@ -86,6 +90,10 @@ body {
 .px-8 {
 	padding-left: .5rem;
 	padding-right: .5rem;
+}
+
+.p-inherit {
+	padding: inherit;
 }
 
 /* SIZINGS */
@@ -150,6 +158,10 @@ body {
 
 .rounded {
 	border-radius: 50%;
+}
+
+.right-justify {
+	justify-content: right;
 }
 
 #profileDropdown a {

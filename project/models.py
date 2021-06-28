@@ -36,7 +36,6 @@ class User(UserMixin, db.Model):
     whatsapp = db.Column(db.Boolean, default=False)
     signal = db.Column(db.Boolean, default=False)
     telegram = db.Column(db.Boolean, default=False)
-    wechat = db.Column(db.Boolean, default=False)
     customContactInfo = db.Column(db.String(200), default='')
 
     def getValidKeys(self, mode, public=True):
