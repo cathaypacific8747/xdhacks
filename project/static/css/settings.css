@@ -21,6 +21,11 @@
     background-size: 1200px 100%;
 
     color: transparent;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 @-webkit-keyframes shimmer {
@@ -79,4 +84,12 @@
 
 .not-verified {
     color: #dc3545;
+}
+
+.negotiable {
+    color: #4a934a;
+}
+
+.not-negotiable {
+    color: #ae423f;
 }

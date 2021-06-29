@@ -11,7 +11,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(70), index=True)
     profilePic = db.Column(db.String(100))
     cky = db.Column(db.Boolean, default=False)
-    # acceptedPaymentMethods
+    # payment_information
     cash = db.Column(db.Boolean, default=False)
     octopus = db.Column(db.Boolean, default=False)
     payme = db.Column(db.Boolean, default=False)
@@ -20,12 +20,12 @@ class User(UserMixin, db.Model):
     wechatPay = db.Column(db.Boolean, default=False)
     alipay = db.Column(db.Boolean, default=False)
     eCheque = db.Column(db.Boolean, default=False)
-    #
+    # account_type
     buyer = db.Column(db.Boolean, default=False)
     seller = db.Column(db.Boolean, default=False)
     # sellerDetails
     negotiable = db.Column(db.Boolean, default=False)
-    schoolMeetup = db.Column(db.Boolean, default=False)
+    inSchoolExchange = db.Column(db.Boolean, default=False)
     meetup = db.Column(db.Boolean, default=False)
     delivery = db.Column(db.Boolean, default=False)
     # contactInfo
