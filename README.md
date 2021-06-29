@@ -26,7 +26,8 @@ $ ./start.sh
 - [x] User API - Get other detail (GET `/api/v1/user/detail?userId=_`)
 - [x] User DB - Add `contactInfo` TEXT(300) field in db + bleach.
 - [x] User API - Update self detail (POST `/api/v1/user/update`)
-- [ ] User Template - Read-only
+- [x] User Template - Read-only
+- [ ] User Template - Use classes
 - [ ] User Template - Editable Fields
 - [ ] Add Toasts for handling API errors.
 
