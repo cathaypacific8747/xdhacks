@@ -39,6 +39,11 @@ body {
 
 /* MARGINS */
 
+.mx-0 {
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+}
+
 .mx-16 {
 	margin-left: 1rem;
 	margin-right: 1rem;
@@ -173,4 +178,13 @@ body {
 
 #profileDropdown li {
 	min-height: 0;
+}
+
+* {
+	scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
 }

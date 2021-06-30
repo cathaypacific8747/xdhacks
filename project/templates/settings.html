@@ -27,66 +27,162 @@
         <div class="col s3 right-align text-bold">
             Payment Methods
         </div>
-        <div class="col s8 valign-wrapper">
+        <div class="col s8 valign-wrapper" data-section="payment_information_display">
             <div class="shimmerBG" data-field="payment_information_loader">______________________</div>
             <img class="payment-icon mr-4 tooltipped" data-field="cash" data-position="top" data-tooltip="Cash">
-            <img class="payment-icon mr-4 tooltipped" data-field="octopus" data-position="top" data-tooltip="Bank Transfer">
+            <img class="payment-icon mr-4 tooltipped" data-field="octopus" data-position="top" data-tooltip="Octopus">
             <img class="payment-icon mr-4 tooltipped" data-field="payme" data-position="top" data-tooltip="PayMe">
             <img class="payment-icon mr-4 tooltipped" data-field="tapngo" data-position="top" data-tooltip="Tap & Go">
-            <img class="payment-icon mr-4 tooltipped" data-field="bankTransfer" data-position="top" data-tooltip="Octopus">
+            <img class="payment-icon mr-4 tooltipped" data-field="bankTransfer" data-position="top" data-tooltip="Bank Transfer">
             <img class="payment-icon mr-4 tooltipped" data-field="eCheque" data-position="top" data-tooltip="e-Cheque">
             <img class="payment-icon mr-4 tooltipped" data-field="alipay" data-position="top" data-tooltip="Alipay">
             <img class="payment-icon mr-4 tooltipped" data-field="wechatPay" data-position="top" data-tooltip="WeChat Pay">
         </div>
+        <div class="col s8 hide" data-section="payment_information_editor">
+            <div>
+                <label>
+                    <input type="checkbox" class="filled-in" data-editfield="cash">
+                    <span class="checkbox-label">Cash</span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" class="filled-in" data-editfield="octopus">
+                    <span class="checkbox-label">Octopus</span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" class="filled-in" data-editfield="payme">
+                    <span class="checkbox-label">Payme</span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" class="filled-in" data-editfield="tapngo">
+                    <span class="checkbox-label">Tap & Go</span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" class="filled-in" data-editfield="bankTransfer">
+                    <span class="checkbox-label">Bank Transfer</span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" class="filled-in" data-editfield="eCheque">
+                    <span class="checkbox-label">e-Cheque</span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" class="filled-in" data-editfield="alipay">
+                    <span class="checkbox-label">Alipay</span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" class="filled-in" data-editfield="wechatPay">
+                    <span class="checkbox-label">Wechat Pay</span>
+                </label>
+            </div>
+        </div>
         <div class="col s1 valign-wrapper">
-            <i class="font-size-20 material-icons unselectable">edit</i>
+            <i class="font-size-20 material-icons unselectable edit-button" data-edit="payment_information">edit</i>
+            <i class="font-size-20 material-icons unselectable edit-button hide" data-save="payment_information">done</i>
         </div>
     </div>
     <div class="row valign-wrapper">
         <div class="col s3 right-align text-bold">
             Account type
         </div>
-        <div class="col s8 valign-wrapper">
+        <div class="col s8 valign-wrapper" data-section="account_type_display">
             <div class="shimmerBG" data-field="account_type_loader">______________________</div>
             <div class="chip mb-0 hide" data-field="buyer">Buyer</div>
             <div class="chip mb-0 hide" data-field="seller">Seller</div>
         </div>
+        <div class="col s8 hide" data-section="account_type_editor">
+            <div>
+                <label>
+                    <input type="checkbox" class="filled-in" data-editfield="buyer">
+                    <span class="checkbox-label">Buyer</span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" class="filled-in" data-editfield="seller">
+                    <span class="checkbox-label">Seller</span>
+                </label>
+            </div>
+        </div>
         <div class="col s1 valign-wrapper">
-            <i class="font-size-20 material-icons unselectable">edit</i>
+            <i class="font-size-20 material-icons unselectable edit-button" data-edit="account_type">edit</i>
+            <i class="font-size-20 material-icons unselectable edit-button hide" data-save="account_type">done</i>
         </div>
     </div>
     <div class="row valign-wrapper" data-field="seller_information_container">
         <div class="col s3 right-align text-bold">
             Seller Delivery Methods
         </div>
-        <div class="col s8 valign-wrapper">
+        <div class="col s8 valign-wrapper" data-section="seller_delivery_methods_display">
             <div class="shimmerBG" data-field="seller_delivery_methods_loader">______________________</div>
             <div class="chip mb-0 hide" data-field="inSchoolExchange">In-school exchange</div>
             <div class="chip mb-0 hide" data-field="meetup">Meetup</div>
             <div class="chip mb-0 hide" data-field="delivery">Door-to-door delivery</div>
         </div>
+        <div class="col s8 hide" data-section="seller_delivery_methods_editor">
+            <div>
+                <label>
+                    <input type="checkbox" class="filled-in" data-editfield="inSchoolExchange">
+                    <span class="checkbox-label">In-school exchange</span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" class="filled-in" data-editfield="meetup">
+                    <span class="checkbox-label">Meetup</span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" class="filled-in" data-editfield="delivery">
+                    <span class="checkbox-label">Door-to-door delivery</span>
+                </label>
+            </div>
+        </div>
         <div class="col s1 valign-wrapper">
-            <i class="font-size-20 material-icons unselectable">edit</i>
+            <i class="font-size-20 material-icons unselectable edit-button" data-edit="seller_delivery_methods">edit</i>
+            <i class="font-size-20 material-icons unselectable edit-button hide" data-save="seller_delivery_methods">done</i>
         </div>
     </div>
     <div class="row valign-wrapper" data-field="seller_information_container">
         <div class="col s3 right-align text-bold">
             Negotiable
         </div>
-        <div class="col s8 valign-wrapper">
+        <div class="col s8 valign-wrapper" data-section="seller_negotiable_display">
             <div class="shimmerBG" data-field="seller_negotiable_loader">___</div>
             <i class="font-size-20 material-icons unselectable" data-field="negotiable"></i>
         </div>
+        <div class="col s8 hide" data-section="seller_negotiable_editor">
+            <div class="switch">
+                <label>
+                    <input type="checkbox" data-editfield="negotiable">
+                    <span class="lever mx-0"></span>
+                </label>
+            </div>
+        </div>
         <div class="col s1 valign-wrapper">
-            <i class="font-size-20 material-icons unselectable">edit</i>
+            <i class="font-size-20 material-icons unselectable edit-button" data-edit="seller_negotiable">edit</i>
+            <i class="font-size-20 material-icons unselectable edit-button hide" data-save="seller_negotiable">done</i>
         </div>
     </div>
     <div class="row valign-wrapper">
         <div class="col s3 right-align text-bold align-self-start">
             Contact Information
         </div>
-        <div class="col s8">
-            <div class="shimmerBG" data-field="information_loader">______________________</div>
+        <div class="col s8" data-section="contact_information_display">
+            <div class="shimmerBG" data-field="contact_information_loader">______________________</div>
             <div class="row mb-2 p-inherit valign-wrapper hide" data-field="public_container">
                 <span class="mr-6" data-field="public"></span>
                 <i class="font-size-16 material-icons unselectable text-muted tooltipped" data-field="public_icon" data-position="right" data-tooltip=""></i>
@@ -111,11 +207,54 @@
                 <span data-field="customContactInfo"></span>
             </div>
         </div>
+        <div class="col s8 hide" data-section="contact_information_editor">
+            <div>
+                <label>
+                    <input type="checkbox" class="filled-in" data-editfield="public">
+                    <span class="checkbox-label">Public</span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" class="filled-in" data-editfield="discord">
+                    <span class="checkbox-label">Discord</span>
+                </label>
+            </div>
+            <!-- DISCORD INPUT -->
+            <div>
+                <label>
+                    <input type="checkbox" class="filled-in" data-editfield="instagram">
+                    <span class="checkbox-label">Instagram</span>
+                </label>
+            </div>
+            <!-- INSTAGRAM INPUT -->
+            <!-- PHONE NUMBER INPUT -->
+            <div>
+                <label>
+                    <input type="checkbox" class="filled-in" data-editfield="whatsapp">
+                    <span class="checkbox-label">WhatsApp</span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" class="filled-in" data-editfield="signal">
+                    <span class="checkbox-label">Signal</span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" class="filled-in" data-editfield="telegram">
+                    <span class="checkbox-label">Telegram</span>
+                </label>
+            </div>
+            <!-- CUSTOM CONTACT INFO INPUT -->
+        </div>
         <div class="col s1 valign-wrapper">
-            <i class="font-size-20 material-icons unselectable">edit</i>
+            <i class="font-size-20 material-icons unselectable edit-button" data-edit="contact_information">edit</i>
+            <i class="font-size-20 material-icons unselectable edit-button hide" data-save="contact_information">done</i>
         </div>
     </div>
     
 </div>
-<script async defer type="text/javascript" src="{{ url_for('static', filename='js/settings.js') }}"></script>
+<script defer type="text/javascript" src="{{ url_for('static', filename='js/settings.js') }}"></script>
 {% endblock %}

@@ -63,6 +63,7 @@
 }
 
 .chip {
+    border: 1px solid #bbb;
     height: var(--chip-height);
 }
 
@@ -92,4 +93,24 @@
 
 .not-negotiable {
     color: #ae423f;
+}
+
+.edit-button:hover {
+    background-color: #82abed44;
+    border-radius: 50%;
+}
+
+.checkbox-label {
+    color: black;
+    padding-left: 2rem !important;
+}
+
+.checkbox-label::after {
+    top: 50% !important;
+    margin-top: -10.5px !important;
+}
+
+.checkbox-label::before {
+    top: 50% !important;
+    margin-top: -8px !important;
 }
