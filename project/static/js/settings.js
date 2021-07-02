@@ -190,9 +190,18 @@ $(document).ready(function() {
             this.update_publicity_edit();
         }
 
+        update_discord_edit_text() {
+            if ($('[data-editfield="discord"]').is(':checked')) {
+                $('[data-editfieldgroup="discord"]').removeClass("hide");
+            } else {
+                $('[data-editfieldgroup="discord"]').addClass("hide");
+            }
+        }
         update_discord_edit() {
-            $('[data-editfield="discord"]').prop("checked", Boolean(this.data.discord));
-            // add input field
+            $('[data-editfield="discord"]').prop("checked", Boolean(this.data.discord)).click(() => {
+                this.update_discord_edit_text();
+            });
+            this.update_discord_edit_text();
         }
         update_discord() {
             if (this.data.discord) {
@@ -202,12 +211,21 @@ $(document).ready(function() {
             } else {
                 this.hide_container("discord_container");
             }
-            this.update_discord_edit()
+            this.update_discord_edit();
         }
 
+        update_instagram_edit_text() {
+            if ($('[data-editfield="instagram"]').is(':checked')) {
+                $('[data-editfieldgroup="instagram"]').removeClass("hide");
+            } else {
+                $('[data-editfieldgroup="instagram"]').addClass("hide");
+            }
+        }
         update_instagram_edit() {
-            $('[data-editfield="instagram"]').prop("checked", Boolean(this.data.instagram));
-            // add input field
+            $('[data-editfield="instagram"]').prop("checked", Boolean(this.data.instagram)).click(() => {
+                this.update_instagram_edit_text();
+            });
+            this.update_instagram_edit_text();
         }
         update_instagram() {
             if (this.data.instagram) {
@@ -220,10 +238,21 @@ $(document).ready(function() {
             this.update_instagram_edit()
         }
 
+        update_phone_edit_text() {
+            if ($('[data-editfield="phone"]').is(':checked')) {
+                $('[data-editfieldgroup="phone"]').removeClass("hide");
+            } else {
+                $('[data-editfieldgroup="phone"]').addClass("hide");
+            }
+        }
         update_phone_edit() {
+            $('[data-editfield="phone"]').prop("checked", Boolean(this.data.phone)).click(() => {
+                this.update_phone_edit_text();
+            })
             $('[data-editfield="whatsapp"]').prop("checked", this.data.whatsapp);
             $('[data-editfield="signal"]').prop("checked", this.data.signal);
             $('[data-editfield="telegram"]').prop("checked", this.data.telegram);
+            this.update_phone_edit_text();
         }
         update_phone() {
             if (this.data.phone) {
@@ -239,6 +268,19 @@ $(document).ready(function() {
             this.update_phone_edit()
         }
 
+        update_customContactInfo_edit_text() {
+            if ($('[data-editfield="customContactInfo"]').is(':checked')) {
+                $('[data-editfieldgroup="customContactInfo"]').removeClass("hide");
+            } else {
+                $('[data-editfieldgroup="customContactInfo"]').addClass("hide");
+            }
+        }
+        update_customContactInfo_edit() {
+            $('[data-editfield="customContactInfo"]').prop("checked", Boolean(this.data.customContactInfo)).click(() => {
+                this.update_customContactInfo_edit_text();
+            })
+            this.update_customContactInfo_edit_text();
+        }
         update_customContactInfo() {
             if (this.data.customContactInfo) {
                 $('[data-field="customContactInfo_icon"]').attr("src", "static/img/contact/customContactInfo.png");
@@ -247,6 +289,7 @@ $(document).ready(function() {
             } else {
                 this.hide_container("customContactInfo_container");
             }
+            this.update_customContactInfo_edit();
         }
 
         populate() {
@@ -300,12 +343,5 @@ $(document).ready(function() {
             this.bindSaveAction('seller_negotiable');
             this.bindSaveAction('contact_information');
         }
-
-        // setTimeout(() => {
-        //     this.data.buyer = true;
-        //     this.data.seller = true;
-        //     this.update_accountType()
-        //     console.log('done')
-        // }, 2000);
     }
 });

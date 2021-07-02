@@ -70,6 +70,10 @@ body {
 	margin-bottom: .125rem;
 }
 
+.mb-29 {
+	margin-bottom: 29px;
+}
+
 .mr-4 {
 	margin-right: .25rem;
 }
@@ -88,6 +92,10 @@ body {
 
 .ml-12 {
 	margin-left: .75rem;
+}
+
+.ml-29 {
+	margin-left: 2rem;
 }
 
 /* PADDINGS */

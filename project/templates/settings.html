@@ -219,35 +219,62 @@
                     <input type="checkbox" class="filled-in" data-editfield="discord">
                     <span class="checkbox-label">Discord</span>
                 </label>
+                <div class="input-field mb-0 ml-29" data-editfieldgroup="discord">
+                    <input id="discord_input" data-editfield="discord_text" pattern="^((?!(discordtag|everyone|here)#)((?!@|#|:|```).{2,32})#\d{4})" type="text" class="validate">
+                    <label for="discord_input">Discord username (e.g. username#1234)</label>
+                    <span class="helper-text" data-error="Invalid Format: must be in the correct 'username#tag' format."></span>
+                </div>
             </div>
-            <!-- DISCORD INPUT -->
             <div>
                 <label>
                     <input type="checkbox" class="filled-in" data-editfield="instagram">
                     <span class="checkbox-label">Instagram</span>
                 </label>
-            </div>
-            <!-- INSTAGRAM INPUT -->
-            <!-- PHONE NUMBER INPUT -->
-            <div>
-                <label>
-                    <input type="checkbox" class="filled-in" data-editfield="whatsapp">
-                    <span class="checkbox-label">WhatsApp</span>
-                </label>
+                <div class="input-field mb-0 ml-29" data-editfieldgroup="instagram">
+                    <input id="instagram_input" data-editfield="instagram_text" pattern="(?:@)([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_]))?)" type="text" class="validate">
+                    <label for="instagram_input">Instagram username (e.g. @username.1234)</label>
+                    <span class="helper-text" data-error="Invalid Format: must be a correct instagram username."></span>
+                </div>
             </div>
             <div>
                 <label>
-                    <input type="checkbox" class="filled-in" data-editfield="signal">
-                    <span class="checkbox-label">Signal</span>
+                    <input type="checkbox" class="filled-in" data-editfield="phone">
+                    <span class="checkbox-label">Phone</span>
                 </label>
+                <div class="input-field mb-0 ml-29" data-editfieldgroup="phone">
+                    <input id="phone_input" data-editfield="phone_text" pattern="[^0,1,7]{1}[0-9]{7}" type="text" class="validate">
+                    <label for="phone_input">Hong Kong phone number (e.g. 21482052)</label>
+                    <span class="helper-text" data-error="Invalid Format: must be a correct Hong Kong phone number."></span>
+                </div>
+                <div class="ml-29" data-editfieldgroup="phone">
+                    <label>
+                        <input type="checkbox" class="filled-in" data-editfield="whatsapp">
+                        <span class="checkbox-label">WhatsApp</span>
+                    </label>
+                </div>
+                <div class="ml-29" data-editfieldgroup="phone">
+                    <label>
+                        <input type="checkbox" class="filled-in" data-editfield="signal">
+                        <span class="checkbox-label">Signal</span>
+                    </label>
+                </div>
+                <div class="ml-29 mb-29" data-editfieldgroup="phone">
+                    <label>
+                        <input type="checkbox" class="filled-in" data-editfield="telegram">
+                        <span class="checkbox-label">Telegram</span>
+                    </label>
+                </div>
             </div>
             <div>
                 <label>
-                    <input type="checkbox" class="filled-in" data-editfield="telegram">
-                    <span class="checkbox-label">Telegram</span>
+                    <input type="checkbox" class="filled-in" data-editfield="customContactInfo">
+                    <span class="checkbox-label">Custom Contact Information</span>
                 </label>
+                <div class="input-field mb-0 ml-29" data-editfieldgroup="customContactInfo">
+                    <textarea id="customContactInfo_input" data-editfield="customContactInfo" class="materialize-textarea"></textarea>
+                    <label for="customContactInfo_input">Additional remarks / instructions (maximum 300 characters)</label>
+                </div>
             </div>
-            <!-- CUSTOM CONTACT INFO INPUT -->
         </div>
         <div class="col s1 valign-wrapper">
             <i class="font-size-20 material-icons unselectable edit-button" data-edit="contact_information">edit</i>

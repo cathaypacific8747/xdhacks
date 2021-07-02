@@ -1,6 +1,6 @@
 from flask import Blueprint, json, redirect, url_for, request, session, current_app, abort, jsonify
 from flask_login import login_required, current_user
-from .models import User
+from .models import User, Book
 from . import db
 import subprocess # for regen
 from .error_handler import NoBookId
@@ -36,7 +36,7 @@ def user_update():
 
 @api.get('/api/v1/book/detail')
 @login_required
-def book_detail()
+def book_detail():
     id = request.args.get("bookId")
     if not id:
         raise NoBookId()

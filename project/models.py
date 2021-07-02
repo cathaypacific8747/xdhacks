@@ -73,7 +73,10 @@ class Book(db.Model):
 
     def getDetails(self):
         return {
-            'name': self.name
+            'id': self.id,
+            'name': self.name,
+            'isbn': self.isbn,
+            'imagepath': self.imagepath
         }
 
 class Inventory(db.Model):
