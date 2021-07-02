@@ -12,6 +12,10 @@ class GoogleConnectionError(HTTPException):
     code = 500
     description = "An error occurred when contacting Google's servers. Please try again later."
 
+class NoBookId(HTTPException):
+    code = 404
+    description = "No book id supplied."
+
 @err.app_errorhandler(Exception)
 def handle_error(e):
 

@@ -1,4 +1,5 @@
 from enum import unique
+from project.error_handler import InvalidState
 from flask_login import UserMixin
 from . import db
 
@@ -38,31 +39,28 @@ class User(UserMixin, db.Model):
     telegram = db.Column(db.Boolean, default=False)
     customContactInfo = db.Column(db.String(200), default='')
 
-    def getValidKeys(self, mode, public=True):
-        # returns a list of keys that are readable/writable.
-        if mode == 'r':
-            if public:
-                exempted_keys = ("googleId")
-            else:
-                exempted_keys = ("googleId", "discord", "instagram", "phone", "whatsapp", "signal", "telegram", "wechat", "customContactInfo")
+    def getInvalidKeys(self, read=True, public=True):
+        if read:
+            invalid = ["googleId"] if public else ["googleId", "discord", "instagram", "phone", "whatsapp", "signal", "telegram", "wechat", "customContactInfo"]
         else:
-            exempted_keys = ("id", "googleId", "email", "name", "profilePic", "cky")
-        return [k for k in list(vars(self)) if k not in exempted_keys and "_" not in k]
-
+            invalid = ["id", "googleId", "email", "name", "profilePic", "cky"]
+        return invalid + [k for k in list(vars(self)) if '_' in k]
+    
     def getDetails(self):
         data = vars(self)
-        validKeys = self.getValidKeys(mode='r', public=self.public)
+        invalidKeys = self.getInvalidKeys(read=True, public=self.public)
 
-        for k in data.copy(): # to avoid runtimeError
-            if k not in validKeys:
+        for k in data.copy():
+            if k in invalidKeys:
                 del data[k]
-
+        
         return data
-
+    
     def updateDetails(self, data):
-        validKeys = self.getValidKeys(mode='w')
+        invalidKeys = self.getInvalidKeys(read=False)
+
         for k in data:
-            if k in validKeys:
+            if k not in invalidKeys:
                 setattr(self, k, data[k])
 
 class Book(db.Model):
@@ -72,6 +70,11 @@ class Book(db.Model):
     name = db.Column(db.String(1000))
     isbn = db.Column(db.BigInteger)
     imagepath = db.Column(db.String(100))
+
+    def getDetails(self):
+        return {
+            'name': self.name
+        }
 
 class Inventory(db.Model):
     __tablename__ = 'inventory'

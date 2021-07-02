@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from .models import User
 from . import db
 import subprocess # for regen
+from .error_handler import NoBookId
 
 api = Blueprint('api', __name__)
 
@@ -31,4 +32,16 @@ def user_update():
     db.session.commit()
     return jsonify({
         "status": "success"
+    })
+
+@api.get('/api/v1/book/detail')
+@login_required
+def book_detail()
+    id = request.args.get("bookId")
+    if not id:
+        raise NoBookId()
+    book = Book.query.filter_by(id=id).first()
+    return jsonify({
+        "status": "success",
+        "data": book.getDetails()
     })
