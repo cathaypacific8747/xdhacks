@@ -16,19 +16,8 @@
         {% endif %}
     </div>
 </div>
-<script type="text/javascript" src="{{ url_for('static', filename='js/index.js') }}"></script>
-<script>
-    // {% with messages = get_flashed_messages(with_categories=true) %}
-    // {% if messages %}
-    // {% for category, message in messages %}
-    // setTimeout(function() {
-    //     halfmoon.initStickyAlert({
-    //         content: "{{ message }}",
-    //         alertType: "alert-{{ category }}"
-    //     })
-    // }, 200)
-    // {% endfor %}
-    // {% endif %}
-    // {% endwith %}
-</script>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/index.js') }}"></script>
 {% endblock %}

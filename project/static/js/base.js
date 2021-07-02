@@ -13,4 +13,19 @@ $(document).ready(function() {
         constrainWidth: false,
         coverTrigger: false,
     })
+
+    function toast(classes) {
+        const toastHTML = `<div>
+        <div>
+            HEADER
+        </div>
+        <div>
+            BODY
+        </div>
+        </div>`;
+        M.toast({
+            unsafeHTML: toastHTML,
+            classes: classes
+        })
+    }
 });

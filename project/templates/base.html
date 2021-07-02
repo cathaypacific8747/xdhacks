@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script async src="https://cdn.jsdelivr.net/npm/@materializecss/materialize@1.1.0-alpha/dist/js/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@materializecss/materialize@1.1.0-alpha/dist/js/materialize.min.js"></script>
     {% endblock %}
 </head>
 <body class="with-custom-webkit-scrollbars with-custom-css-scrollbars">
@@ -76,11 +76,7 @@
         {% endblock %}
     </div>
 </body>
-<script async defer type="text/javascript" src="{{ url_for('static', filename='js/base.js') }}"></script>
-<script>
-    // setTimeout(() => {
-    //     halfmoon.toastAlert("precompiled-alert-1", 99999);
-    // }, 500) // just to stop animation being slow
-    // /* TEMPORARY TESTING */
-</script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/base.js') }}"></script>
+{% block scripts %}
+{% endblock %}
 </html>

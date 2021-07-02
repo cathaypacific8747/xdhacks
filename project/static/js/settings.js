@@ -276,9 +276,7 @@ $(document).ready(function() {
 
         update_customContactInfo_edit_text() {
             $('[data-editfield="customContactInfo_text"]').val(this.data.customContactInfo);
-            console.log($('[data-editfield="customContactInfo_text"]'))
             M.textareaAutoResize($('[data-editfield="customContactInfo_text"]'));
-            console.log('1')
             if ($('[data-editfield="customContactInfo"]').is(':checked')) {
                 $('[data-editfieldgroup="customContactInfo"]').removeClass("hide");
             } else {

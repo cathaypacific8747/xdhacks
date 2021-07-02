@@ -281,7 +281,9 @@
             <i class="font-size-20 material-icons unselectable edit-button hide" data-save="contact_information">done</i>
         </div>
     </div>
-    
 </div>
-<script defer type="text/javascript" src="{{ url_for('static', filename='js/settings.js') }}"></script>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/settings.js') }}"></script>
 {% endblock %}
