@@ -191,6 +191,8 @@ $(document).ready(function() {
         }
 
         update_discord_edit_text() {
+            $('[data-editfield="discord_text"]').val(this.data.discord);
+            M.updateTextFields();
             if ($('[data-editfield="discord"]').is(':checked')) {
                 $('[data-editfieldgroup="discord"]').removeClass("hide");
             } else {
@@ -215,6 +217,8 @@ $(document).ready(function() {
         }
 
         update_instagram_edit_text() {
+            $('[data-editfield="instagram_text"]').val(this.data.instagram);
+            M.updateTextFields();
             if ($('[data-editfield="instagram"]').is(':checked')) {
                 $('[data-editfieldgroup="instagram"]').removeClass("hide");
             } else {
@@ -239,6 +243,8 @@ $(document).ready(function() {
         }
 
         update_phone_edit_text() {
+            $('[data-editfield="phone_text"]').val(this.data.phone);
+            M.updateTextFields();
             if ($('[data-editfield="phone"]').is(':checked')) {
                 $('[data-editfieldgroup="phone"]').removeClass("hide");
             } else {
@@ -269,6 +275,10 @@ $(document).ready(function() {
         }
 
         update_customContactInfo_edit_text() {
+            $('[data-editfield="customContactInfo_text"]').val(this.data.customContactInfo);
+            console.log($('[data-editfield="customContactInfo_text"]'))
+            M.textareaAutoResize($('[data-editfield="customContactInfo_text"]'));
+            console.log('1')
             if ($('[data-editfield="customContactInfo"]').is(':checked')) {
                 $('[data-editfieldgroup="customContactInfo"]').removeClass("hide");
             } else {
