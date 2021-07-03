@@ -231,8 +231,8 @@
                     <span class="checkbox-label">Instagram</span>
                 </label>
                 <div class="input-field mb-0 ml-29" data-editfieldgroup="instagram">
-                    <input id="instagram_input" data-editfield="instagram_text" pattern="(?:@)([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_]))?)" type="text" class="validate">
-                    <label for="instagram_input">Instagram username (e.g. @username.1234)</label>
+                    <input id="instagram_input" data-editfield="instagram_text" pattern="([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_]))?)" type="text" class="validate">
+                    <label for="instagram_input">Instagram username (e.g. username.1234)</label>
                     <span class="helper-text" data-error="Invalid Format: must be a correct instagram username."></span>
                 </div>
             </div>
@@ -271,7 +271,7 @@
                     <span class="checkbox-label">Custom Contact Information</span>
                 </label>
                 <div class="input-field mb-0 ml-29" data-editfieldgroup="customContactInfo">
-                    <textarea id="customContactInfo_input" data-editfield="customContactInfo_text" class="materialize-textarea"></textarea>
+                    <textarea id="customContactInfo_input" data-editfield="customContactInfo_text" class="materialize-textarea" maxlength="300"></textarea>
                     <label for="customContactInfo_input">Additional remarks / instructions (maximum 300 characters)</label>
                 </div>
             </div>

@@ -1,11 +1,12 @@
-from enum import unique
-from project.error_handler import InvalidState
+from sqlalchemy.dialects.postgresql import UUID
+import uuid
 from flask_login import UserMixin
 from . import db
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
 
+    # id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     id = db.Column(db.Integer, primary_key=True) # pk, ai
     googleId = db.Column(db.BigInteger, unique=True, index=True)
     email = db.Column(db.String(254), unique=True, index=True)

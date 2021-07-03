@@ -34,7 +34,7 @@ def user_update():
     db.session.commit()
     return jsonify({
         "status": "success",
-        "message": "Settings was successfully updated.",
+        "message": "Settings were successfully updated.",
     })
 
 @api.get('/api/v1/book/detail')
@@ -46,5 +46,6 @@ def book_detail():
     book = Book.query.filter_by(id=id).first()
     return jsonify({
         "status": "success",
+        "message": None,
         "data": book.getDetails()
     })

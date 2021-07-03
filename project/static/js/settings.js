@@ -7,6 +7,7 @@ $(document).ready(function() {
 
     fetch('api/v1/user/detail', {
         method: 'GET',
+        mode: 'cors',
         headers: {
             'Content-Type': 'application/json'
         }
@@ -24,7 +25,6 @@ $(document).ready(function() {
         user.populate();
         user.bindEditActions();
         user.bindSaveActions();
-        // user.bindSaveAction()
     })
     .catch((error) => {
         toastError(error);
@@ -54,15 +54,6 @@ $(document).ready(function() {
                 $(`[data-edit="${section}"]`).addClass("hide");
                 $(`[data-section="${section}_editor"]`).removeClass("hide");
                 $(`[data-save="${section}"]`).removeClass("hide");
-            })
-        }
-
-        bindSaveAction(section) {
-            $(`[data-save="${section}"]`).click(() => {
-                $(`[data-section="${section}_editor"]`).addClass("hide");
-                $(`[data-save="${section}"]`).addClass("hide");
-                $(`[data-section="${section}_display"]`).removeClass("hide");
-                $(`[data-edit="${section}"]`).removeClass("hide");
             })
         }
 
@@ -108,9 +99,19 @@ $(document).ready(function() {
             this.update_payment_edit()
         }
 
+        update_accountType_edit_options() {
+            if ($('[data-editfield="seller"]').is(':checked')) {
+                $('[data-field="seller_information_container"]').removeClass("hide")
+            } else {
+                $('[data-field="seller_information_container"]').addClass("hide")
+            }
+        }
         update_accountType_edit() {
             $('[data-editfield="buyer"]').prop("checked", this.data.buyer);
-            $('[data-editfield="seller"]').prop("checked", this.data.seller);
+            $('[data-editfield="seller"]').prop("checked", this.data.seller).click(() => {
+                this.update_accountType_edit_options();
+            });
+            this.update_accountType_edit_options();
         }
         update_accountType() {
             if (this.data.seller) {
@@ -301,17 +302,17 @@ $(document).ready(function() {
         }
 
         populate() {
-            this.data.cash = true;
-            this.data.octopus = true;
-            this.data.payme = true;
-            this.data.seller = true;
-            this.data.inSchoolExchange = true;
-            this.data.public = false;
-            this.data.discord = "cathayexpress#2424";
-            this.data.instagram = "walter.stop.bullying.me";
-            this.data.phone = "54102041"
-            this.data.whatsapp = true;
-            this.data.customContactInfo = "This is the service hotline for bullying Abraham. Operating hours - 24/7/365. Quality guaranteed, with life-time warranty."
+            // this.data.cash = true;
+            // this.data.octopus = true;
+            // this.data.payme = true;
+            // this.data.seller = false;
+            // this.data.inSchoolExchange = true;
+            // this.data.public = false;
+            // this.data.discord = "cathayexpress#2424";
+            // this.data.instagram = "walter.stop.bullying.me";
+            // this.data.phone = "54102041"
+            // this.data.whatsapp = true;
+            // this.data.customContactInfo = "This is the service hotline for bullying Abraham. Operating hours - 24/7/365. Quality guaranteed, with life-time warranty."
             
             this.update_profile();
 
@@ -343,13 +344,157 @@ $(document).ready(function() {
             this.bindEditAction('contact_information');
         }
 
+        // savers
+        async save_settings(updateData) {
+            const success = await fetch('api/v1/user/update', {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updateData)
+            })
+            .then((response) => {
+                if (response.ok) return response.json();
+                throw new NetworkError(response);
+            })
+            .then((json) => {
+                if (json["status"] == "success") {
+                    toast(json["message"], '', 1);
+                    return true;
+                }
+                throw new APIError(json);
+            })
+            .catch((error) => {
+                toastError(error);
+                return false;
+            });
+            return success;
+        }
+
+        save_visual(section) {
+            $(`[data-section="${section}_editor"]`).addClass("hide");
+            $(`[data-save="${section}"]`).addClass("hide");
+            $(`[data-section="${section}_display"]`).removeClass("hide");
+            $(`[data-edit="${section}"]`).removeClass("hide");
+        }
+
+        getInput_payment() {
+            let input = {};
+            input.cash = $('[data-editfield="cash"]').is(':checked');
+            input.octopus = $('[data-editfield="octopus"]').is(':checked');
+            input.payme = $('[data-editfield="payme"]').is(':checked');
+            input.tapngo = $('[data-editfield="tapngo"]').is(':checked');
+            input.bankTransfer = $('[data-editfield="bankTransfer"]').is(':checked');
+            input.wechatPay = $('[data-editfield="wechatPay"]').is(':checked');
+            input.alipay = $('[data-editfield="alipay"]').is(':checked');
+            input.eCheque = $('[data-editfield="eCheque"]').is(':checked');
+            return input;
+        }
+        bindSaveAction_payment() {
+            $(`[data-save="payment_information"]`).click(() => {
+                const input = this.getInput_payment_information();
+                this.save_settings(input).then(success => {
+                    if (success) {
+                        this.data = Object.assign(this.data, input);
+                        this.update_payment();
+                        this.save_visual('payment_information');
+                    }
+                })
+            })
+        }
+
+        getInput_accountType() {
+            let input = {};
+            input.buyer = $('[data-editfield="buyer"]').is(':checked');
+            input.seller = $('[data-editfield="seller"]').is(':checked');
+            return input;
+        }
+        bindSaveAction_accountType() {
+            $(`[data-save="account_type"]`).click(() => {
+                const input = this.getInput_accountType();
+                this.save_settings(input).then(success => {
+                    if (success) {
+                        this.data = Object.assign(this.data, input);
+                        this.update_accountType();
+                        this.save_visual('account_type');
+                    }
+                })
+            })
+        }
+
+        getInput_sellerDeliveryMethods() {
+            let input = {};
+            input.inSchoolExchange = $('[data-editfield="inSchoolExchange"]').is(':checked');
+            input.meetup = $('[data-editfield="meetup"]').is(':checked');
+            input.delivery = $('[data-editfield="delivery"]').is(':checked');
+            return input;
+        }
+        bindSaveAction_sellerDeliveryMethods() {
+            $(`[data-save="seller_delivery_methods"]`).click(() => {
+                const input = this.getInput_sellerDeliveryMethods();
+                this.save_settings(input).then(success => {
+                    if (success) {
+                        this.data = Object.assign(this.data, input);
+                        this.update_sellerDeliveryMethods();
+                        this.save_visual('seller_delivery_methods');
+                    }
+                })
+            })
+        }
+
+        getInput_sellerNegotiable() {
+            let input = {};
+            input.negotiable = $('[data-editfield="negotiable"]').is(':checked');
+            return input;
+        }
+        bindSaveAction_sellerNegotiable() {
+            $(`[data-save="seller_negotiable"]`).click(() => {
+                const input = this.getInput_sellerNegotiable();
+                this.save_settings(input).then(success => {
+                    if (success) {
+                        this.data = Object.assign(this.data, input);
+                        this.update_sellerNegotiable();
+                        this.save_visual('seller_negotiable');
+                    }
+                })
+            })
+        }
+
+        getInput_contactInformation() {
+            let input = {};
+
+            input.public = $('[data-editfield="public"]').is(':checked');
+            input.discord = $('[data-editfield="discord"]').is(':checked') ? $('[data-editfield="discord_text"]').val() : '';
+            input.instagram = $('[data-editfield="instagram"]').is(':checked') ? $('[data-editfield="instagram_text"]').val() : '';
+            input.phone = $('[data-editfield="phone"]').is(':checked') ? $('[data-editfield="phone_text"]').val() : '';
+            input.customContactInfo = $('[data-editfield="customContactInfo"]').is(':checked') ? $('[data-editfield="customContactInfo_text"]').val() : '';
+
+            return input;
+        }
+        bindSaveAction_contactInformation() {
+            $(`[data-save="contact_information"]`).click(() => {
+                const input = this.getInput_contactInformation();
+                this.save_settings(input).then(success => {
+                    if (success) {
+                        this.data = Object.assign(this.data, input);
+                        this.update_publicity();
+                        this.update_discord();
+                        this.update_instagram();
+                        this.update_phone();
+                        this.update_customContactInfo();
+                        this.save_visual('contact_information');
+                    }
+                })
+            })
+        }
+
         bindSaveActions() {
-            // add pre-save check
-            this.bindSaveAction('payment_information');
-            this.bindSaveAction('account_type');
-            this.bindSaveAction('seller_delivery_methods');
-            this.bindSaveAction('seller_negotiable');
-            this.bindSaveAction('contact_information');
+            this.bindSaveAction_payment();
+            this.bindSaveAction_accountType();
+            this.bindSaveAction_sellerDeliveryMethods();
+            this.bindSaveAction_sellerNegotiable();
+            this.bindSaveAction_contactInformation();
         }
     }
 });
