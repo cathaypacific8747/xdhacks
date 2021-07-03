@@ -5,10 +5,13 @@ from os import environ as env
 from dotenv import load_dotenv
 from oauthlib.oauth2 import WebApplicationClient
 from flask_wtf.csrf import CSRFProtect
+from flask_migrate import Migrate
 
 load_dotenv()
 db = SQLAlchemy()
+migrate = Migrate()
 csrf = CSRFProtect()
+login_manager = LoginManager()
 
 def create_app():
     app = Flask(__name__)
@@ -24,12 +27,12 @@ def create_app():
     app.config['GOOGLE_CLIENT_SECRET'] = env['GOOGLE_CLIENT_SECRET']
     app.config['GOOGLE_DISCOVERY_URL'] = "https://accounts.google.com/.well-known/openid-configuration"
 
-    # setup database
     db.init_app(app)
+    from .models import User, Book, Inventory
+    migrate.init_app(app, db)
     csrf.init_app(app)
 
     # setup login
-    login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
@@ -39,7 +42,7 @@ def create_app():
     from .models import User
     @login_manager.user_loader
     def load_user(user_id):
-        return User.query.get(int(user_id)) # by pk
+        return User.query.get(user_id) # by pk
 
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
@@ -52,6 +55,7 @@ def create_app():
 
     from .api import api as api_blueprint
     app.register_blueprint(api_blueprint)
+
     csrf.exempt(api_blueprint) # REMOVE
 
     return app

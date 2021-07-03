@@ -393,7 +393,7 @@ $(document).ready(function() {
         }
         bindSaveAction_payment() {
             $(`[data-save="payment_information"]`).click(() => {
-                const input = this.getInput_payment_information();
+                const input = this.getInput_payment();
                 this.save_settings(input).then(success => {
                     if (success) {
                         this.data = Object.assign(this.data, input);

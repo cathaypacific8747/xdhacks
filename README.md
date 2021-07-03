@@ -2,11 +2,30 @@
 
 A place for us to store code for xdhacks 2021.
 
-## Run info
+## Installation
+Setup Postgres
+```
+$ sudo apt install libpq-dev python3-dev
+$ sudo apt-get update
+$ sudo apt-get -y install postgresql
+$ sudo service postgresql restart # if error
+$ sudo -u postgres psql
+postgres=# CREATE DATABASE flask;
+postgres=# \password postgres
+postgres=# \q
+```
+
+Migration commands
+```
+$ flask db init
+$ flask db migrate
+$ flask db upgrade
+```
+
+Run flask
 ```
 $ . venv/bin/activate
 $ pip3 install -r requirements.txt
-$ python3 resetdb.py
 $ openssl req -x509 -newkey rsa:4096 -nodes -out keys/cert.pem -keyout keys/key.pem -days 365
 $ gunicorn -c wsgi_config_debug.py wsgi:app
 ```
@@ -30,6 +49,8 @@ $ ./start.sh
 - [x] User Template - Use classes
 - [ ] User Template - Editable Fields
 - [x] Add Toasts for handling API errors.
+- [ ] Use UUIDs
+- [ ] Use Postgres
 
 - [ ] Book API - Get book detail by id (GET `/api/v1/book/detail?bookId=_`)
 - [ ] Book API - Get all books with matching ISBN (GET `/api/v1/book/search?isbn=_`)
