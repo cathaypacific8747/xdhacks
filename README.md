@@ -47,10 +47,12 @@ $ ./start.sh
 - [x] User API - Update self detail (POST `/api/v1/user/update`)
 - [x] User Template - Read-only
 - [x] User Template - Use classes
-- [ ] User Template - Editable Fields
+- [x] User Template - Editable Fields
 - [x] Add Toasts for handling API errors.
 - [x] Use UUIDs
 - [x] Use Postgres
+- [ ] User Template - Server side validation and sanitizing.
+- [ ] User Template - Read-only mode
 
 - [ ] Book API - Get book detail by id (GET `/api/v1/book/detail?bookId=_`)
 - [ ] Book API - Get all books with matching ISBN (GET `/api/v1/book/search?isbn=_`)

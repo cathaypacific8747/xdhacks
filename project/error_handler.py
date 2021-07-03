@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify
+from sqlalchemy.sql.expression import desc
 from werkzeug.exceptions import HTTPException
 import traceback
 
@@ -16,9 +17,12 @@ class NoBookId(HTTPException):
     code = 400
     description = "No book id supplied."
 
+class GenericInputError(HTTPException):
+    code = 400
+    description = "Something went wrong with your inputs. Please check again."
+
 @err.app_errorhandler(Exception)
 def handle_error(e):
-
     if isinstance(e, HTTPException):
         code = e.code
         description = e.description

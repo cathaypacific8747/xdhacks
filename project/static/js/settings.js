@@ -346,7 +346,7 @@ $(document).ready(function() {
 
         // savers
         async save_settings(updateData) {
-            const success = await fetch('api/v1/user/update', {
+            const updatedData = await fetch('api/v1/user/update', {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
@@ -361,15 +361,15 @@ $(document).ready(function() {
             .then((json) => {
                 if (json["status"] == "success") {
                     toast(json["message"], '', 1);
-                    return true;
+                    return json["data"];
                 }
                 throw new APIError(json);
             })
             .catch((error) => {
                 toastError(error);
-                return false;
+                return null;
             });
-            return success;
+            return updatedData;
         }
 
         save_visual(section) {
@@ -394,9 +394,9 @@ $(document).ready(function() {
         bindSaveAction_payment() {
             $(`[data-save="payment_information"]`).click(() => {
                 const input = this.getInput_payment();
-                this.save_settings(input).then(success => {
-                    if (success) {
-                        this.data = Object.assign(this.data, input);
+                this.save_settings(input).then(updatedData => {
+                    if (updatedData) {
+                        this.data = Object.assign(this.data, updatedData);
                         this.update_payment();
                         this.save_visual('payment_information');
                     }
@@ -413,9 +413,9 @@ $(document).ready(function() {
         bindSaveAction_accountType() {
             $(`[data-save="account_type"]`).click(() => {
                 const input = this.getInput_accountType();
-                this.save_settings(input).then(success => {
-                    if (success) {
-                        this.data = Object.assign(this.data, input);
+                this.save_settings(input).then(updatedData => {
+                    if (updatedData) {
+                        this.data = Object.assign(this.data, updatedData);
                         this.update_accountType();
                         this.save_visual('account_type');
                     }
@@ -433,9 +433,9 @@ $(document).ready(function() {
         bindSaveAction_sellerDeliveryMethods() {
             $(`[data-save="seller_delivery_methods"]`).click(() => {
                 const input = this.getInput_sellerDeliveryMethods();
-                this.save_settings(input).then(success => {
-                    if (success) {
-                        this.data = Object.assign(this.data, input);
+                this.save_settings(input).then(updatedData => {
+                    if (updatedData) {
+                        this.data = Object.assign(this.data, updatedData);
                         this.update_sellerDeliveryMethods();
                         this.save_visual('seller_delivery_methods');
                     }
@@ -451,9 +451,9 @@ $(document).ready(function() {
         bindSaveAction_sellerNegotiable() {
             $(`[data-save="seller_negotiable"]`).click(() => {
                 const input = this.getInput_sellerNegotiable();
-                this.save_settings(input).then(success => {
-                    if (success) {
-                        this.data = Object.assign(this.data, input);
+                this.save_settings(input).then(updatedData => {
+                    if (updatedData) {
+                        this.data = Object.assign(this.data, updatedData);
                         this.update_sellerNegotiable();
                         this.save_visual('seller_negotiable');
                     }
@@ -475,9 +475,9 @@ $(document).ready(function() {
         bindSaveAction_contactInformation() {
             $(`[data-save="contact_information"]`).click(() => {
                 const input = this.getInput_contactInformation();
-                this.save_settings(input).then(success => {
-                    if (success) {
-                        this.data = Object.assign(this.data, input);
+                this.save_settings(input).then(updatedData => {
+                    if (updatedData) {
+                        this.data = Object.assign(this.data, updatedData);
                         this.update_publicity();
                         this.update_discord();
                         this.update_instagram();

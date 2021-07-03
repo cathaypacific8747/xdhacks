@@ -6,10 +6,9 @@ from . import db
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
 
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    # id = db.Column(db.Integer, primary_key=True) # pk, ai
-    googleId = db.Column(VARCHAR(255), unique=True, index=True)
-    email = db.Column(db.String(254), unique=True, index=True)
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    googleId = db.Column(VARCHAR(255), unique=True)
+    email = db.Column(db.String(254), unique=True)
     name = db.Column(db.String(70), index=True)
     profilePic = db.Column(db.String(100))
     cky = db.Column(db.Boolean, default=False)
@@ -32,13 +31,13 @@ class User(UserMixin, db.Model):
     delivery = db.Column(db.Boolean, default=False)
     # contactInfo
     public = db.Column(db.Boolean, default=True)
-    discord = db.Column(db.String, default='')
-    instagram = db.Column(db.String(30), default='')
-    phone = db.Column(db.String, default='')
+    discord = db.Column(db.String(), default='')
+    instagram = db.Column(db.String(), default='')
+    phone = db.Column(db.String(), default='')
     whatsapp = db.Column(db.Boolean, default=False)
     signal = db.Column(db.Boolean, default=False)
     telegram = db.Column(db.Boolean, default=False)
-    customContactInfo = db.Column(db.String(200), default='')
+    customContactInfo = db.Column(db.String(), default='')
 
     def getInvalidKeys(self, read=True, public=True):
         if read:

@@ -220,7 +220,7 @@
                     <span class="checkbox-label">Discord</span>
                 </label>
                 <div class="input-field mb-0 ml-29" data-editfieldgroup="discord">
-                    <input id="discord_input" data-editfield="discord_text" pattern="^((?!(discordtag|everyone|here)#)((?!@|#|:|```).{2,32})#\d{4})" type="text" class="validate">
+                    <input id="discord_input" data-editfield="discord_text" pattern="^((?!(discordtag|everyone|here)#)((?!@|#|:|```).{2,32})#\d{4})" type="text" class="validate" maxlength="37">
                     <label for="discord_input">Discord username (e.g. username#1234)</label>
                     <span class="helper-text" data-error="Invalid Format: must be in the correct 'username#tag' format."></span>
                 </div>
@@ -231,7 +231,7 @@
                     <span class="checkbox-label">Instagram</span>
                 </label>
                 <div class="input-field mb-0 ml-29" data-editfieldgroup="instagram">
-                    <input id="instagram_input" data-editfield="instagram_text" pattern="([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_]))?)" type="text" class="validate">
+                    <input id="instagram_input" data-editfield="instagram_text" pattern="([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_]))?)" type="text" class="validate" maxlength="30">
                     <label for="instagram_input">Instagram username (e.g. username.1234)</label>
                     <span class="helper-text" data-error="Invalid Format: must be a correct instagram username."></span>
                 </div>
@@ -271,8 +271,8 @@
                     <span class="checkbox-label">Custom Contact Information</span>
                 </label>
                 <div class="input-field mb-0 ml-29" data-editfieldgroup="customContactInfo">
-                    <textarea id="customContactInfo_input" data-editfield="customContactInfo_text" class="materialize-textarea" maxlength="300"></textarea>
-                    <label for="customContactInfo_input">Additional remarks / instructions (maximum 300 characters)</label>
+                    <textarea id="customContactInfo_input" data-editfield="customContactInfo_text" class="materialize-textarea" maxlength="200"></textarea>
+                    <label for="customContactInfo_input">Additional remarks / instructions (maximum 200 characters)</label>
                 </div>
             </div>
         </div>

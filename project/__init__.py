@@ -41,8 +41,8 @@ def create_app():
 
     from .models import User
     @login_manager.user_loader
-    def load_user(user_id):
-        return User.query.get(user_id) # by pk
+    def load_user(uuid):
+        return User.query.get(uuid)
 
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
