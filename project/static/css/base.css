@@ -196,3 +196,29 @@ body {
 	width: 8px;
 	height: 8px;
 }
+
+#toast-container {
+	top: 1rem;
+	right: 1rem;
+	max-width: 20%;
+}
+
+.toastGeneral {
+	color: black;
+}
+
+.toastError {
+	background-color: #d8a6ab;
+}
+
+.toastWarning {
+	background-color: #ffecb3;
+}
+
+.toastSuccess {
+	background-color: #87b993;
+}
+
+.toastInformation {
+	background-color: #a9d3ff;
+}

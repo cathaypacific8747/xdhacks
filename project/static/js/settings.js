@@ -13,21 +13,21 @@ $(document).ready(function() {
     })
     .then((response) => {
         if (response.ok) return response.json();
-        throw new Error('Network error');
+        throw new NetworkError(response);
     })
     .then((json) => {
         if (json["status"] == "success") return json;
-        throw new Error('Server error');
+        throw new APIError(json);
     })
     .then((result) => {
         var user = new UserSettings(result["data"]);
-        user.populate()
-        user.bindEditActions()
-        user.bindSaveActions()
+        user.populate();
+        user.bindEditActions();
+        user.bindSaveActions();
         // user.bindSaveAction()
     })
     .catch((error) => {
-        console.error(error); 
+        toastError(error);
     });
     
     class UserSettings {

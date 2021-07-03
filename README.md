@@ -29,7 +29,7 @@ $ ./start.sh
 - [x] User Template - Read-only
 - [x] User Template - Use classes
 - [ ] User Template - Editable Fields
-- [ ] Add Toasts for handling API errors.
+- [x] Add Toasts for handling API errors.
 
 - [ ] Book API - Get book detail by id (GET `/api/v1/book/detail?bookId=_`)
 - [ ] Book API - Get all books with matching ISBN (GET `/api/v1/book/search?isbn=_`)

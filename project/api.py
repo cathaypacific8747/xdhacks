@@ -11,7 +11,8 @@ api = Blueprint('api', __name__)
 def regendb():
     subprocess.call(args=['python3', 'resetdb.py'])
     return jsonify({
-        'success': True
+        "status": "success",
+        "message": None
     })
 
 @api.get('/api/v1/user/detail')
@@ -22,6 +23,7 @@ def user_detail():
 
     return jsonify({
         "status": "success",
+        "message": None,
         "data": user.getDetails()
     })
 
@@ -31,7 +33,8 @@ def user_update():
     current_user.updateDetails(request.json)
     db.session.commit()
     return jsonify({
-        "status": "success"
+        "status": "success",
+        "message": "Settings was successfully updated.",
     })
 
 @api.get('/api/v1/book/detail')
