@@ -65,6 +65,7 @@ def user_update():
 
 @api.post('/api/v1/book/upload')
 async def upload():
+    print(request.files)
     async def sendMsg():
         return await current_app.discordThread.client.channel.send('PogU')
 
