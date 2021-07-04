@@ -7,6 +7,7 @@ import subprocess # for regen
 from .error_handler import GenericInputError, NoBookId
 import re
 from bleach import clean
+import asyncio
 
 api = Blueprint('api', __name__)
 
@@ -34,6 +35,7 @@ def user_detail():
 @login_required
 def user_update():
     data = request.json
+    
     if 'discord' in data and data['discord']:
         if not re.match(r'^((?!(discordtag|everyone|here)#)((?!@|#|:|```).{2,32})#\d{4})', data['discord']): raise GenericInputError(description="Discord username must be in its correct 'username#tag' format.")
         if len(data['instagram']) > 37: raise GenericInputError(description="Instagram username must be less or equal to than 37 characters.")
@@ -59,6 +61,25 @@ def user_update():
         "message": "Settings were successfully updated.",
         "data": data
     })
+
+async def sendMsg():
+    print('TEST')
+    # await client.send_message(, 'TESTING')
+
+@api.get('/api/v1/test/sendMessage')
+async def sendMessage():
+    # print(current_app.discordClient)
+    loop = current_app.loop
+    future = asyncio.run_coroutine_threadsafe(sendMsg, current_app.loop)
+    print(future.result())
+
+    # channel = await current_app.discordClient.fetch_channel(current_app.config['DISCORD_STORAGE_CHANNEL_ID'])
+    # print(channel)
+    return jsonify({
+        "status": "success"
+    })
+
+#
 
 @api.get('/api/v1/book/detail')
 @login_required
