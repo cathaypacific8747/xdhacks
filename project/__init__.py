@@ -8,17 +8,13 @@ from flask_wtf.csrf import CSRFProtect
 from flask_migrate import Migrate
 import discord
 import asyncio
+from threading import Thread
 
 load_dotenv()
 db = SQLAlchemy()
 migrate = Migrate()
 csrf = CSRFProtect()
 login_manager = LoginManager()
-
-# client = discord.Client()
-# def startClient():
-#     asyncio.set_event_loop(loop)
-#     client.run(env['DISCORD_BOT_TOKEN'])
 
 def create_app(run=False):
     app = Flask(__name__)
@@ -50,22 +46,52 @@ def create_app(run=False):
     app.client = WebApplicationClient(app.config['GOOGLE_CLIENT_ID'])
 
     # discord
-    if run:
-        app.loop = asyncio.new_event_loop()
-        app.discordClient = discord.Client(loop=app.loop, guild_subscriptions=False)
-        app.loop.run_until_complete(app.discordClient.login(app.config['DISCORD_BOT_TOKEN']))
-        app.loop.create_task(app.discordClient.connect(reconnect=True))
+    # if run:
+    #     app.discordClient = discord.Client(guild_subscriptions=False)
 
-        print('INTIALISED!!! O M G')
-    else:
-        print('Not initialising.')
-    # app.loop = asyncio.get_event_loop()
-    # print('TEST')
-    # app.loop.run_until_complete(app.discordClient.start(app.config['DISCORD_BOT_TOKEN']))
-    # print('TEST')
-    # app.discordStorageChannel = app.loop.run_until_complete(app.discordClient.get_channel(app.config['DISCORD_STORAGE_CHANNEL_ID']))
-    # print('TEST')
-    # print(app.discordStorageChannel)
+    #     async def start():
+    #         await app.client.start(app.config['DISCORD_BOT_TOKEN'])
+
+    #     app.loop = asyncio.get_event_loop()
+    #     thread = Thread(target=app.loop.run_forever)
+    #     thread.start()
+    #     asyncio.run_coroutine_threadsafe(start(), app.loop)
+
+    #     @app.discordClient.event
+    #     async def on_ready():
+    #         print('YESSSSSS')
+
+    #     print('INTIALISED?!?!? O M G')
+
+    if run:
+        class discordClient(discord.Client):
+            async def on_ready(self):
+                self.channel = await self.fetch_channel(app.config['DISCORD_STORAGE_CHANNEL_ID'])
+                print('Discord bot is running.')
+
+        class Threader(Thread):
+            def __init__(self):
+                Thread.__init__(self)
+                self.loop = asyncio.get_event_loop()
+                self.start()
+
+            async def starter(self):
+                self.client = discordClient(guild_subscriptions=False)
+                await self.client.start(app.config['DISCORD_BOT_TOKEN'])
+
+            def run(self):
+                self.loop.create_task(self.starter())
+                self.loop.run_forever()
+
+            async def sendMsg(self):
+                await self.client.channel.send('pog?')
+
+            async def sendMessage(self):
+                send_future = asyncio.run_coroutine_threadsafe(self.sendMsg(), self.loop)
+                print(send_future.result())
+
+
+        app.discordThread = Threader()        
 
     from .models import User
     @login_manager.user_loader

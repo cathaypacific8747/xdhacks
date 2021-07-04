@@ -82,3 +82,5 @@ $ ./start.sh
 - https://developers.google.com/people/image-sizing
 - https://stackoverflow.com/
 - https://codepen.io/gabrielcojea/pen/ExPaBzQ
+- https://github.com/Igor-ua/python-shared/blob/master/sv_discord/sv_discord.py
+- https://stackoverflow.com/questions/55030714/c-python-asyncio-running-discord-py-in-a-thread

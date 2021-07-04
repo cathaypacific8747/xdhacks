@@ -1,5 +1,6 @@
 from flask import Blueprint, json, redirect, url_for, request, session, current_app, abort, jsonify
 from flask_login import login_required, current_user
+from flask_migrate import current
 from sqlalchemy.sql.expression import desc
 from .models import User, Book
 from . import db
@@ -62,19 +63,16 @@ def user_update():
         "data": data
     })
 
-async def sendMsg():
-    print('TEST')
-    # await client.send_message(, 'TESTING')
+@api.post('/api/v1/book/upload')
+async def upload():
+    async def sendMsg():
+        return await current_app.discordThread.client.channel.send('PogU')
 
-@api.get('/api/v1/test/sendMessage')
-async def sendMessage():
-    # print(current_app.discordClient)
-    loop = current_app.loop
-    future = asyncio.run_coroutine_threadsafe(sendMsg, current_app.loop)
-    print(future.result())
+    msg = asyncio.run_coroutine_threadsafe(sendMsg(), current_app.discordThread.loop).result()
+    print(msg)
 
-    # channel = await current_app.discordClient.fetch_channel(current_app.config['DISCORD_STORAGE_CHANNEL_ID'])
-    # print(channel)
+    # await current_app.discordThread.sendMessage()
+
     return jsonify({
         "status": "success"
     })
