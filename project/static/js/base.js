@@ -1,17 +1,29 @@
 var csrftoken = $('meta[name=csrf-token]').attr('content');
 $.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
-            xhrf.xhr.setRequestHeader("X-CSRFToken", csrftoken)
-        }
+    headers: {
+        'X-CSRFToken': csrftoken
     }
 })
+
+// $.ajaxSetup({
+//     beforeSend: function(xhr, settings) {
+//         if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
+//             xhrf.xhr.setRequestHeader("X-CSRFToken", csrftoken)
+//         }
+//     }
+// })
 
 $(document).ready(function() {
     $('.dropdown-trigger').dropdown({
         alignment: 'right',
         constrainWidth: false,
         coverTrigger: false,
+    })
+
+    $('.tooltipped').tooltip();
+    $('.material-tooltip').css({
+        "border-radius": ".5rem",
+        "background-color": "#00000088"
     })
 
     window.toast = function(description='An unknown error occured', headerPrefix='', code=3) {

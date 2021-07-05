@@ -1,7 +1,8 @@
+from discord import file
 from flask import Blueprint, json, redirect, url_for, request, session, current_app, abort, jsonify
 from flask_login import login_required, current_user
 from flask_migrate import current
-from sqlalchemy.sql.expression import desc
+from sqlalchemy.sql.expression import desc, null
 from .models import User, Book
 from . import db
 import subprocess # for regen
@@ -9,6 +10,10 @@ from .error_handler import GenericInputError, NoBookId
 import re
 from bleach import clean
 import asyncio
+from werkzeug.utils import secure_filename
+import uuid
+from io import BytesIO
+import discord
 
 api = Blueprint('api', __name__)
 
@@ -65,17 +70,25 @@ def user_update():
 
 @api.post('/api/v1/book/upload')
 async def upload():
-    print(request.files)
-    async def sendMsg():
-        return await current_app.discordThread.client.channel.send('PogU')
+    async def store(file):
+        return await current_app.discordThread.client.channel.send(file=file)
 
-    msg = asyncio.run_coroutine_threadsafe(sendMsg(), current_app.discordThread.loop).result()
-    print(msg)
-
-    # await current_app.discordThread.sendMessage()
+    urls = []
+    for _, f in request.files.lists():
+        extension = secure_filename(f[0].filename).split('.')[-1].lower() 
+        if f[0].mimetype.split('/')[0] == 'image' and extension:
+            with BytesIO() as mem:
+                f[0].save(mem)
+                mem.seek(0)
+                future = asyncio.run_coroutine_threadsafe(store(file=discord.File(fp=mem, filename=f'{uuid.uuid4()}.{extension}')), current_app.discordThread.loop).result()
+                urls.append(future.attachments[0].url)
 
     return jsonify({
-        "status": "success"
+        "status": "success",
+        "message": None,
+        "data": {
+            "urls": urls
+        }
     })
 
 #

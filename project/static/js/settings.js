@@ -1,10 +1,6 @@
 $(document).ready(function() {
-    $('.tooltipped').tooltip();
-    $('.material-tooltip').css({
-        "border-radius": ".5rem",
-        "background-color": "#00000088"
-    })
-
+    $('[data-editfield="customContactInfo_text"]').characterCounter();
+    
     fetch('api/v1/user/detail', {
         method: 'GET',
         mode: 'cors',

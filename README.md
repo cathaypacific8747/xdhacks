@@ -51,7 +51,7 @@ $ ./start.sh
 - [x] Add Toasts for handling API errors.
 - [x] Use UUIDs
 - [x] Use Postgres
-- [ ] User Template - Server side validation and sanitizing.
+- [x] User Template - Server side validation and sanitizing.
 - [ ] User Template - Read-only mode
 
 - [ ] Book API - Get book detail by id (GET `/api/v1/book/detail?bookId=_`)

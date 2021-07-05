@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <script src="https://cdn.jsdelivr.net/npm/dropzone@5.9.2/dist/dropzone.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dropzone@5.9.2/dist/basic.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sell.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row valign-wrapper">
+        <div class="col s12 valign-wrapper">
+            <form class="dz dropzone needsclick w-full center-align unselectable" id="bookDropzone">
+                <div class="dz-message needsclick my-16">
+                    <div class="font-size-16">Drag and drop images of your book here, or click to upload!</div>
+                    <div class="font-size-14 text-muted">Maximum image size: 8MB</div>
+                    <div class="font-size-14 text-muted">Maximum 6 images</div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row center-align">
+        <a class="waves-effect waves-light btn" id="sellButton">
+            <i class="material-icons left">cloud_upload</i>
+            Sell
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/sell.js') }}"></script>
+{% endblock %}

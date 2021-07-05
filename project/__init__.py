@@ -45,29 +45,11 @@ def create_app(run=False):
     # OAuth2
     app.client = WebApplicationClient(app.config['GOOGLE_CLIENT_ID'])
 
-    # discord
-    # if run:
-    #     app.discordClient = discord.Client(guild_subscriptions=False)
-
-    #     async def start():
-    #         await app.client.start(app.config['DISCORD_BOT_TOKEN'])
-
-    #     app.loop = asyncio.get_event_loop()
-    #     thread = Thread(target=app.loop.run_forever)
-    #     thread.start()
-    #     asyncio.run_coroutine_threadsafe(start(), app.loop)
-
-    #     @app.discordClient.event
-    #     async def on_ready():
-    #         print('YESSSSSS')
-
-    #     print('INTIALISED?!?!? O M G')
-
     if run:
         class discordClient(discord.Client):
             async def on_ready(self):
                 self.channel = await self.fetch_channel(app.config['DISCORD_STORAGE_CHANNEL_ID'])
-                print('Discord bot is running.')
+                app.logger.info('Discord bot is running.')
 
         class Threader(Thread):
             def __init__(self):
@@ -82,13 +64,6 @@ def create_app(run=False):
             def run(self):
                 self.loop.create_task(self.starter())
                 self.loop.run_forever()
-
-            async def sendMsg(self):
-                await self.client.channel.send('pog?')
-
-            async def sendMessage(self):
-                send_future = asyncio.run_coroutine_threadsafe(self.sendMsg(), self.loop)
-                print(send_future.result())
 
 
         app.discordThread = Threader()        
