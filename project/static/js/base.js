@@ -91,8 +91,8 @@ $(document).ready(function() {
             this.publisher = data?.volumeInfo?.publisher;
             // this.description = data?.volumeInfo?.description;
             this.imagelinks = data?.volumeInfo?.imageLinks;
-            this.retailPrice = data?.volumeInfo?.saleInfo?.listPrice?.amount;
-            this.retailPriceCurrency = data?.volumeInfo?.saleInfo?.listPrice?.currencyCode;
+            this.retailPrice = data?.saleInfo?.listPrice?.amount;
+            this.retailPriceCurrency = data?.saleInfo?.listPrice?.currencyCode;
             this.thumbSmall = this.imagelinks?.smallThumbnail;
             this.thumbLarge = this.imagelinks?.extraLarge ? this.imagelinks.extraLarge : this.imagelinks?.large ? this.imagelinks.large : this.imagelinks?.medium ? this.imagelinks.medium : this.imagelinks?.small ? this.imagelinks.small : this.imagelinks?.thumbnail ? this.imagelinks.thumbnail : this.imagelinks?.smallThumbnail;
 
@@ -127,5 +127,9 @@ $(document).ready(function() {
 
     window.removeShimmer = function(e) {
         $(e).removeClass('shimmerBG');
+    }
+
+    window.removeMinPicHeight = function(e) {
+        $(e).removeClass('minPicHeight');
     }
 });

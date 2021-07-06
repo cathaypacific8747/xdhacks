@@ -13,7 +13,7 @@
         <div class="col s2 right-align text-bold">Book</div>
         <div class="col s10" data-section="payment_information_editor">
             <div>
-                <div class="input-field">
+                <div class="input-field mb-2">
                     <input type="text" placeholder="Book ISBN, Title, Author, Publisher" data-field="google_book_input">
                 </div>
                 <div data-section="google_book_container">
@@ -27,17 +27,98 @@
         </div>
     </div>
     <div class="row valign-wrapper">
-        <div class="col s12 valign-wrapper">
+        <div class="col s2 right-align text-bold">Images</div>
+        <div class="col s10 valign-wrapper">
             <form class="dz dropzone needsclick w-full center-align unselectable" id="bookDropzone">
                 <div class="dz-message needsclick my-16">
-                    <div class="font-size-16">Drag and drop images of your book here, or click to upload!</div>
-                    <div class="font-size-14 text-muted">Maximum image size: 8MB</div>
-                    <div class="font-size-14 text-muted">Maximum 6 images</div>
+                    <div class="font-size-16">Drag and drop image(s) of your book here, or click to upload!</div>
+                    <div class="font-size-14 text-muted">Maximum: 8MB, 5 images</div>
                 </div>
             </form>
         </div>
     </div>
+    <div class="row valign-wrapper">
+        <div class="col s2 right-align text-bold">Price</div>
+        <div class="col s9">
+            <div class="switch">
+                <div class="input-field mb-0">
+                    <input id="price_input" data-field="price" pattern="^\d+$" type="text" class="validate">
+                    <label for="price_input">Price (excluding delivery fees)</label>
+                    <span class="helper-text" data-error="Invalid Format: price must be a positive integer."></span>
+                </div>
+            </div>
+        </div>
+        <div class="col s1">HKD</div>
+    </div>
+    <div class="row valign-wrapper">
+        <div class="col s2 right-align text-bold">
+            Condition
+        </div>
+        <div class="col s10">
+            <div>
+                <label>
+                    <input class="with-gap" name="condition" type="radio" value="poor">
+                    <span class="radio-label">Poor</span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input class="with-gap" name="condition" type="radio" value="acceptable">
+                    <span class="radio-label">Acceptable</span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input class="with-gap" name="condition" type="radio" value="good">
+                    <span class="radio-label">Good</span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input class="with-gap" name="condition" type="radio" value="likeNew">
+                    <span class="radio-label">Like New</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row valign-wrapper">
+        <div class="col s2 right-align text-bold">
+            Notes
+        </div>
+        <div class="col s10">
+            <div>
+                <label>
+                    <input class="with-gap" name="notes" type="radio" value="0">
+                    <span class="radio-label">None</span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input class="with-gap" name="notes" type="radio" value="1">
+                    <span class="radio-label">Minimal</span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input class="with-gap" name="notes" type="radio" value="2">
+                    <span class="radio-label">Some</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row valign-wrapper">
+        <div class="col s2 right-align text-bold">
+            Remarks
+        </div>
+        <div class="col s10">
+            <div class="input-field mb-0">
+                <textarea id="customContactInfo_input" data-field="customContactInfo_text" class="materialize-textarea" maxlength="200" data-length="200"></textarea>
+                <label for="customContactInfo_input">Additional remarks (maximum 200 characters)</label>
+            </div>
+        </div>
+    </div>
     <div class="row center-align">
+        <div class="font-size-14 text-italic text-muted mb-2">Once uploaded, details cannot be changed.</div>
         <a class="waves-effect waves-light btn" id="sellButton">
             <i class="material-icons left">cloud_upload</i>
             Sell

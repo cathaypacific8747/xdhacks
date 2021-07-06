@@ -63,27 +63,17 @@ class User(UserMixin, db.Model):
             if k not in invalidKeys:
                 setattr(self, k, data[k])
 
-class Book(db.Model):
-    __tablename__ = 'books'
-
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
-    isbn = db.Column(db.String, unique=True, nullable=False, index=True, default='')
-    name = db.Column(db.String, default='', index=True)
-    publisher = db.Column(db.String, default='')
-    image = db.Column(db.String, default='')
-    google_id = db.Column(db.String, default='')
-
 class Listings(db.Model):
     __tablename__ = 'listings'
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     ownerid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'), nullable=False)
-    bookid = db.Column(UUID(as_uuid=True), db.ForeignKey('books.id'), nullable=False)
+    bookid = db.Column(db.String, default='')
     price = db.Column(db.SmallInteger, default=0)
-    images = db.Column(ARRAY(db.String), default=[])
-    quality = db.Column(db.SmallInteger, default=0)
-    notes = db.Column(db.Boolean, default=False)
+    condition = db.Column(db.SmallInteger, default=0) # poor, acceptable, good, like new
+    notes = db.Column(db.SmallInteger, default=0) # none, minimal, some
     customInfo = db.Column(db.String, default='')
+    images = db.Column(ARRAY(db.String), default=[])
 
     created = db.Column(db.DateTime())
     open = db.Column(db.Boolean, default=True)

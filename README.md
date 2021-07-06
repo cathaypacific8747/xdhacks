@@ -54,14 +54,20 @@ $ ./start.sh
 - [x] User Template - Server side validation and sanitizing.
 - [ ] User Template - Read-only mode
 
+- [x] Sell API
+- [ ] Sell API - Validate file size and type
+- [x] Sell Template - Google Books API
+- [x] Sell Template - Price, Condition
+- [x] Sell Template - Upload Image
+- [ ] Sell Template - Tooltips
+- [ ] Sell Template - handle Upload Logic
+- [ ] Sell Template - fix radio
+
 - [ ] Book API - Get book detail by id (GET `/api/v1/book/detail?bookId=_`)
 - [ ] Book API - Get all books with matching ISBN (GET `/api/v1/book/search?isbn=_`)
 - [ ] Book API - Get all books with matching name (GET `/api/v1/book/search?name=_`)
 - [ ] Book API - Get all book details (GET `/api/v1/book/list`)
 - [ ] Book Template
-
-- [ ] Market API - Sell book (POST `/api/v1/market/sell`)
-- [ ] Market API
 
 - [x] Optimise Error Handling Algorithm
 - [ ] Admin accounts (regenDB, inventoryControl)

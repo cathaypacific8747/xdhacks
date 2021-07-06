@@ -150,6 +150,10 @@ body {
 	font-weight: 600 !important;
 }
 
+.text-italic {
+	font-style: italic;
+}
+
 .text-muted {
 	color: grey;
 }
@@ -182,12 +186,22 @@ body {
 	font-size: 0;
 }
 
+/* VISUALS */
+
 .no-hover-event:hover {
 	background-color: unset !important;
 }
 
 .roundBox {
 	border-radius: .5rem !important;
+}
+
+.unselectable {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .translucent {

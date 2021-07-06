@@ -70,6 +70,8 @@ def user_update():
 
 @api.post('/api/v1/book/upload')
 async def upload():
+    print(request.form)
+
     async def store(file):
         return await current_app.discordThread.client.channel.send(file=file)
 
