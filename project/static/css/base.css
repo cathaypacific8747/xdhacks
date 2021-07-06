@@ -114,6 +114,10 @@ body {
 	padding-right: .5rem;
 }
 
+.p-8 {
+	padding: .5rem;
+}
+
 .p-inherit {
 	padding: inherit;
 }
@@ -230,4 +234,48 @@ body {
 
 .toastInformation {
 	background-color: #bbdcff;
+}
+
+/* SHIMMER */
+
+.shimmerBG {
+    -webkit-animation-duration: 2.2s;
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-name: shimmer;
+    -webkit-animation-timing-function: linear;
+
+    animation-duration: 2.2s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: shimmer;
+    animation-timing-function: linear;
+    background: rgba(221, 221, 221, 0.5);
+    background: linear-gradient(to right, #f6f6f67f 8%, #dfdfdf7f 18%, #F6F6F67f 33%);
+    background-size: 1200px 100%;
+
+    color: transparent;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+@-webkit-keyframes shimmer {
+    0% {
+        background-position: -100% 0;
+    }
+    100% {
+        background-position: 100% 0;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -1200px 0;
+    }
+    100% {
+        background-position: 1200px 0;
+    }
 }

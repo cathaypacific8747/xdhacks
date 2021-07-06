@@ -74,14 +74,24 @@ $(document).ready(function() {
         }
     }
 
+    class NoGoogleBooksResultsError extends Error {
+        constructor() {
+            super();
+            this.message = `No results found.`
+        }
+    }
+
     window.NetworkError = NetworkError;
     window.APIError = APIError;
+    window.NoGoogleBooksResultsError = NoGoogleBooksResultsError;
 
     window.toastError = function(e) {
         if (e instanceof NetworkError) {
             toast(e.message, 'Network', 3);
         } else if (e instanceof APIError) {
             toast(e.message, 'Server', 3);
+        } else if (e instanceof NoGoogleBooksResultsError) {
+            return;
         } else {
             toast('Something went wrong. Please try again later', 'Unknown', 3)
         }

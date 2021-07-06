@@ -43,3 +43,17 @@
 .dz-upload {
     background: #87df85;
 }
+
+.input-field > input::placeholder {
+    color: black;
+}
+
+[data-section="google_book_container"] {
+    height: 200px;
+    min-height: 200px;
+    overflow-y: scroll;
+}
+
+.selected-book {
+    background-color: rgba(0, 158, 206, 10%);
+}

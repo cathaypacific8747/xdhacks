@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, redirect, url_for, request, curren
 from flask_login import login_required, current_user
 from flask.helpers import flash
 from . import db
-from .models import User, Book, Inventory
+from .models import User, Book, Listings
 
 main = Blueprint('main', __name__)
 

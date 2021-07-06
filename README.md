@@ -84,3 +84,4 @@ $ ./start.sh
 - https://codepen.io/gabrielcojea/pen/ExPaBzQ
 - https://github.com/Igor-ua/python-shared/blob/master/sv_discord/sv_discord.py
 - https://stackoverflow.com/questions/55030714/c-python-asyncio-running-discord-py-in-a-thread
+- https://stackoverflow.com/questions/1909441/how-to-delay-the-keyup-handler-until-the-user-stops-typing

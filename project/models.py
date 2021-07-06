@@ -1,4 +1,4 @@
-from sqlalchemy.dialects.postgresql import UUID, VARCHAR
+from sqlalchemy.dialects.postgresql import UUID, VARCHAR, ARRAY
 import uuid
 from flask_login import UserMixin
 from . import db
@@ -31,13 +31,13 @@ class User(UserMixin, db.Model):
     delivery = db.Column(db.Boolean, default=False)
     # contactInfo
     public = db.Column(db.Boolean, default=True)
-    discord = db.Column(db.String(), default='')
-    instagram = db.Column(db.String(), default='')
-    phone = db.Column(db.String(), default='')
+    discord = db.Column(db.String, default='')
+    instagram = db.Column(db.String, default='')
+    phone = db.Column(db.String, default='')
     whatsapp = db.Column(db.Boolean, default=False)
     signal = db.Column(db.Boolean, default=False)
     telegram = db.Column(db.Boolean, default=False)
-    customContactInfo = db.Column(db.String(), default='')
+    customContactInfo = db.Column(db.String, default='')
 
     def getInvalidKeys(self, read=True, public=True):
         if read:
@@ -66,24 +66,25 @@ class User(UserMixin, db.Model):
 class Book(db.Model):
     __tablename__ = 'books'
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(1000))
-    isbn = db.Column(db.BigInteger)
-    imagepath = db.Column(db.String(100))
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    isbn = db.Column(db.String, unique=True, nullable=False, index=True, default='')
+    name = db.Column(db.String, default='', index=True)
+    publisher = db.Column(db.String, default='')
+    image = db.Column(db.String, default='')
+    google_id = db.Column(db.String, default='')
 
-    def getDetails(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'isbn': self.isbn,
-            'imagepath': self.imagepath
-        }
+class Listings(db.Model):
+    __tablename__ = 'listings'
 
-class Inventory(db.Model):
-    __tablename__ = 'inventory'
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    ownerid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'), nullable=False)
+    bookid = db.Column(UUID(as_uuid=True), db.ForeignKey('books.id'), nullable=False)
+    price = db.Column(db.SmallInteger, default=0)
+    images = db.Column(ARRAY(db.String), default=[])
+    quality = db.Column(db.SmallInteger, default=0)
+    notes = db.Column(db.Boolean, default=False)
+    customInfo = db.Column(db.String, default='')
 
-    id = db.Column(db.Integer, primary_key=True)
-    bookId = db.Column(db.Integer)
-    ownerId = db.Column(db.Integer)
-    price = db.Column(db.Integer)
-    condition = db.Column(db.Integer)
+    created = db.Column(db.DateTime())
+    open = db.Column(db.Boolean, default=True)
+    sold = db.Column(db.Boolean, default=False)

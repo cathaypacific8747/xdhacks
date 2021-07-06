@@ -7,22 +7,18 @@ $(document).ready(function() {
         headers: {
             'Content-Type': 'application/json'
         }
-    })
-    .then((response) => {
+    }).then((response) => {
         if (response.ok) return response.json();
         throw new NetworkError(response);
-    })
-    .then((json) => {
+    }).then((json) => {
         if (json["status"] == "success") return json;
         throw new APIError(json);
-    })
-    .then((result) => {
+    }).then((result) => {
         var user = new UserSettings(result["data"]);
         user.populate();
         user.bindEditActions();
         user.bindSaveActions();
-    })
-    .catch((error) => {
+    }).catch((error) => {
         toastError(error);
     });
     
