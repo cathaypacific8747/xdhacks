@@ -1,6 +1,13 @@
 Dropzone.autoDiscover = false;
 
 $(document).ready(function() {
+    const initialHelpText = "Start by typing in the book's ISBN, name, author or publisher.";
+    $('[data-element="help"]').html(initialHelpText);
+
+    window.removeMinPicHeight = function(e) {
+        $(e).removeClass('minPicHeight');
+    }
+
     $("#bookDropzone").dropzone({
         url: "/api/v1/book/upload",
         thumbnailHeight: 210,
@@ -65,16 +72,14 @@ $(document).ready(function() {
 
     function search(string) {
         if (!string) {
-            $('[data-element="initial_help"]').removeClass("hide");
-            $('[data-element="google_book_results"]').addClass("hide");
+            $('[data-element="help"]').html(initialHelpText);
+            $('[data-element="google_book_results"]').addClass("hide").empty();
             return;
         }
-        $('[data-element="google_book_results"]').removeClass("hide");
         $('[data-element="progress"]').removeClass("hide");
-        $('[data-element="initial_help"]').addClass("hide");
-        $('[data-element="noResults_help"]').addClass("hide");
+        $('[data-element="help"]').html('');
 
-        fetch(`https://www.googleapis.com/books/v1/volumes?q=${string}&orderBy=relevance`, {
+        fetch(`https://www.googleapis.com/books/v1/volumes?q=${string}&orderBy=relevance&maxResults=40`, {
             method: 'GET',
             mode: 'cors',
             headers: {
@@ -87,29 +92,53 @@ $(document).ready(function() {
             if (json["totalItems"] == 0) throw new NoGoogleBooksResultsError();
             return json["items"];
         }).then((result) => {
+            $('[data-element="google_book_results"]').empty().removeClass("hide");
             for (let item of result) {
-                let googleId = item?.id;
-                let title = item?.volumeInfo?.title;
-                let publisher = item?.volumeInfo?.publisher;
-                let description = item?.volumeInfo?.description;
-                let isbnObj = item?.volumeInfo?.industryIdentifiers.find(e => e.type == "ISBN_13")?.identifier;
-                let imagelinks = item?.volumeInfo?.imageLinks;
-                let thumbSmall = imagelinks?.smallThumbnail;
-                let thumbLarge = imagelinks?.extraLarge ? imagelinks.extraLarge : imagelinks?.large ? imagelinks.large : imagelinks?.medium ? imagelinks.medium : imagelinks?.small ? imagelinks.small : imagelinks?.thumbnail ? imagelinks.thumbnail : imagelinks?.smallThumbnail;
-
-                console.log(googleId, title, publisher, description, isbnObj, thumbSmall, thumbLarge);
+                let book = new Book(item);
+                let elem = $(`<div class="row mx-0 mb-8 p-8 roundBox unselectable book" data-googleid="${book.googleId}">
+                    <div class="col s2 mx-0 p-0 minPicHeight shimmerBG">
+                        <img class="google-book-image roundBox" src="${book.strings.thumbSmall}" onload="removeShimmer(this.parentElement);removeMinPicHeight(this.parentElement)" data-field="thumb">
+                    </div>
+                    <div class="col s10">
+                        <div class="row mt-0 mb-2">
+                            <div class="col font-size-24 text-bold">${book.strings.title}</div>
+                        </div>
+                        <div class="row mt-0 mb-0">
+                            <div class="col font-size-16">ISBN: ${book.strings.isbn}</div>
+                        </div>
+                        <div class="row mt-0 mb-0">
+                            <div class="col font-size-16">Author${book.strings.plurality}: ${book.strings.authors}</div>
+                        </div>
+                        <div class="row mt-0 mb-0">
+                            <div class="col font-size-16">Publisher: ${book.strings.publisher}</div>
+                        </div>
+                        <div class="row mt-0 mb-0">
+                            <div class="col font-size-16">Retail Price: ${book.strings.retailPrice}</div>
+                        </div>
+                    </div>
+                </div>`).click((e) => {
+                    $('[data-googleid]').removeClass("book-selected");
+                    $(e.target).closest('[data-googleid]').toggleClass("book-selected");
+                });
+                $('[data-element="google_book_results"]').append(elem);
             }
-        }).catch((error) => {
-            toastError(error);
-            $('[data-element="noResults_help"]').removeClass("hide");
+            $('[data-element="help"]').html("Select a book from the list below.");
+        }).catch((e) => {
+            if (e instanceof NoGoogleBooksResultsError) {
+                $('[data-element="help"]').html("No results found. Please check your inputs.");
+            } else if (e instanceof NetworkError) {
+                $('[data-element="help"]').html("An error occured when retrieving data. Please check your connection or try again.");
+            } else {
+                console.error(e)
+            }
         }).finally(() => {
             $('[data-element="progress"]').addClass("hide");
         });
     }
 
     $('[data-field="google_book_input"]').keyup(delay(function(e) {
-        search(this.value);
+        if (e.which != 13) search(this.value);
     }, 500)).keypress(function(e) {
-        if (e.which == 13) search(e.target.value);
+        if (e.which == 13) e.target.blur(); search(e.target.value);
     });
 });

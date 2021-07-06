@@ -10,31 +10,18 @@
 {% block content %}
 <div class="container">
     <div class="row valign-wrapper">
-        <div class="col s3 right-align text-bold">
-            Book Details
-        </div>
-        <div class="col s8" data-section="payment_information_editor">
+        <div class="col s2 right-align text-bold">Book</div>
+        <div class="col s10" data-section="payment_information_editor">
             <div>
                 <div class="input-field">
-                    <input type="text" placeholder="Search by book ISBN, Book Name..." data-field="google_book_input">
+                    <input type="text" placeholder="Book ISBN, Title, Author, Publisher" data-field="google_book_input">
                 </div>
                 <div data-section="google_book_container">
-                    <div class="progress hide" data-element="progress">
+                    <div class="center-align" data-element="help"></div>
+                    <div class="progress mb-8 hide" data-element="progress">
                         <div class="indeterminate"></div>
                     </div>
-                    <div class="center-align" data-element="initial_help">
-                        <div>Start by typing in the ISBN or book name in the search bar above.</div>
-                        <div>Or, <a data-field="manual-book-input">manually input the details</a>.</div> 
-                    </div>
-                    <div class="center-align hide" data-element="noResults_help">
-                        <div>No results found.</div>
-                        <div>Please check your inputs, or <a data-field="manual-book-input">manually input the details</a>.</div> 
-                    </div>
-                    <div class="" data-element="google_book_results">
-                        <div class="row valign-wrapper mx-0 p-8 roundBox selected-book" data-googleid="x">
-                            <img class="google-book-image" data-field="discord_icon">
-                        </div>
-                    </div>
+                    <div class="" data-element="google_book_results"></div>
                 </div>
             </div>
         </div>

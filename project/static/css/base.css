@@ -5,7 +5,7 @@ body {
 	background: linear-gradient(90deg, rgba(238,228,181,1) 0%, rgba(183,249,191,1) 50%, rgba(176,223,237,1) 100%);
 	background-size: 400% 400%;
 	animation: gradient 15s ease infinite;
-	font-family: 'Inter', 'Segoe UI', sans-serif !important;
+	font-family: 'Inter', 'Noto Sans TC', 'Segoe UI', sans-serif !important;
 }
 
 @keyframes gradient {
@@ -114,6 +114,10 @@ body {
 	padding-right: .5rem;
 }
 
+.p-0 {
+	padding: 0 !important;
+}
+
 .p-8 {
 	padding: .5rem;
 }
@@ -154,6 +158,10 @@ body {
 	font-size: 2rem;
 }
 
+.font-size-24 {
+	font-size: 1.5rem;
+}
+
 .font-size-20 {
 	font-size: 1.25rem;
 }
@@ -164,6 +172,10 @@ body {
 
 .font-size-14 {
 	font-size: .875rem;
+}
+
+.font-size-12 {
+	font-size: .75rem;
 }
 
 .font-size-0 {

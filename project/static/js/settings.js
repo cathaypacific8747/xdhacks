@@ -18,8 +18,8 @@ $(document).ready(function() {
         user.populate();
         user.bindEditActions();
         user.bindSaveActions();
-    }).catch((error) => {
-        toastError(error);
+    }).catch((e) => {
+        toastError(e);
     });
     
     class UserSettings {
@@ -51,7 +51,7 @@ $(document).ready(function() {
 
         // updaters
         update_profile() {
-            $('[data-field="profilePic"]').attr("src", `${this.data.profilePic}=s172-c`).parent().removeClass("shimmerBG");
+            $('[data-field="profilePic"]').attr("src", `${this.data.profilePic}=s172-c`);
             $('[data-field="name"]').html(this.data.name).removeClass("shimmerBG");
             $('[data-field="email"]').html(this.data.email).removeClass("shimmerBG");
             if (this.data.cky) {
