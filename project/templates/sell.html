@@ -31,8 +31,8 @@
         <div class="col s10 valign-wrapper">
             <form class="dz dropzone needsclick w-full center-align unselectable" id="bookDropzone">
                 <div class="dz-message needsclick my-16">
-                    <div class="font-size-16">Drag and drop image(s) of your book here, or click to upload!</div>
-                    <div class="font-size-14 text-muted">Maximum: 8MB, 5 images</div>
+                    <div class="font-size-16">Drag and drop 1-5 images of your book here, or click to upload.</div>
+                    <div class="font-size-14 text-muted">Maximum size: 8MB</div>
                 </div>
             </form>
         </div>
@@ -57,33 +57,33 @@
         <div class="col s10">
             <div>
                 <label>
-                    <input class="with-gap" name="condition" type="radio" value="poor">
-                    <span class="radio-label">Poor</span>
+                    <input class="with-gap" name="condition" type="radio" value="0">
+                    <span class="radio-label">Poor - significant wear, possibly with a broken spine, loose joints or missing pages.</span>
                 </label>
             </div>
             <div>
                 <label>
-                    <input class="with-gap" name="condition" type="radio" value="acceptable">
-                    <span class="radio-label">Acceptable</span>
+                    <input class="with-gap" name="condition" type="radio" value="1">
+                    <span class="radio-label">Fair - some wear, possibly with folded pages, scratches or dents.</span>
                 </label>
             </div>
             <div>
                 <label>
-                    <input class="with-gap" name="condition" type="radio" value="good">
-                    <span class="radio-label">Good</span>
+                    <input class="with-gap" name="condition" type="radio" value="2">
+                    <span class="radio-label">Good - minor wear, but will still show signs of previous ownership.</span>
                 </label>
             </div>
             <div>
                 <label>
-                    <input class="with-gap" name="condition" type="radio" value="likeNew">
-                    <span class="radio-label">Like New</span>
+                    <input class="with-gap" name="condition" type="radio" value="3">
+                    <span class="radio-label">Fine - very minor defects and faults, like brand new.</span>
                 </label>
             </div>
         </div>
     </div>
     <div class="row valign-wrapper">
         <div class="col s2 right-align text-bold">
-            Notes
+            Internal Markings
         </div>
         <div class="col s10">
             <div>
@@ -95,13 +95,13 @@
             <div>
                 <label>
                     <input class="with-gap" name="notes" type="radio" value="1">
-                    <span class="radio-label">Minimal</span>
+                    <span class="radio-label">Some</span>
                 </label>
             </div>
             <div>
                 <label>
                     <input class="with-gap" name="notes" type="radio" value="2">
-                    <span class="radio-label">Some</span>
+                    <span class="radio-label">Comprehensive</span>
                 </label>
             </div>
         </div>
@@ -113,7 +113,7 @@
         <div class="col s10">
             <div class="input-field mb-0">
                 <textarea id="customContactInfo_input" data-field="customContactInfo_text" class="materialize-textarea" maxlength="200" data-length="200"></textarea>
-                <label for="customContactInfo_input">Additional remarks (maximum 200 characters)</label>
+                <label for="customContactInfo_input">Tell us more about the book's condition, or any other remarks. (maximum 200 characters)</label>
             </div>
         </div>
     </div>

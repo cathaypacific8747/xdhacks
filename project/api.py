@@ -1,9 +1,6 @@
-from discord import file
 from flask import Blueprint, json, redirect, url_for, request, session, current_app, abort, jsonify
 from flask_login import login_required, current_user
-from flask_migrate import current
-from sqlalchemy.sql.expression import desc, null
-from .models import User, Book
+from .models import User
 from . import db
 import subprocess # for regen
 from .error_handler import GenericInputError, NoBookId
@@ -95,15 +92,15 @@ async def upload():
 
 #
 
-@api.get('/api/v1/book/detail')
-@login_required
-def book_detail():
-    id = request.args.get("bookId")
-    if not id:
-        raise NoBookId()
-    book = Book.query.filter_by(id=id).first()
-    return jsonify({
-        "status": "success",
-        "message": None,
-        "data": book.getDetails()
-    })
+# @api.get('/api/v1/book/detail')
+# @login_required
+# def book_detail():
+#     id = request.args.get("bookId")
+#     if not id:
+#         raise NoBookId()
+#     book = Book.query.filter_by(id=id).first()
+#     return jsonify({
+#         "status": "success",
+#         "message": None,
+#         "data": book.getDetails()
+#     })

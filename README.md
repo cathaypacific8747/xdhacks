@@ -59,9 +59,9 @@ $ ./start.sh
 - [x] Sell Template - Google Books API
 - [x] Sell Template - Price, Condition
 - [x] Sell Template - Upload Image
-- [ ] Sell Template - Tooltips
+- [x] Sell Template - Descriptors
 - [ ] Sell Template - handle Upload Logic
-- [ ] Sell Template - fix radio
+- [x] Sell Template - fix radio
 
 - [ ] Book API - Get book detail by id (GET `/api/v1/book/detail?bookId=_`)
 - [ ] Book API - Get all books with matching ISBN (GET `/api/v1/book/search?isbn=_`)

@@ -77,13 +77,3 @@
     color: black;
     padding-left: 2rem !important;
 }
-
-.radio-label::after {
-    top: 50% !important;
-    margin-top: -10.5px !important;
-}
-
-.radio-label::before {
-    top: 50% !important;
-    margin-top: -8px !important;
-}

@@ -34,7 +34,7 @@ def create_app(run=False):
     app.config['DISCORD_STORAGE_CHANNEL_ID'] = env['DISCORD_STORAGE_CHANNEL_ID']
 
     db.init_app(app)
-    from .models import User, Book, Listings
+    from .models import User, Listings
     migrate.init_app(app, db)
     csrf.init_app(app)
 
