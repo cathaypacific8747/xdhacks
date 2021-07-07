@@ -1,6 +1,7 @@
 # xdhacks
 
 A place for us to store code for xdhacks 2021.
+[![CodeFactor](https://www.codefactor.io/repository/github/cathaypacific8747/xdhacks/badge/main?s=d3edd417b3e9f6023f6f201ea5dcf58b3e7c16ba)](https://www.codefactor.io/repository/github/cathaypacific8747/xdhacks/overview/main)
 
 ## Installation
 Setup Postgres
@@ -60,13 +61,14 @@ $ ./start.sh
 - [x] Sell Template - Price, Condition
 - [x] Sell Template - Upload Image
 - [x] Sell Template - Descriptors
-- [ ] Sell Template - handle Upload Logic
+- [x] Sell Template - handle Upload Logic
 - [x] Sell Template - fix radio
 
-- [ ] Book API - Get book detail by id (GET `/api/v1/book/detail?bookId=_`)
-- [ ] Book API - Get all books with matching ISBN (GET `/api/v1/book/search?isbn=_`)
-- [ ] Book API - Get all books with matching name (GET `/api/v1/book/search?name=_`)
-- [ ] Book API - Get all book details (GET `/api/v1/book/list`)
+- [ ] Listing API - Get all user's listing (GET `/api/v1/listing/detail`)
+- [ ] Listing API - Get listing detail by id (GET `/api/v1/book/detail?bookId=_`)
+- [ ] Listing API - Get all books with matching ISBN (GET `/api/v1/book/search?isbn=_`)
+- [ ] Listing API - Get all books with matching name (GET `/api/v1/book/search?name=_`)
+- [ ] Listing API - Get all book details (GET `/api/v1/book/list`)
 - [ ] Book Template
 
 - [x] Optimise Error Handling Algorithm

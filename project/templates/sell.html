@@ -42,9 +42,9 @@
         <div class="col s9">
             <div class="switch">
                 <div class="input-field mb-0">
-                    <input id="price_input" data-field="price" pattern="^\d+$" type="text" class="validate">
+                    <input id="price_input" data-field="price" type="number" class="validate" min="0" max="999">
                     <label for="price_input">Price (excluding delivery fees)</label>
-                    <span class="helper-text" data-error="Invalid Format: price must be a positive integer."></span>
+                    <span class="helper-text" data-error="Invalid Format: price must be a positive integer between 0 and 999, inclusive."></span>
                 </div>
             </div>
         </div>
@@ -108,17 +108,17 @@
     </div>
     <div class="row valign-wrapper">
         <div class="col s2 right-align text-bold">
-            Remarks
+            Optional Remarks
         </div>
         <div class="col s10">
             <div class="input-field mb-0">
-                <textarea id="customContactInfo_input" data-field="customContactInfo_text" class="materialize-textarea" maxlength="200" data-length="200"></textarea>
-                <label for="customContactInfo_input">Tell us more about the book's condition, or any other remarks. (maximum 200 characters)</label>
+                <textarea id="remarks" data-field="remarks" class="materialize-textarea" maxlength="200" data-length="200"></textarea>
+                <label for="remarks">Tell us more about the book's condition, or any other remarks. (maximum 200 characters)</label>
             </div>
         </div>
     </div>
     <div class="row center-align">
-        <div class="font-size-14 text-italic text-muted mb-2">Once uploaded, details cannot be changed.</div>
+        <div class="font-size-14 text-italic text-muted mb-2">Once uploaded, details cannot be edited.</div>
         <a class="waves-effect waves-light btn" id="sellButton">
             <i class="material-icons left">cloud_upload</i>
             Sell

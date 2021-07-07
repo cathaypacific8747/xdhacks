@@ -78,6 +78,8 @@ $(document).ready(function() {
         });
     }
 
+    // $('input').attr('autocomplete', 'off')
+
     $('[data-field="google_book_input"]').keyup(delay(function(e) {
         if (e.which != 13) search(e.target.value);
     }, 500)).keypress(function(e) {
@@ -113,8 +115,8 @@ $(document).ready(function() {
                 <div class="dz-filename mb-8">
                     <span data-dz-name></span>
                 </div>
-                <div class="dz-progress">
-                    <span class="dz-upload" data-dz-uploadprogress></span>
+                <div class="progress">
+                    <div class="determinate" data-dz-uploadprogress></div>
                 </div>
                 <div class="dz-remove">
                     <span class="material-icons" data-dz-remove>delete_forever</span>
@@ -124,8 +126,11 @@ $(document).ready(function() {
         init: function() {
             let dz = this;
             dz.on('sendingmultiple', function(data, xhr, formData) {
-                console.log('SENDING')
-                formData.append('name', jQuery('#name').val());
+                formData.append('bookid', dz.bookid);
+                formData.append('price', dz.price);
+                formData.append('condition', dz.condition);
+                formData.append('notes', dz.notes);
+                formData.append('remarks', dz.remarks);
             }).on("maxfilesexceeded", (file, response) => {
                 this.removeFile(file);
             }).on("totaluploadprogress", (progress) => {
@@ -139,6 +144,11 @@ $(document).ready(function() {
 
     $("#sellButton").click(() => {
         let dz = Dropzone.forElement(".dropzone");
-        dz.processQueue();
+        dz.bookid = $('.book-selected').attr("data-googleid");
+        dz.price = $('[data-field="price"]').val();
+        dz.condition = $("input[name='condition']:checked").val();
+        dz.notes = $("input[name='notes']:checked").val();
+        dz.remarks = $('[data-field="remarks"]').val();
+        dz.bookid && dz.price && dz.condition && dz.notes ? dz.processQueue() : toast('Please ensure that all inputs have been inputted correctly.', 'Input', 3)
     });
 });

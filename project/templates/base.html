@@ -36,6 +36,9 @@
             <ul class="right">
                 {% if current_user.is_authenticated %}
                 <li>
+                    <a class="nav-item mr-8 ml-8 px-8 no-hover-event valign-wrapper" href="{{ url_for('main.sell') }}">
+                        Sell
+                    </a>
                     <a class="nav-item mr-8 ml-8 px-8 no-hover-event valign-wrapper" href="{{ url_for('main.market') }}">
                         Market
                     </a>

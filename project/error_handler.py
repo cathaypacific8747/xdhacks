@@ -13,13 +13,13 @@ class GoogleConnectionError(HTTPException):
     code = 500
     description = "An error occurred when contacting Google's servers. Please try again later."
 
-class NoBookId(HTTPException):
-    code = 400
-    description = "No book id supplied."
-
 class GenericInputError(HTTPException):
     code = 400
     description = "Something went wrong with your inputs. Please check again."
+
+class APIForbiddenError(HTTPException):
+    code = 403
+    description = "You do not have the permission to use this resource."
 
 @err.app_errorhandler(Exception)
 def handle_error(e):

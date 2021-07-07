@@ -1,9 +1,9 @@
 from flask import Blueprint, json, redirect, url_for, request, session, current_app, abort, jsonify
 from flask_login import login_required, current_user
-from .models import User
+from .models import User, Listing
 from . import db
 import subprocess # for regen
-from .error_handler import GenericInputError, NoBookId
+from .error_handler import APIForbiddenError, GenericInputError
 import re
 from bleach import clean
 import asyncio
@@ -13,18 +13,17 @@ from io import BytesIO
 import discord
 
 api = Blueprint('api', __name__)
-
-@api.get('/api/regendb') # DANGEROUS, REMOVE.
-def regendb():
-    subprocess.call(args=['python3', 'resetdb.py'])
-    return jsonify({
-        "status": "success",
-        "message": None
-    })
+def intable(string):
+    try:
+        int(string)
+        return True
+    except:
+        return False
 
 @api.get('/api/v1/user/detail')
-@login_required
 def user_detail():
+    if not current_user.is_authenticated: raise APIForbiddenError()
+
     id = request.args.get("userId")
     user = User.query.filter_by(id=id).first() if id else current_user # get user information if specific user id not supplied
 
@@ -35,8 +34,9 @@ def user_detail():
     })
 
 @api.post('/api/v1/user/update')
-@login_required
 def user_update():
+    if not current_user.is_authenticated: raise APIForbiddenError()
+
     data = request.json
     
     if 'discord' in data and data['discord']:
@@ -67,12 +67,26 @@ def user_update():
 
 @api.post('/api/v1/book/upload')
 async def upload():
-    print(request.form)
+    if not current_user.is_authenticated: raise APIForbiddenError()
 
     async def store(file):
         return await current_app.discordThread.client.channel.send(file=file)
 
-    urls = []
+    ownerid = current_user.id
+    bookid = request.form.get('bookid')
+    price = request.form.get('price')
+    condition = request.form.get('condition')
+    notes = request.form.get('notes')
+    remarks = request.form.get('remarks')
+
+    if not bookid: raise GenericInputError()
+    if not intable(price) or int(price) < 0 and int(price) >= 1000: raise GenericInputError(description="Price must be a positive integer.")
+    if not intable(condition) or int(condition) not in [0, 1, 2, 3]: raise GenericInputError()
+    if not intable(notes) or int(notes) not in [0, 1, 2]: GenericInputError()
+    bookid = clean(bookid)
+    remarks = clean(remarks)
+
+    images = []
     for _, f in request.files.lists():
         extension = secure_filename(f[0].filename).split('.')[-1].lower() 
         if f[0].mimetype.split('/')[0] == 'image' and extension:
@@ -80,14 +94,14 @@ async def upload():
                 f[0].save(mem)
                 mem.seek(0)
                 future = asyncio.run_coroutine_threadsafe(store(file=discord.File(fp=mem, filename=f'{uuid.uuid4()}.{extension}')), current_app.discordThread.loop).result()
-                urls.append(future.attachments[0].url)
-
+                images.append(future.attachments[0].url)
+    
+    listing = Listing(ownerid=ownerid, bookid=bookid, price=price, condition=condition, notes=notes, remarks=remarks, images=images)
+    db.session.add(listing)
+    db.session.commit()
+    # print(listing)
     return jsonify({
-        "status": "success",
-        "message": None,
-        "data": {
-            "urls": urls
-        }
+        "status": "success"
     })
 
 #

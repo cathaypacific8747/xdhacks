@@ -2,8 +2,6 @@ from project.auth import login
 from flask import Blueprint, render_template, redirect, url_for, request, current_app
 from flask_login import login_required, current_user
 from flask.helpers import flash
-from . import db
-from .models import User, Listings
 
 main = Blueprint('main', __name__)
 
@@ -21,6 +19,10 @@ def settings():
 def sell():
     return render_template('sell.html')
 
+@main.route('/my-listings')
+@login_required
+def my_listings():
+    return render_template('my_listings.html')
 
 @main.route('/market')
 @login_required

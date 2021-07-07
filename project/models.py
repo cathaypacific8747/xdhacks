@@ -1,3 +1,4 @@
+from datetime import datetime
 from sqlalchemy.dialects.postgresql import UUID, VARCHAR, ARRAY
 import uuid
 from flask_login import UserMixin
@@ -63,18 +64,18 @@ class User(UserMixin, db.Model):
             if k not in invalidKeys:
                 setattr(self, k, data[k])
 
-class Listings(db.Model):
+class Listing(db.Model):
     __tablename__ = 'listings'
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
-    ownerid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'), nullable=False)
-    bookid = db.Column(db.String, default='')
+    ownerid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'), nullable=False, index=True)
+    bookid = db.Column(db.String, default='', index=True)
     price = db.Column(db.SmallInteger, default=0)
     condition = db.Column(db.SmallInteger, default=0) # poor, acceptable, good, like new
     notes = db.Column(db.SmallInteger, default=0) # none, minimal, some
-    customInfo = db.Column(db.String, default='')
+    remarks = db.Column(db.String, default='')
     images = db.Column(ARRAY(db.String), default=[])
 
-    created = db.Column(db.DateTime())
+    created = db.Column(db.DateTime(), default=datetime.utcnow)
     open = db.Column(db.Boolean, default=True)
     sold = db.Column(db.Boolean, default=False)
