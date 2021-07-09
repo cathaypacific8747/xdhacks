@@ -68,7 +68,7 @@ def user_update():
         "data": data
     })
 
-@api.post('/api/v1/book/upload')
+@api.post('/api/v1/listing/upload')
 async def upload():
     if not current_user.is_authenticated:
         raise APIForbiddenError()
@@ -90,7 +90,7 @@ async def upload():
     if not intable(condition) or int(condition) not in [0, 1, 2, 3]:
         raise GenericInputError()
     if not intable(notes) or int(notes) not in [0, 1, 2]:
-        GenericInputError()
+        raise GenericInputError()
     bookid = clean(bookid)
     remarks = clean(remarks)
 
@@ -100,7 +100,9 @@ async def upload():
         if f[0].mimetype.split('/')[0] == 'image' and extension:
             with BytesIO() as mem:
                 f[0].save(mem)
-                mem.seek(0)
+                size = mem.getbuffer().nbytes
+                if size <= 0 or size >= 8e6:
+                    raise GenericInputError(description='File size is too large.')
                 future = asyncio.run_coroutine_threadsafe(store(file=discord.File(fp=mem, filename=f'{uuid.uuid4()}.{extension}')), current_app.discordThread.loop).result()
                 images.append(future.attachments[0].url)
     
@@ -109,7 +111,8 @@ async def upload():
     db.session.commit()
 
     return jsonify({
-        "status": "success"
+        "status": "success",
+        "message": None
     })
 
 @api.get('/api/v1/listing/detail')

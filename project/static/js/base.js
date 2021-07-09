@@ -48,7 +48,7 @@ $(document).ready(function() {
             this.strings.publisher = this.publisher || 'Unknown';
             this.strings.retailPrice = this.retailPrice && this.retailPriceCurrency ? `${this.retailPriceCurrency} ${this.retailPrice}` : 'No information'
             // this.strings.description = this.description || '';
-            this.strings.thumbSmall = this.thumbSmall ? this.thumbSmall : this.thumbLarge ? this.thumbLarge : '';
+            this.strings.thumbSmall = this.thumbSmall ? this.thumbSmall : this.thumbLarge ? this.thumbLarge : 'https://books.google.com.hk/googlebooks/images/no_cover_thumb.gif';
             this.strings.authors = this.authors ? this.authors.join(this.language && this.language.includes("zh") ? '、' : ', ') : 'Unknown';
             this.strings.plurality = this.authors ? this.authors.length > 1 ? 's' : '' : '';
         }

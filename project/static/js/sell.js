@@ -34,7 +34,8 @@ $(document).ready(function() {
             if (json["totalItems"] == 0) throw new NoGoogleBooksResultsError();
             return json["items"];
         }).then((result) => {
-            $('[data-element="google_book_results"]').empty().removeClass("hide");
+            let resultsContainer = $('[data-element="google_book_results"]')
+            resultsContainer.empty().removeClass("hide");
             for (let item of result) {
                 let book = new Book(item);
                 let elem = $(`<div class="row mx-0 mb-8 p-8 roundBox unselectable book" data-googleid="${book.googleId}">
@@ -62,9 +63,12 @@ $(document).ready(function() {
                     $('[data-googleid]').removeClass("book-selected");
                     $(e.target).closest('[data-googleid]').toggleClass("book-selected");
                 });
-                $('[data-element="google_book_results"]').append(elem);
+                resultsContainer.append(elem);
             }
             $('[data-element="help"]').html("Select a book from the list below.");
+            if (resultsContainer.children().length == 1 ) {
+                resultsContainer.find('[data-googleid]').click();
+            }
         }).catch((e) => {
             if (e instanceof NoGoogleBooksResultsError) {
                 $('[data-element="help"]').html("No results found. Please check your inputs.");
@@ -78,8 +82,6 @@ $(document).ready(function() {
         });
     }
 
-    // $('input').attr('autocomplete', 'off')
-
     $('[data-field="google_book_input"]').keyup(delay(function(e) {
         if (e.which != 13) search(e.target.value);
     }, 500)).keypress(function(e) {
@@ -90,7 +92,7 @@ $(document).ready(function() {
     });
 
     $("#bookDropzone").dropzone({
-        url: "/api/v1/book/upload",
+        url: "/api/v1/listing/upload",
         thumbnailHeight: 210,
         thumbnailWidth: 140,
         maxFilesize: 8,
@@ -125,16 +127,22 @@ $(document).ready(function() {
         `,
         init: function() {
             let dz = this;
-            dz.on('sendingmultiple', function(data, xhr, formData) {
+            dz.on("maxfilesexceeded", (file, response) => {
+                this.removeFile(file);
+            }).on('sendingmultiple', (data, xhr, formData) => {
                 formData.append('bookid', dz.bookid);
                 formData.append('price', dz.price);
                 formData.append('condition', dz.condition);
                 formData.append('notes', dz.notes);
                 formData.append('remarks', dz.remarks);
-            }).on("maxfilesexceeded", (file, response) => {
-                this.removeFile(file);
             }).on("totaluploadprogress", (progress) => {
                 $(".dz-upload").width(`${progress}%`);
+            }).on("successmultiple", (file, response) => {
+                if (response.status == "success") {
+                    window.location.replace("/listings");
+                } else {
+                    toast("An error occurred while trying to upload the book. Please check your inputs or try again later.")
+                }
             })
         },
         headers: {

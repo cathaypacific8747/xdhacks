@@ -91,9 +91,8 @@ class Listing(db.Model):
             'images': self.images,
             'created': self.created.timestamp(),
         }
-        if public:
-            data['ownerid'] = self.ownerid
-        else: # if private, show visibility
+
+        if not public: # private, show visibility
             data['open'] = self.open
         return data
     

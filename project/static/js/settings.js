@@ -3,7 +3,7 @@ $(document).ready(function() {
     
     fetch('api/v1/user/detail', {
         method: 'GET',
-        mode: 'cors',
+        mode: 'no-cors',
         headers: {
             'Content-Type': 'application/json'
         }
@@ -11,10 +11,10 @@ $(document).ready(function() {
         if (response.ok) return response.json();
         throw new NetworkError(response);
     }).then((json) => {
-        if (json["status"] == "success") return json;
+        if (json["status"] == "success") return json["data"];
         throw new APIError(json);
     }).then((result) => {
-        var user = new UserSettings(result["data"]);
+        var user = new UserSettings(result);
         user.populate();
         user.bindEditActions();
         user.bindSaveActions();

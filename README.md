@@ -57,21 +57,22 @@ $ ./start.sh
 - [ ] User Template - Read-only mode
 
 - [x] Sell API
-- [ ] Sell API - Validate file size and type
+- [x] Sell API - Validate file size and type
 - [x] Sell Template - Google Books API
 - [x] Sell Template - Price, Condition
 - [x] Sell Template - Upload Image
 - [x] Sell Template - Descriptors
 - [x] Sell Template - handle Upload Logic
 - [x] Sell Template - fix radio
-- [ ] Sell Template - add no image avaliable
-- [ ] Book Cache Database 
+- [x] Sell Template - add no image avaliable
 
 - [x] Listing API - Get all user's listing (GET `/api/v1/listing/detail`)
+- [x] Listing API - Set visibility
 - [ ] Listing Template - Get user's listing
-- [ ] Listing API - Get all books with matching ISBN (GET `/api/v1/book/search?isbn=_`)
-- [ ] Listing API - Get all books with matching name (GET `/api/v1/book/search?name=_`)
-- [ ] Listing API - Get all book details (GET `/api/v1/book/list`)
+
+- [ ] Book API - Get all books with matching ISBN (GET `/api/v1/book/search?isbn=_`)
+- [ ] Book API - Get all books with matching name (GET `/api/v1/book/search?name=_`)
+- [ ] Book API - Get all book details (GET `/api/v1/book/list`)
 
 - [x] Optimise Error Handling Algorithm
 - [ ] Admin accounts (regenDB, inventoryControl)
