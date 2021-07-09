@@ -1,3 +1,4 @@
+from project.main import listings
 from flask import Blueprint, json, redirect, url_for, request, session, current_app, abort, jsonify
 from flask_login import login_required, current_user
 from .models import User, Listing
@@ -22,7 +23,8 @@ def intable(string):
 
 @api.get('/api/v1/user/detail')
 def user_detail():
-    if not current_user.is_authenticated: raise APIForbiddenError()
+    if not current_user.is_authenticated:
+        raise APIForbiddenError()
 
     id = request.args.get("userId")
     user = User.query.filter_by(id=id).first() if id else current_user # get user information if specific user id not supplied
@@ -35,7 +37,8 @@ def user_detail():
 
 @api.post('/api/v1/user/update')
 def user_update():
-    if not current_user.is_authenticated: raise APIForbiddenError()
+    if not current_user.is_authenticated:
+        raise APIForbiddenError()
 
     data = request.json
     
@@ -67,7 +70,8 @@ def user_update():
 
 @api.post('/api/v1/book/upload')
 async def upload():
-    if not current_user.is_authenticated: raise APIForbiddenError()
+    if not current_user.is_authenticated:
+        raise APIForbiddenError()
 
     async def store(file):
         return await current_app.discordThread.client.channel.send(file=file)
@@ -79,10 +83,14 @@ async def upload():
     notes = request.form.get('notes')
     remarks = request.form.get('remarks')
 
-    if not bookid: raise GenericInputError()
-    if not intable(price) or int(price) < 0 and int(price) >= 1000: raise GenericInputError(description="Price must be a positive integer.")
-    if not intable(condition) or int(condition) not in [0, 1, 2, 3]: raise GenericInputError()
-    if not intable(notes) or int(notes) not in [0, 1, 2]: GenericInputError()
+    if not bookid:
+        raise GenericInputError()
+    if not intable(price) or int(price) < 0 and int(price) >= 1000:
+        raise GenericInputError(description="Price must be a positive integer.")
+    if not intable(condition) or int(condition) not in [0, 1, 2, 3]:
+        raise GenericInputError()
+    if not intable(notes) or int(notes) not in [0, 1, 2]:
+        GenericInputError()
     bookid = clean(bookid)
     remarks = clean(remarks)
 
@@ -99,10 +107,39 @@ async def upload():
     listing = Listing(ownerid=ownerid, bookid=bookid, price=price, condition=condition, notes=notes, remarks=remarks, images=images)
     db.session.add(listing)
     db.session.commit()
-    # print(listing)
+
     return jsonify({
         "status": "success"
     })
+
+@api.get('/api/v1/listing/detail')
+def listing_detail():
+    if not current_user.is_authenticated:
+        raise APIForbiddenError()
+
+    id = request.args.get("userId")
+    listings = Listing.query.filter_by(ownerid=id if id else current_user.id, deleted=False)
+    data = [l.getDetails(public=bool(id)) for l in listings]
+
+    return jsonify({
+        "status": "success",
+        "message": None,
+        "data": data
+    })
+
+# @api.get('/api/v1/listing/all')
+# def listing_all():
+#     if not current_user.is_authenticated:
+#         raise APIForbiddenError()
+
+#     page = request.args.get("page")
+#     listings = Listing.query.filter_by(ownerid=id).limit(20)
+#     if page and intable(page):
+#         listings.offset(int(page)*20)
+#     elif page and not intable(page):
+#         raise GenericInputError()
+
+#     return jsonify({})
 
 #
 

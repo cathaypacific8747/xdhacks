@@ -75,7 +75,30 @@ class Listing(db.Model):
     notes = db.Column(db.SmallInteger, default=0) # none, minimal, some
     remarks = db.Column(db.String, default='')
     images = db.Column(ARRAY(db.String), default=[])
-
     created = db.Column(db.DateTime(), default=datetime.utcnow)
+
     open = db.Column(db.Boolean, default=True)
-    sold = db.Column(db.Boolean, default=False)
+    deleted = db.Column(db.Boolean, default=False)
+
+    def getDetails(self, public=True):        
+        data = {
+            'id': self.id,
+            'bookid': self.bookid,
+            'price': self.price,
+            'condition': self.condition,
+            'notes': self.notes,
+            'remarks': self.remarks,
+            'images': self.images,
+            'created': self.created.timestamp(),
+        }
+        if public:
+            data['ownerid'] = self.ownerid
+        else: # if private, show visibility
+            data['open'] = self.open
+        return data
+    
+    def toggleVisibility(self):
+        self.open = not self.open
+    
+    def delete(self):
+        self.deleted = True

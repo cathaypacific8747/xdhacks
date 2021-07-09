@@ -1,7 +1,8 @@
 # xdhacks
 
-A place for us to store code for xdhacks 2021.
 [![CodeFactor](https://www.codefactor.io/repository/github/cathaypacific8747/xdhacks/badge/main?s=d3edd417b3e9f6023f6f201ea5dcf58b3e7c16ba)](https://www.codefactor.io/repository/github/cathaypacific8747/xdhacks/overview/main)
+
+A place for us to store code for xdhacks 2021.
 
 ## Installation
 Setup Postgres
@@ -73,6 +74,7 @@ $ ./start.sh
 
 - [x] Optimise Error Handling Algorithm
 - [ ] Admin accounts (regenDB, inventoryControl)
+- [ ] Minify
 
 ## Before Production Checklist
 - [ ] Enforce CKY accounts in `login_google`'s `hd` parameter

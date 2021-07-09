@@ -149,6 +149,6 @@ $(document).ready(function() {
         dz.condition = $("input[name='condition']:checked").val();
         dz.notes = $("input[name='notes']:checked").val();
         dz.remarks = $('[data-field="remarks"]').val();
-        dz.bookid && dz.price && dz.condition && dz.notes ? dz.processQueue() : toast('Please ensure that all inputs have been inputted correctly.', 'Input', 3)
+        dz.bookid && dz.price && dz.condition && dz.notes && dz.getQueuedFiles().length ? dz.processQueue() : toast('Please ensure that all inputs have been inputted correctly.', 'Input', 3)
     });
 });

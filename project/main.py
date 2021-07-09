@@ -19,10 +19,10 @@ def settings():
 def sell():
     return render_template('sell.html')
 
-@main.route('/my-listings')
+@main.route('/listings')
 @login_required
-def my_listings():
-    return render_template('my_listings.html')
+def listings():
+    return render_template('listings.html')
 
 @main.route('/market')
 @login_required

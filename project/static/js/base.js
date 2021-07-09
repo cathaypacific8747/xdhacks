@@ -25,6 +25,7 @@ $(document).ready(function() {
         "border-radius": ".5rem",
         "background-color": "#00000088"
     })
+    M.updateTextFields(); // fix prefilled text overlapping bug
 
     class Book {
         constructor(data) {
@@ -110,7 +111,6 @@ $(document).ready(function() {
                 </div>
             </div>`,
             classes: `toastGeneral ${toastClass} roundBox`,
-            displayLength: 5000,
         })
     }
 
