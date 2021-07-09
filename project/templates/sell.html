@@ -9,11 +9,16 @@
 
 {% block content %}
 <div class="container">
+    <div class="row valign-wrapper mb-8">
+        <div class="col s12">
+            <div class="font-size-32 text-bold">Sell</div>
+        </div>
+    </div>
     <div class="row valign-wrapper">
         <div class="col s2 right-align text-bold">Book</div>
         <div class="col s10" data-section="payment_information_editor">
             <div>
-                <div class="input-field mb-2">
+                <div class="input-field mb-2 mt-0">
                     <input type="text" placeholder="Book ISBN, Title, Author, Publisher" data-field="google_book_input">
                 </div>
                 <div data-section="google_book_container">
@@ -21,7 +26,7 @@
                     <div class="progress mb-8 hide" data-element="progress">
                         <div class="indeterminate"></div>
                     </div>
-                    <div class="" data-element="google_book_results"></div>
+                    <div data-element="google_book_results"></div>
                 </div>
             </div>
         </div>

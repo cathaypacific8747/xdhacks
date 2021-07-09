@@ -1,0 +1,26 @@
+.book {
+    border: 1px solid rgba(0, 158, 206, 15%);
+}
+
+.book:hover:not(.book-selected) {
+    background-color: rgba(0, 158, 206, 7.5%);
+    -webkit-transition: background-color 100ms linear;
+    -ms-transition: background-color 100ms linear;
+    transition: background-color 100ms linear;
+}
+
+.book-selected {
+    border: 1px solid rgba(0, 158, 206, 50%);
+    background-color: rgba(0, 158, 206, 15%);
+    -webkit-transition: background-color 100ms ease-out;
+    -ms-transition: background-color 100ms ease-out;
+    transition: background-color 100ms ease-out;
+}
+
+.google-book-image {
+    width: 100%;
+}
+
+.minPicHeight {
+    height: 172px;
+}

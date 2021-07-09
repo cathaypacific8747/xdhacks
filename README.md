@@ -64,13 +64,14 @@ $ ./start.sh
 - [x] Sell Template - Descriptors
 - [x] Sell Template - handle Upload Logic
 - [x] Sell Template - fix radio
+- [ ] Sell Template - add no image avaliable
+- [ ] Book Cache Database 
 
-- [ ] Listing API - Get all user's listing (GET `/api/v1/listing/detail`)
-- [ ] Listing API - Get listing detail by id (GET `/api/v1/book/detail?bookId=_`)
+- [x] Listing API - Get all user's listing (GET `/api/v1/listing/detail`)
+- [ ] Listing Template - Get user's listing
 - [ ] Listing API - Get all books with matching ISBN (GET `/api/v1/book/search?isbn=_`)
 - [ ] Listing API - Get all books with matching name (GET `/api/v1/book/search?name=_`)
 - [ ] Listing API - Get all book details (GET `/api/v1/book/list`)
-- [ ] Book Template
 
 - [x] Optimise Error Handling Algorithm
 - [ ] Admin accounts (regenDB, inventoryControl)

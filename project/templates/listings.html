@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/listings.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row valign-wrapper">
+        <div class="col s12">
+            <div class="font-size-32 text-bold mb-8">My Listings</div>
+            <a class="btn px-8 roundBox btn-transparent" href="/sell">
+                <i class="material-icons left">add</i>
+                New listing
+            </a>
+        </div>
+    </div>
+    <div class="row valign-wrapper">
+        <div class="col s12">
+            <div data-section="listings_container">
+                <div class="center-align" data-element="help"></div>
+                <div class="progress mb-8 hide" data-element="progress">
+                    <div class="indeterminate"></div>
+                </div>
+                <div data-element="listings_results"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/listings.js') }}"></script>
+{% endblock %}

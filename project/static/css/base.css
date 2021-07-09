@@ -1,3 +1,9 @@
+:root {
+	--link-color: #1565C0;
+	--link-color-hover: #1565C011;
+	--link-color-hover2: #1976D211;
+}
+
 /* Background */
 
 body {
@@ -196,10 +202,6 @@ body {
 	background-color: unset !important;
 }
 
-.roundBox {
-	border-radius: .5rem !important;
-}
-
 .unselectable {
     -moz-user-select: -moz-none;
     -khtml-user-select: none;
@@ -214,6 +216,10 @@ body {
 
 .rounded {
 	border-radius: 50%;
+}
+
+.roundBox {
+	border-radius: .5rem !important;
 }
 
 .align-self-start {
@@ -264,6 +270,21 @@ body {
 
 .toastInformation {
 	background-color: #bbdcff;
+}
+
+.btn-transparent {
+	background-color: transparent;
+	color: var(--link-color);
+	box-shadow: none;
+}
+
+.btn-transparent:hover, .btn-transparent:focus {
+	background: var(--link-color-hover);
+	box-shadow: none;
+}
+
+.nav-dropdown-item:hover {
+	background: var(--link-color-hover2);
 }
 
 /* SHIMMER */
