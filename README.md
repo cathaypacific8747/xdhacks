@@ -91,6 +91,7 @@ $ ./start.sh
 - [ ] Privacy Policy
 - [ ] Terms of service
 - [ ] I agree to TOS and privacy policy checkbox in Signup Template
+- [ ] Enhancement - add statistics to homepage, etc. user count, book count, successful transfer count
 
 - [x] Optimise Error Handling Algorithm
 - [ ] Admin accounts (regenDB, inventoryControl)

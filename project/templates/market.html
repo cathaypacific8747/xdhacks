@@ -5,34 +5,36 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/market.css') }}">
 {% endblock %}
 
-{% block modal %}
-    <div class="h-full w-full">
-        <table class="table table-hover">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>E-mail</th>
-                <th>Condition</th>
-                <th>Price</th>
-                <th>Message</th>
-              </tr>
-            </thead>
-            <tbody id="tbody">
-            </tbody>
-          </table>
-    </div>
-{% endblock %}
-
 {% block content %}
-<div class="container-fluid h-full w-full">
-    <div class="content d-flex flex-column align-items-center">
-        <h1 class="content-title mb-0" id="introName">Market</h1>
-        <h2 class="mt-0" id="introDesc">Balance: <span id="balance">{{ balance }}</span> credit<span id="balanceS">s</span></h2>
+<div class="container">
+    <div class="row valign-wrapper">
+        <div class="col s12">
+            <div class="font-size-32 text-bold mb-8">Market</div>
+        </div>
     </div>
-
-    <div class="row d-flex justify-content-center" id="all">
-        <!-- items go into here -->
+    <div class="row valign-wrapper">
+        <div class="col s12">
+            <div>
+                <div class="input-field mb-2 mt-0">
+                    <input type="text" placeholder="Book ISBN, Title, Author, Publisher" data-field="google_book_input">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row valign-wrapper">
+        <div class="col s12">
+            <div data-section="market_container">
+                <div class="center-align" data-element="help"></div>
+                <div class="progress mb-8 hide" data-element="progress">
+                    <div class="indeterminate"></div>
+                </div>
+                <div data-element="market_results"></div>
+            </div>
+        </div>
     </div>
 </div>
-<script type="text/javascript" src="{{ url_for('static', filename='js/market.js') }}"></script>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/market.js') }}"></script>
 {% endblock %}

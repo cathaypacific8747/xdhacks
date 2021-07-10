@@ -1,39 +1,26 @@
-#introName {
-    font-size: 48px;
-    font-weight: 600;
-    opacity: 0;
-    transition: opacity 2s ease;
+.book {
+    /* border: 1px solid rgba(0, 158, 206, 15%); */
+    border: 1px solid rgba(0, 158, 206, 25%);
+    background-color: rgba(0, 158, 206, 5%);
 }
 
-#introDesc {
-    font-size: 18px;
-    opacity: 0;
-    transition: opacity 3s ease;
+.google-book-image {
+    width: 100%;
 }
 
-.container-fluid {
-    overflow-y: scroll;
+.minPicHeight {
+    height: 172px;
 }
 
-.content {
-    margin: 12px;
+.carousel .carousel-item > img {
+    height: 100% !important;
+    width: unset;
 }
 
-.content1 {
-    margin-bottom: 5px;
-    font-weight: 700;
+.modal, .modal-content, .carousel {
+    background-color: black;
 }
 
-.content2 {
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-#all {
-    padding: 5px;
-}
-
-#listing {
-    margin-left: 16px;
-    margin-right: 16px;
+.modal-content {
+    padding: 0 !important; 
 }
