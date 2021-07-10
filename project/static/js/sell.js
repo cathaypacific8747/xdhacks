@@ -31,8 +31,8 @@ $(document).ready(function() {
             if (response.ok) return response.json();
             throw new NetworkError(response);
         }).then((json) => {
-            if (json["totalItems"] == 0) throw new NoGoogleBooksResultsError();
-            return json["items"];
+            if (json.totalItems == 0) throw new NoGoogleBooksResultsError();
+            return json.items;
         }).then((result) => {
             let resultsContainer = $('[data-element="google_book_results"]')
             resultsContainer.empty().removeClass("hide");

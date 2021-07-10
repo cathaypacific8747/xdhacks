@@ -67,8 +67,12 @@ $ ./start.sh
 - [x] Sell Template - add no image avaliable
 
 - [x] Listing API - Get all user's listing (GET `/api/v1/listing/detail`)
-- [ ] Listing API - Set visibility
-- [ ] Listing Template - Get user's listing
+- [x] Listing Template - Get user's listing
+- [x] Listing Template - Open image
+- [x] Listing API - Set visibility
+- [x] Listing Template - Set visibility
+- [ ] Listing API - Delete listing
+- [ ] Listing Template - Delete listing
 
 - [ ] Book API - Get all books with matching ISBN (GET `/api/v1/book/search?isbn=_`)
 - [ ] Book API - Get all books with matching name (GET `/api/v1/book/search?name=_`)

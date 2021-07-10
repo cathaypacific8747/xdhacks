@@ -3,7 +3,7 @@ $(document).ready(function() {
     
     fetch('api/v1/user/detail', {
         method: 'GET',
-        mode: 'no-cors',
+        mode: 'cors',
         headers: {
             'Content-Type': 'application/json'
         }
@@ -11,7 +11,7 @@ $(document).ready(function() {
         if (response.ok) return response.json();
         throw new NetworkError(response);
     }).then((json) => {
-        if (json["status"] == "success") return json["data"];
+        if (json.status == "success") return json.data;
         throw new APIError(json);
     }).then((result) => {
         var user = new UserSettings(result);
@@ -339,7 +339,7 @@ $(document).ready(function() {
         // savers
         async save_settings(updateData) {
             const updatedData = await fetch('api/v1/user/update', {
-                method: 'POST',
+                method: 'PATCH',
                 mode: 'cors',
                 headers: {
                     'Content-Type': 'application/json'
@@ -351,9 +351,9 @@ $(document).ready(function() {
                 throw new NetworkError(response);
             })
             .then((json) => {
-                if (json["status"] == "success") {
-                    toast(json["message"], '', 1);
-                    return json["data"];
+                if (json.status == "success") {
+                    toast(json.message, '', 1);
+                    return json.data;
                 }
                 throw new APIError(json);
             })

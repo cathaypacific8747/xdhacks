@@ -13,7 +13,7 @@ $(document).ready(function() {
 
     fetch('api/v1/listing/detail', {
         method: 'GET',
-        mode: 'no-cors',
+        mode: 'cors',
         headers: {
             'Content-Type': 'application/json'
         }
@@ -53,7 +53,7 @@ $(document).ready(function() {
             for (let i = 0; i < results.length; i++) {
                 let book = new Book(results[i]);
                 let listing = new Listing(listings[i])
-                let elem = $(`<div class="row mx-0 mb-8 p-8 roundBox unselectable book" data-listingid="${listing.id}">
+                let elem = $(`<div class="row mx-0 mb-8 p-8 roundBox book" data-listingid="${listing.id}">
                     <div class="col s2 mx-0 p-0 minPicHeight shimmerBG">
                         <img class="google-book-image roundBox" src="${book.strings.thumbSmall}" onload="removeShimmer(this.parentElement);removeMinPicHeight(this.parentElement)" data-field="thumb">
                     </div>
@@ -94,8 +94,8 @@ $(document).ready(function() {
                                 </div>
                                 <div class="row mt-0 mb-0 justify-content-end">
                                     <div class="col font-size-16 valign-wrapper">
-                                        <i class="material-icons left mr-8 font-size-14">${listing.strings.openIcon}</i>
-                                        ${listing.strings.open}
+                                        <i class="material-icons left mr-8 font-size-14" data-field="openIcon">${listing.strings.openIcon}</i>
+                                        <span data-field="open">${listing.strings.open}</span>
                                     </div>
                                 </div>
                                 <div class="row mt-0 mb-0 justify-content-end">
@@ -129,7 +129,6 @@ $(document).ready(function() {
                                     </div>
                                 </div>
                                 
-
                                 <div class="row mt-0 mb-0 justify-content-end">
                                     <div class="col font-size-14 text-muted">Remarks</div>
                                 </div>
@@ -145,7 +144,7 @@ $(document).ready(function() {
                                     View Images
                                 </a>
                                 <a class="btn px-8 roundBox btn-transparent btn-transparent-primary" data-button="toggle_visibility">
-                                    <i class="material-icons left">${listing.strings.openIcon}</i>
+                                    <i class="material-icons left" data-field="openIcon">${listing.strings.openIcon}</i>
                                     Toggle Visibility
                                 </a>
                                 <a class="btn px-8 roundBox btn-transparent btn-transparent-danger" data-button="delete">
@@ -166,6 +165,32 @@ $(document).ready(function() {
                     carousel.append(`<a class="carousel-item justify-content-center"><img src="${image}"></a>`);
                 })
                 $('#imagemodal').modal('open')
+            })
+            $('[data-button="toggle_visibility"]').click((e) => {
+                const parentElement = $(e.target).closest('[data-listingid]')
+                const listingId = parentElement.attr('data-listingid');
+                fetch(`/api/v1/listing/toggleOpen?listingId=${listingId}`, {
+                    method: 'PUT',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then((response) => {
+                    if (response.ok) return response.json();
+                    throw new NetworkError(response);
+                })
+                .then((json) => {
+                    if (json.status == "success") {
+                        parentElement.find('[data-field="openIcon"]').html(json.data.open ? 'visibility' : 'visibility_off');
+                        parentElement.find('[data-field="open"]').html(json.data.open ? 'Public' : 'Hidden');
+                        return;
+                    }
+                    throw new APIError(json);
+                })
+                .catch((error) => {
+                    toastError(error);
+                });
             })
         }).catch((e) => {
             throw e;

@@ -95,8 +95,5 @@ class Listing(db.Model):
             data['open'] = self.open
         return data
     
-    def toggleVisibility(self):
-        self.open = not self.open
-    
     def delete(self):
         self.deleted = True

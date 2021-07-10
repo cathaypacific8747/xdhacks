@@ -60,7 +60,7 @@ $(document).ready(function() {
             let createdD = dayjs(this.created*1000).local();
             this.strings.created = `${createdD.format('DD/MM/YYYY HH:mm:ss')} (${createdD.fromNow()})`
             this.strings.open = this.open ? 'Public' : 'Hidden';
-            this.strings.openIcon = this.open ? 'visibility' : 'visibility-off';
+            this.strings.openIcon = this.open ? 'visibility' : 'visibility_off';
             switch (this.condition) {
                 case 0:
                     this.strings.condition = 'Poor';

@@ -1,3 +1,4 @@
+from logging import NullHandler
 from project.main import listings
 from flask import Blueprint, json, redirect, url_for, request, session, current_app, abort, jsonify
 from flask_login import login_required, current_user
@@ -35,7 +36,7 @@ def user_detail():
         "data": user.getDetails()
     })
 
-@api.post('/api/v1/user/update')
+@api.patch('/api/v1/user/update')
 def user_update():
     if not current_user.is_authenticated:
         raise APIForbiddenError()
@@ -122,14 +123,41 @@ def listing_detail():
     if not current_user.is_authenticated:
         raise APIForbiddenError()
 
-    id = request.args.get("userId")
-    listings = Listing.query.filter_by(ownerid=id if id else current_user.id, deleted=False)
-    data = [l.getDetails(public=bool(id)) for l in listings]
+    userid = request.args.get("userId")
+    if userid: # querying others
+        listings = Listing.query.filter_by(ownerid=userid, deleted=False, open=True)
+        data = [l.getDetails(public=True) for l in listings]
+    else:
+        listings = Listing.query.filter_by(ownerid=current_user.id, deleted=False)
+        data = [l.getDetails(public=False) for l in listings]
 
     return jsonify({
         "status": "success",
         "message": None,
         "data": data
+    })
+
+@api.put('/api/v1/listing/toggleOpen')
+def listing_toggleOpen():
+    if not current_user.is_authenticated:
+        raise APIForbiddenError()
+
+    listingid = request.args.get("listingId")
+    if not listingid:
+        raise GenericInputError()
+    
+    listing = Listing.query.filter_by(id=listingid, ownerid=current_user.id).first()
+    if listing.ownerid != current_user.id:
+        raise APIForbiddenError()
+    
+    listing.open = not listing.open
+    db.session.commit()
+    return jsonify({
+        "status": "success",
+        "message": None,
+        "data": {
+            "open": listing.open
+        }
     })
 
 # @api.get('/api/v1/listing/all')
