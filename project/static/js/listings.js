@@ -1,4 +1,12 @@
 $(document).ready(function() {
+    $('#imagemodal').modal({
+        onOpenEnd: () => {
+            $('#carousel').carousel({
+                indicators: true,
+            });
+        }
+    })
+
     const initialHelpText = "Loading your listings...";
     $('[data-element="help"]').removeClass("hide").html(initialHelpText);
     $('[data-element="progress"]').removeClass("hide");
@@ -45,8 +53,6 @@ $(document).ready(function() {
             for (let i = 0; i < results.length; i++) {
                 let book = new Book(results[i]);
                 let listing = new Listing(listings[i])
-                console.log(book, listing)
-
                 let elem = $(`<div class="row mx-0 mb-8 p-8 roundBox unselectable book" data-listingid="${listing.id}">
                     <div class="col s2 mx-0 p-0 minPicHeight shimmerBG">
                         <img class="google-book-image roundBox" src="${book.strings.thumbSmall}" onload="removeShimmer(this.parentElement);removeMinPicHeight(this.parentElement)" data-field="thumb">
@@ -128,21 +134,21 @@ $(document).ready(function() {
                                     <div class="col font-size-14 text-muted">Remarks</div>
                                 </div>
                                 <div class="row mt-0 mb-0 justify-content-end">
-                                    <div class="col font-size-16">${listing.remarks}</div>
+                                    <div class="col font-size-16">${listing.strings.remarks}</div>
                                 </div>
                             </div>
                         </div>
                         <div class="row mt-0 mb-0 justify-content-end">
                             <div class="col">
-                                <a class="btn px-8 roundBox btn-transparent">
+                                <a class="btn px-8 roundBox btn-transparent btn-transparent-primary" data-button="view_image">
                                     <i class="material-icons left">open_in_new</i>
                                     View Images
                                 </a>
-                                <a class="btn px-8 roundBox btn-transparent">
+                                <a class="btn px-8 roundBox btn-transparent btn-transparent-primary" data-button="toggle_visibility">
                                     <i class="material-icons left">${listing.strings.openIcon}</i>
                                     Toggle Visibility
                                 </a>
-                                <a class="btn px-8 roundBox btn-transparent">
+                                <a class="btn px-8 roundBox btn-transparent btn-transparent-danger" data-button="delete">
                                     <i class="material-icons left">delete_forever</i>
                                     Delete Listing
                                 </a>
@@ -153,6 +159,14 @@ $(document).ready(function() {
                 resultsContainer.append(elem);
             }
             $('[data-element="help"]').addClass('hide').html('');
+            $('[data-button="view_image"]').click((e) => {
+                const carousel = $('#carousel').empty()
+                const listingid = $(e.target).closest('[data-listingid]').attr('data-listingid');
+                listings.find(x => x.id == listingid).images.forEach(image => {
+                    carousel.append(`<a class="carousel-item justify-content-center"><img src="${image}"></a>`);
+                })
+                $('#imagemodal').modal('open')
+            })
         }).catch((e) => {
             throw e;
         });

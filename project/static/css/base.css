@@ -1,8 +1,16 @@
 :root {
-	--link-color: #1565C0;
-	--link-color-hover: #1565C011;
-	--link-color-hover2: #1976D211;
+	--link-color-primary: #1565C0;
+	--link-color-primary-hover: #1565C011;
+	--link-color-primary-hover2: #1976D211;
+	--link-color-danger: #b73226;
+	--link-color-danger-hover: #b7322611;
+	--condition-poor: #b73226;	
+	--condition-fair: #9e9d00;
+	--condition-good: #00a413;
+	--condition-fine: #0029b4;
 }
+
+
 
 /* Background */
 
@@ -164,6 +172,10 @@ body {
 	color: grey;
 }
 
+.text-lightmuted {
+	color: #ccc
+}
+
 .font-size-32 {
 	font-size: 2rem;
 }
@@ -231,6 +243,11 @@ body {
 	justify-content: flex-end;
 }
 
+.justify-content-center {
+	display: flex;
+	justify-content: center;
+}
+
 #profileDropdown a {
 	padding: .5rem .5rem .5rem 1rem;
 	text-align: right;
@@ -278,34 +295,44 @@ body {
 }
 
 .condition-poor {
-	color: #b73226;
+	color: var(--condition-poor);
 }
 
 .condition-fair {
-	color: #9e9d00;
+	color: var(--condition-fair);
 }
 
 .condition-good {
-	color: #00a413;
+	color: var(--condition-good);
 }
 
 .condition-fine {
-	color: #0029b4;
-}
-
-.btn-transparent {
-	background-color: transparent;
-	color: var(--link-color);
-	box-shadow: none;
-}
-
-.btn-transparent:hover, .btn-transparent:focus {
-	background: var(--link-color-hover);
-	box-shadow: none;
+	color: var(--condition-fine);
 }
 
 .nav-dropdown-item:hover {
-	background: var(--link-color-hover2);
+	background: var(--link-color-primary-hover2);
+}
+
+.btn-transparent, .btn-transparent:hover, .btn-transparent:focus {
+	background-color: transparent;
+	box-shadow: none;
+}
+
+.btn-transparent-primary {
+	color: var(--link-color-primary);
+}
+
+.btn-transparent-primary:hover, .btn-transparent-primary:focus {
+	background: var(--link-color-primary-hover);
+}
+
+.btn-transparent-danger {
+	color: var(--link-color-danger);
+}
+
+.btn-transparent-danger:hover, .btn-transparent-danger:focus {
+	background: var(--link-color-danger-hover);
 }
 
 /* SHIMMER */
