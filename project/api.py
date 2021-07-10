@@ -125,10 +125,10 @@ def listing_detail():
 
     userid = request.args.get("userId")
     if userid: # querying others
-        listings = Listing.query.filter_by(ownerid=userid, deleted=False, open=True)
+        listings = Listing.query.filter_by(ownerid=userid, deleted=False, open=True).order_by(Listing.created.desc())
         data = [l.getDetails(public=True) for l in listings]
     else:
-        listings = Listing.query.filter_by(ownerid=current_user.id, deleted=False)
+        listings = Listing.query.filter_by(ownerid=current_user.id, deleted=False).order_by(Listing.created.desc())
         data = [l.getDetails(public=False) for l in listings]
 
     return jsonify({
@@ -146,7 +146,7 @@ def listing_toggleOpen():
     if not listingid:
         raise GenericInputError()
     
-    listing = Listing.query.filter_by(id=listingid, ownerid=current_user.id).first()
+    listing = Listing.query.filter_by(id=listingid).first()
     if listing.ownerid != current_user.id:
         raise APIForbiddenError()
     
@@ -160,21 +160,26 @@ def listing_toggleOpen():
         }
     })
 
-# @api.get('/api/v1/listing/all')
-# def listing_all():
-#     if not current_user.is_authenticated:
-#         raise APIForbiddenError()
+@api.delete('/api/v1/listing/delete')
+def listing_delete():
+    if not current_user.is_authenticated:
+        raise APIForbiddenError()
 
-#     page = request.args.get("page")
-#     listings = Listing.query.filter_by(ownerid=id).limit(20)
-#     if page and intable(page):
-#         listings.offset(int(page)*20)
-#     elif page and not intable(page):
-#         raise GenericInputError()
-
-#     return jsonify({})
-
-#
+    listingid = request.args.get("listingId")
+    if not listingid:
+        raise GenericInputError()
+    
+    listing = Listing.query.filter_by(id=listingid).first()
+    if listing.ownerid != current_user.id:
+        raise APIForbiddenError()
+    
+    listing.deleted = True
+    db.session.commit()
+    return jsonify({
+        "status": "success",
+        "message": None,
+        "data": None
+    })
 
 # @api.get('/api/v1/book/detail')
 # @login_required

@@ -95,7 +95,7 @@ $(document).ready(function() {
                     break;
             }
             this.strings.price = `HKD ${this.price}`
-            this.strings.remarks = this.remarks && '---';
+            this.strings.remarks = this.remarks || '---';
         }
     }
 

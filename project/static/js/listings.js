@@ -113,7 +113,7 @@ $(document).ready(function() {
                                     </div>
                                     <div class="col">
                                         <div class="row mt-0 mb-0 justify-content-end">
-                                            <div class="col font-size-14 text-muted">Notes</div>
+                                            <div class="col font-size-14 text-muted">Internal Markings</div>
                                         </div>
                                         <div class="row mt-0 mb-0 justify-content-end">
                                             <div class="col font-size-16">${listing.strings.notes}</div>
@@ -184,6 +184,30 @@ $(document).ready(function() {
                     if (json.status == "success") {
                         parentElement.find('[data-field="openIcon"]').html(json.data.open ? 'visibility' : 'visibility_off');
                         parentElement.find('[data-field="open"]').html(json.data.open ? 'Public' : 'Hidden');
+                        return;
+                    }
+                    throw new APIError(json);
+                })
+                .catch((error) => {
+                    toastError(error);
+                });
+            })
+            $('[data-button="delete"]').click((e) => {
+                const listingId = $(e.target).closest('[data-listingid]').attr('data-listingid');
+                fetch(`/api/v1/listing/delete?listingId=${listingId}`, {
+                    method: 'DELETE',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then((response) => {
+                    if (response.ok) return response.json();
+                    throw new NetworkError(response);
+                })
+                .then((json) => {
+                    if (json.status == "success") {
+                        window.location.reload()
                         return;
                     }
                     throw new APIError(json);
