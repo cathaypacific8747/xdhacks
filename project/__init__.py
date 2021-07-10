@@ -68,7 +68,6 @@ def create_app(run=False):
 
         app.discordThread = Threader()        
 
-    from .models import User
     @login_manager.user_loader
     def load_user(uuid):
         return User.query.get(uuid)

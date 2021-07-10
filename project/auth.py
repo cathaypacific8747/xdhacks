@@ -77,14 +77,14 @@ def login_google_callback():
     if user is not None:
         login_user(user)
         return redirect(url_for('main.index'))
-    else: # if user doesn't exist, sign up for user.
-        user_new = User(googleId=googleId, email=email, name=name, profilePic=profilePic, cky=cky)
-        print(user_new.profilePic)
-        db.session.add(user_new)
-        db.session.commit()
-        login_user(user_new)
-        flash('Signup successful!', 'success')
-        return redirect(url_for('main.index'))
+    # user doesn't exist, so sign up for user.
+    user_new = User(googleId=googleId, email=email, name=name, profilePic=profilePic, cky=cky)
+    print(user_new.profilePic)
+    db.session.add(user_new)
+    db.session.commit()
+    login_user(user_new)
+    flash('Signup successful!', 'success')
+    return redirect(url_for('main.index'))
 
 @auth.route('/logout')
 @login_required
