@@ -7,18 +7,18 @@ $(document).ready(function() {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then((response) => {
+    }).then(response => {
         if (response.ok) return response.json();
         throw new NetworkError(response);
-    }).then((json) => {
-        if (json.status == "success") return json.data;
-        throw new APIError(json);
-    }).then((result) => {
+    }).then(json => {
+        if (json.status != "success") throw new APIError(json);
+        return json.data;
+    }).then(result => {
         var user = new UserSettings(result);
         user.populate();
         user.bindEditActions();
         user.bindSaveActions();
-    }).catch((e) => {
+    }).catch(e => {
         toastError(e);
     });
     
@@ -338,30 +338,26 @@ $(document).ready(function() {
 
         // savers
         async save_settings(updateData) {
-            const updatedData = await fetch('api/v1/user/update', {
+            return await fetch('api/v1/user/update', {
                 method: 'PATCH',
                 mode: 'cors',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(updateData)
-            })
-            .then((response) => {
-                if (response.ok) return response.json();
-                throw new NetworkError(response);
-            })
-            .then((json) => {
+            }).then(response => {
+                if (!response.ok) throw new NetworkError;
+                return response.json();
+            }).then(json => {
                 if (json.status == "success") {
                     toast(json.message, '', 1);
                     return json.data;
                 }
                 throw new APIError(json);
-            })
-            .catch((error) => {
+            }).catch(error => {
                 toastError(error);
                 return null;
             });
-            return updatedData;
         }
 
         save_visual(section) {

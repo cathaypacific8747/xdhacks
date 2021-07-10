@@ -76,8 +76,8 @@ $ ./start.sh
 - [x] Listing Template - Delete listing
 - [ ] Listing Template - Get specific user listing
 
-- [ ] Market Template - Get list of googleIds from query
-- [ ] Market API - Aggregate listings by book id from list of google book ids (GET `/api/v1/market/aggregate?bookids=[____]`)
+- [x] Market Template - Get list of googleIds from query
+- [x] Market API - Aggregate listings by book id from list of google book ids (GET `/api/v1/market/aggregate?bookids=[____]`)
 - [ ] Market Template - Show aggregated listings
 - [ ] Market API - Get all listings with specific book id (GET `/api/v1/listing/search?bookid=___`)
 - [ ] Market Template - Clicking on username redirects to User Template

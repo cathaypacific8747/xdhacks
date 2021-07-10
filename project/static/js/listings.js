@@ -200,19 +200,16 @@ $(document).ready(function() {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                })
-                .then((response) => {
+                }).then((response) => {
                     if (response.ok) return response.json();
                     throw new NetworkError(response);
-                })
-                .then((json) => {
+                }).then((json) => {
                     if (json.status == "success") {
                         window.location.reload()
                         return;
                     }
                     throw new APIError(json);
-                })
-                .catch((error) => {
+                }).catch((error) => {
                     toastError(error);
                 });
             })

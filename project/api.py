@@ -13,13 +13,15 @@ from werkzeug.utils import secure_filename
 import uuid
 from io import BytesIO
 import discord
+from sqlalchemy import func
 
 api = Blueprint('api', __name__)
+
 def intable(string):
     try:
         int(string)
         return True
-    except:
+    except ValueError:
         return False
 
 @api.get('/api/v1/user/detail')
@@ -27,8 +29,8 @@ def user_detail():
     if not current_user.is_authenticated:
         raise APIForbiddenError()
 
-    id = request.args.get("userId")
-    user = User.query.filter_by(id=id).first() if id else current_user # get user information if specific user id not supplied
+    userid = request.args.get("userId")
+    user = User.query.filter_by(id=userid).first() if userid else current_user # get user information if specific user id not supplied
 
     return jsonify({
         "status": "success",
@@ -42,23 +44,32 @@ def user_update():
         raise APIForbiddenError()
 
     data = request.json
-    
+    if not data:
+        raise GenericInputError()
+
     if 'discord' in data and data['discord']:
-        if not re.match(r'^((?!(discordtag|everyone|here)#)((?!@|#|:|```).{2,32})#\d{4})', data['discord']): raise GenericInputError(description="Discord username must be in its correct 'username#tag' format.")
-        if len(data['instagram']) > 37: raise GenericInputError(description="Instagram username must be less or equal to than 37 characters.")
+        if not re.match(r'^((?!(discordtag|everyone|here)#)((?!@|#|:|```).{2,32})#\d{4})', data['discord']):
+            raise GenericInputError(description="Discord username must be in its correct 'username#tag' format.")
+        if len(data['instagram']) > 37:
+            raise GenericInputError(description="Instagram username must be less or equal to than 37 characters.")
         data['discord'] = clean(data['discord'])
 
     if 'instagram' in data and data['instagram']:
-        if not re.match(r'([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_]))?)', data['instagram']): raise GenericInputError(description="Instagram username must be in its correct format.")
-        if len(data['instagram']) > 30: raise GenericInputError(description="Instagram username must be less than or equal to 30 characters.")
+        if not re.match(r'([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_]))?)', data['instagram']):
+            raise GenericInputError(description="Instagram username must be in its correct format.")
+        if len(data['instagram']) > 30:
+            raise GenericInputError(description="Instagram username must be less than or equal to 30 characters.")
         data['instagram'] = clean(data['instagram'])
 
     if 'phone' in data and data['phone']:
-        if not re.match(r'[^0,1,7]{1}[0-9]{7}', data['phone']): raise GenericInputError(description='Phone number must be a correct Hong Kong phone number.')
-        if len(data['customContactInfo']) > 8: raise GenericInputError(description='Phone number must be a correct Hong Kong phone number.')
+        if not re.match(r'[^0,1,7]{1}[0-9]{7}', data['phone']):
+            raise GenericInputError(description='Phone number must be a correct Hong Kong phone number.')
+        if len(data['customContactInfo']) > 8:
+            raise GenericInputError(description='Phone number must be a correct Hong Kong phone number.')
 
     if 'customContactInfo' in data and data['customContactInfo']:
-        if len(data['customContactInfo']) > 200: raise GenericInputError(description='Custom contact information must be less than or equal to 200 characters.')
+        if len(data['customContactInfo']) > 200:
+            raise GenericInputError(description='Custom contact information must be less than or equal to 200 characters.')
         data['customContactInfo'] = clean(data['customContactInfo'])
 
     current_user.updateDetails(data)
@@ -125,10 +136,10 @@ def listing_detail():
 
     userid = request.args.get("userId")
     if userid: # querying others
-        listings = Listing.query.filter_by(ownerid=userid, deleted=False, open=True).order_by(Listing.created.desc())
+        listings = Listing.query.filter_by(ownerid=userid, deleted=False, open=True).order_by(Listing.created.desc()).all()
         data = [l.getDetails(public=True) for l in listings]
     else:
-        listings = Listing.query.filter_by(ownerid=current_user.id, deleted=False).order_by(Listing.created.desc())
+        listings = Listing.query.filter_by(ownerid=current_user.id, deleted=False).order_by(Listing.created.desc()).all()
         data = [l.getDetails(public=False) for l in listings]
 
     return jsonify({
@@ -181,15 +192,26 @@ def listing_delete():
         "data": None
     })
 
-# @api.get('/api/v1/book/detail')
-# @login_required
-# def book_detail():
-#     id = request.args.get("bookId")
-#     if not id:
-#         raise NoBookId()
-#     book = Book.query.filter_by(id=id).first()
-#     return jsonify({
-#         "status": "success",
-#         "message": None,
-#         "data": book.getDetails()
-#     })
+@api.post('/api/v1/market/aggregate')
+def aggregate():
+    if not current_user.is_authenticated:
+        raise APIForbiddenError()
+
+    data = request.json
+    if not data or "bookIds" not in data:
+        raise GenericInputError()
+    
+    query = Listing.query
+    if data["bookIds"]:
+        query = query.filter(Listing.bookid.in_(data["bookIds"]))
+    books = query.with_entities(Listing.bookid, func.count(Listing.bookid), func.min(Listing.price)).group_by(Listing.bookid).all()
+    
+    return jsonify({
+        "status": "success",
+        "message": None,
+        "data": [{
+            'bookid': book[0],
+            'count': book[1],
+            'minPrice': book[2] 
+        } for book in books]
+    })

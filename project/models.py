@@ -94,6 +94,3 @@ class Listing(db.Model):
         if not public: # private, show visibility
             data['open'] = self.open
         return data
-    
-    def delete(self):
-        self.deleted = True

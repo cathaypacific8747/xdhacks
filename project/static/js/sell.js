@@ -27,13 +27,13 @@ $(document).ready(function() {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then((response) => {
+        }).then(response => {
             if (response.ok) return response.json();
             throw new NetworkError(response);
-        }).then((json) => {
+        }).then(json => {
             if (json.totalItems == 0) throw new NoGoogleBooksResultsError();
             return json.items;
-        }).then((result) => {
+        }).then(result => {
             let resultsContainer = $('[data-element="google_book_results"]')
             resultsContainer.empty().removeClass("hide");
             for (let item of result) {
@@ -63,10 +63,10 @@ $(document).ready(function() {
                 resultsContainer.append(elem);
             }
             $('[data-element="help"]').html("Select a book from the list below.");
-            if (resultsContainer.children().length == 1 ) {
+            if (resultsContainer.children().length == 1) {
                 resultsContainer.find('[data-googleid]').click();
             }
-        }).catch((e) => {
+        }).catch(e => {
             if (e instanceof NoGoogleBooksResultsError) {
                 $('[data-element="help"]').html("No results found. Please check your inputs.");
             } else if (e instanceof NetworkError) {
