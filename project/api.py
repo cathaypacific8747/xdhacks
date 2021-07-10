@@ -100,7 +100,9 @@ async def upload():
         if f[0].mimetype.split('/')[0] == 'image' and extension:
             with BytesIO() as mem:
                 f[0].save(mem)
+                mem.seek(0)
                 size = mem.getbuffer().nbytes
+                print(size)
                 if size <= 0 or size >= 8e6:
                     raise GenericInputError(description='File size is too large.')
                 future = asyncio.run_coroutine_threadsafe(store(file=discord.File(fp=mem, filename=f'{uuid.uuid4()}.{extension}')), current_app.discordThread.loop).result()

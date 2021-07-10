@@ -98,7 +98,7 @@ body {
 }
 
 .mr-8 {
-	margin-right: .5rem;
+	margin-right: .5rem !important;
 }
 
 .ml-8 {
@@ -226,6 +226,11 @@ body {
 	align-self: flex-start;
 }
 
+.justify-content-end {
+	display: flex;
+	justify-content: flex-end;
+}
+
 #profileDropdown a {
 	padding: .5rem .5rem .5rem 1rem;
 	text-align: right;
@@ -270,6 +275,22 @@ body {
 
 .toastInformation {
 	background-color: #bbdcff;
+}
+
+.condition-poor {
+	color: #b73226;
+}
+
+.condition-fair {
+	color: #9e9d00;
+}
+
+.condition-good {
+	color: #00a413;
+}
+
+.condition-fine {
+	color: #0029b4;
 }
 
 .btn-transparent {

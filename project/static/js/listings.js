@@ -15,9 +15,13 @@ $(document).ready(function() {
     }).then((json) => {
         if (json["status"] == "success") return json["data"];
         throw new APIError(json);
-    }).then((result) => {
+    }).then((listings) => {
+        if (!listings.length) {
+            $('[data-element="help"]').html('You do not have any listings, start by creating one!');
+            return;
+        }
         return Promise.all(
-            result.map(({bookid}) => {
+            listings.map(({bookid}) => {
                 return fetch(`https://www.googleapis.com/books/v1/volumes/${bookid}`, {
                     method: 'GET',
                     mode: 'cors',
@@ -38,9 +42,12 @@ $(document).ready(function() {
             }));
         }).then((results) => {
             let resultsContainer = $('[data-element="listings_results"]')
-            for (let item of results) {
-                let book = new Book(item);
-                let elem = $(`<div class="row mx-0 mb-8 p-8 roundBox unselectable book" data-googleid="${book.googleId}">
+            for (let i = 0; i < results.length; i++) {
+                let book = new Book(results[i]);
+                let listing = new Listing(listings[i])
+                console.log(book, listing)
+
+                let elem = $(`<div class="row mx-0 mb-8 p-8 roundBox unselectable book" data-listingid="${listing.id}">
                     <div class="col s2 mx-0 p-0 minPicHeight shimmerBG">
                         <img class="google-book-image roundBox" src="${book.strings.thumbSmall}" onload="removeShimmer(this.parentElement);removeMinPicHeight(this.parentElement)" data-field="thumb">
                     </div>
@@ -48,14 +55,98 @@ $(document).ready(function() {
                         <div class="row mt-0 mb-2">
                             <div class="col font-size-24 text-bold">${book.strings.title}</div>
                         </div>
-                        <div class="row mt-0 mb-0">
-                            <div class="col font-size-16">ISBN: ${book.strings.isbn}</div>
+                        <div class="row mt-0 mb-2">
+                            <div class="col s6">
+                                <div class="row mt-0 mb-0">
+                                    <div class="col font-size-14 text-muted">Author${book.strings.plurality}</div>
+                                </div>
+                                <div class="row mt-0 mb-0">
+                                    <div class="col font-size-16">${book.strings.authors}</div>
+                                </div>
+                                <div class="row mt-0 mb-0">
+                                    <div class="col font-size-14 text-muted">Publisher</div>
+                                </div>
+                                <div class="row mt-0 mb-0">
+                                    <div class="col font-size-16">${book.strings.publisher}</div>
+                                </div>
+                                <div class="row mt-0 mb-0">
+                                    <div class="col font-size-14 text-muted">ISBN</div>
+                                </div>
+                                <div class="row mt-0 mb-0">
+                                    <div class="col font-size-16">${book.strings.isbn}</div>
+                                </div>
+                            </div>
+                            <div class="col s6">
+                                <div class="row mt-0 mb-0 justify-content-end">
+                                    <div class="col font-size-14 text-muted">Created</div>
+                                </div>
+                                <div class="row mt-0 mb-0 justify-content-end">
+                                    <div class="col font-size-16">${listing.strings.created}</div>
+                                </div>
+                                <div class="row mt-0 mb-0 justify-content-end">
+                                    <div class="col font-size-14 text-muted">Visibility</div>
+                                </div>
+                                <div class="row mt-0 mb-0 justify-content-end">
+                                    <div class="col font-size-16 valign-wrapper">
+                                        <i class="material-icons left mr-8 font-size-14">${listing.strings.openIcon}</i>
+                                        ${listing.strings.open}
+                                    </div>
+                                </div>
+                                <div class="row mt-0 mb-0 justify-content-end">
+                                    <div class="col">
+                                        <div class="row mt-0 mb-0 justify-content-end">
+                                            <div class="col font-size-14 text-muted">Condition</div>
+                                        </div>
+                                        <div class="row mt-0 mb-0 justify-content-end">
+                                            <div class="col font-size-16">
+                                                <span class="${listing.strings.conditionClass} tooltipped" data-position="right" data-tooltip="${listing.strings.conditionDescription}">
+                                                    ${listing.strings.condition}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row mt-0 mb-0 justify-content-end">
+                                            <div class="col font-size-14 text-muted">Notes</div>
+                                        </div>
+                                        <div class="row mt-0 mb-0 justify-content-end">
+                                            <div class="col font-size-16">${listing.strings.notes}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row mt-0 mb-0 justify-content-end">
+                                            <div class="col font-size-14 text-muted">Price</div>
+                                        </div>
+                                        <div class="row mt-0 mb-0 justify-content-end">
+                                            <div class="col font-size-16">${listing.strings.price}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+
+                                <div class="row mt-0 mb-0 justify-content-end">
+                                    <div class="col font-size-14 text-muted">Remarks</div>
+                                </div>
+                                <div class="row mt-0 mb-0 justify-content-end">
+                                    <div class="col font-size-16">${listing.remarks}</div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row mt-0 mb-0">
-                            <div class="col font-size-16">Author${book.strings.plurality}: ${book.strings.authors}</div>
-                        </div>
-                        <div class="row mt-0 mb-0">
-                            <div class="col font-size-16">Publisher: ${book.strings.publisher}</div>
+                        <div class="row mt-0 mb-0 justify-content-end">
+                            <div class="col">
+                                <a class="btn px-8 roundBox btn-transparent">
+                                    <i class="material-icons left">open_in_new</i>
+                                    View Images
+                                </a>
+                                <a class="btn px-8 roundBox btn-transparent">
+                                    <i class="material-icons left">${listing.strings.openIcon}</i>
+                                    Toggle Visibility
+                                </a>
+                                <a class="btn px-8 roundBox btn-transparent">
+                                    <i class="material-icons left">delete_forever</i>
+                                    Delete Listing
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>`);
@@ -78,64 +169,4 @@ $(document).ready(function() {
     }).finally(() => {
         $('[data-element="progress"]').addClass("hide");
     });
-
-    // fetch(`https://www.googleapis.com/books/v1/volumes?q=${string}&orderBy=relevance&maxResults=40`, {
-    //     method: 'GET',
-    //     mode: 'cors',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     }
-    // }).then((response) => {
-    //     if (response.ok) return response.json();
-    //     throw new NetworkError(response);
-    // }).then((json) => {
-    //     if (json["totalItems"] == 0) throw new NoGoogleBooksResultsError();
-    //     return json["items"];
-    // }).then((result) => {
-    //     let resultsContainer = $('[data-element="google_book_results"]')
-    //     resultsContainer.empty().removeClass("hide");
-    //     for (let item of result) {
-    //         let book = new Book(item);
-    //         let elem = $(`<div class="row mx-0 mb-8 p-8 roundBox unselectable book" data-googleid="${book.googleId}">
-    //             <div class="col s2 mx-0 p-0 minPicHeight shimmerBG">
-    //                 <img class="google-book-image roundBox" src="${book.strings.thumbSmall}" onload="removeShimmer(this.parentElement);removeMinPicHeight(this.parentElement)" data-field="thumb">
-    //             </div>
-    //             <div class="col s10">
-    //                 <div class="row mt-0 mb-2">
-    //                     <div class="col font-size-24 text-bold">${book.strings.title}</div>
-    //                 </div>
-    //                 <div class="row mt-0 mb-0">
-    //                     <div class="col font-size-16">ISBN: ${book.strings.isbn}</div>
-    //                 </div>
-    //                 <div class="row mt-0 mb-0">
-    //                     <div class="col font-size-16">Author${book.strings.plurality}: ${book.strings.authors}</div>
-    //                 </div>
-    //                 <div class="row mt-0 mb-0">
-    //                     <div class="col font-size-16">Publisher: ${book.strings.publisher}</div>
-    //                 </div>
-    //                 <div class="row mt-0 mb-0">
-    //                     <div class="col font-size-16">Retail Price: ${book.strings.retailPrice}</div>
-    //                 </div>
-    //             </div>
-    //         </div>`).click((e) => {
-    //             $('[data-googleid]').removeClass("book-selected");
-    //             $(e.target).closest('[data-googleid]').toggleClass("book-selected");
-    //         });
-    //         resultsContainer.append(elem);
-    //     }
-    //     $('[data-element="help"]').html("Select a book from the list below.");
-    //     if (resultsContainer.children().length == 1 ) {
-    //         resultsContainer.find('[data-googleid]').click();
-    //     }
-    // }).catch((e) => {
-    //     if (e instanceof NoGoogleBooksResultsError) {
-    //         $('[data-element="help"]').html("No results found. Please check your inputs.");
-    //     } else if (e instanceof NetworkError) {
-    //         $('[data-element="help"]').html("An error occured when retrieving data. Please check your connection or try again.");
-    //     } else {
-    //         console.error(e)
-    //     }
-    // }).finally(() => {
-    //     $('[data-element="progress"]').addClass("hide");
-    // });
 });

@@ -5,14 +5,6 @@ $.ajaxSetup({
     }
 })
 
-// $.ajaxSetup({
-//     beforeSend: function(xhr, settings) {
-//         if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
-//             xhrf.xhr.setRequestHeader("X-CSRFToken", csrftoken)
-//         }
-//     }
-// })
-
 $(document).ready(function() {
     $('.dropdown-trigger').dropdown({
         alignment: 'right',
@@ -27,7 +19,10 @@ $(document).ready(function() {
     })
     M.updateTextFields(); // fix prefilled text overlapping bug
 
-    class Book {
+    dayjs.extend(window.dayjs_plugin_utc);
+    dayjs.extend(window.dayjs_plugin_relativeTime);
+
+    window.Book = class {
         constructor(data) {
             this.googleId = data?.id;
             this.title = data?.volumeInfo?.title;
@@ -49,11 +44,59 @@ $(document).ready(function() {
             this.strings.retailPrice = this.retailPrice && this.retailPriceCurrency ? `${this.retailPriceCurrency} ${this.retailPrice}` : 'No information'
             // this.strings.description = this.description || '';
             this.strings.thumbSmall = this.thumbSmall ? this.thumbSmall : this.thumbLarge ? this.thumbLarge : 'https://books.google.com.hk/googlebooks/images/no_cover_thumb.gif';
-            this.strings.authors = this.authors ? this.authors.join(this.language && this.language.includes("zh") ? '、' : ', ') : 'Unknown';
+            this.strings.authors = this.authors ? this.authors.join(this.language && this.language.includes("en") ? ', ' : '、') : 'Unknown';
             this.strings.plurality = this.authors ? this.authors.length > 1 ? 's' : '' : '';
         }
     }
-    window.Book = Book;
+
+    window.Listing = class {
+        constructor(data) {
+            for (const key in data) {
+                this[key] = data[key];
+            }
+            
+            this.strings = {}
+
+            let createdD = dayjs(this.created*1000).local();
+            this.strings.created = `${createdD.format('DD/MM/YYYY HH:mm:ss')} (${createdD.fromNow()})`
+            this.strings.open = this.open ? 'Public' : 'Hidden';
+            this.strings.openIcon = this.open ? 'visibility' : 'visibility-off';
+            switch (this.condition) {
+                case 0:
+                    this.strings.condition = 'Poor';
+                    this.strings.conditionDescription = 'significant wear, possibly with a broken spine, loose joints or missing pages';
+                    this.strings.conditionClass = 'condition-poor';
+                    break;
+                case 1:
+                    this.strings.condition = 'Fair';
+                    this.strings.conditionDescription = 'some wear, possibly with folded pages, scratches or dents';
+                    this.strings.conditionClass = 'condition-fair';
+                    break;
+                case 2:
+                    this.strings.condition = 'Good';
+                    this.strings.conditionDescription = 'minor wear, but will still show signs of previous ownership';
+                    this.strings.conditionClass = 'condition-good';
+                    break;
+                case 3:
+                    this.strings.condition = 'Fine';
+                    this.strings.conditionDescription = 'very minor defects and faults, like brand new';
+                    this.strings.conditionClass = 'condition-fine';
+                    break;
+            }
+            switch (this.notes) {
+                case 0:
+                    this.strings.notes = 'None';
+                    break;
+                case 1:
+                    this.strings.notes = 'Some';
+                    break;
+                case 2:
+                    this.strings.notes = 'Comprehensive';
+                    break;
+            }
+            this.strings.price = `HKD ${this.price}`
+        }
+    }
 
     class NetworkError extends Error {
         constructor(response) {

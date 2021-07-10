@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone, tzinfo
 from sqlalchemy.dialects.postgresql import UUID, VARCHAR, ARRAY
 import uuid
 from flask_login import UserMixin
@@ -89,9 +89,8 @@ class Listing(db.Model):
             'notes': self.notes,
             'remarks': self.remarks,
             'images': self.images,
-            'created': self.created.timestamp(),
+            'created': self.created.replace(tzinfo=timezone.utc).timestamp(),
         }
-
         if not public: # private, show visibility
             data['open'] = self.open
         return data
