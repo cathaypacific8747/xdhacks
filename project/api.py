@@ -176,7 +176,7 @@ def listing_delete():
     if not current_user.is_authenticated:
         raise APIForbiddenError()
 
-    listingid = request.args.get("listingId")
+    listingid = request.args.get("listingid")
     if not listingid:
         raise GenericInputError()
     
@@ -218,6 +218,17 @@ def aggregate():
 
 @api.get('/api/v1/market/detail')
 def market_detail():
+    if not current_user.is_authenticated:
+        raise APIForbiddenError()
+
+    bookid = request.args.get("bookid")
+    if not bookid:
+        raise GenericInputError()
+    
+    listings = Listing.query.join(User, Listing.ownerid == User.id).filter(Listing.bookid == bookid).filter(Listing.open == True).filter(Listing.deleted == False).all()
+    print(listings)
+    # [l.getDetails(public=True, showOwner=True) for l in listings]
+
     return jsonify({
         "status": "success",
         "message": None,

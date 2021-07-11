@@ -193,8 +193,8 @@ $(document).ready(function() {
                 });
             })
             $('[data-button="delete"]').click(e => {
-                const listingId = $(e.target).closest('[data-listingid]').attr('data-listingid');
-                fetch(`/api/v1/listing/delete?listingId=${listingId}`, {
+                const listingid = $(e.target).closest('[data-listingid]').attr('data-listingid');
+                fetch(`/api/v1/listing/delete?listingid=${listingid}`, {
                     method: 'DELETE',
                     mode: 'cors',
                     headers: {

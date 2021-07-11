@@ -30,22 +30,30 @@ $(document).ready(function() {
             this.authors = data?.volumeInfo?.authors;
             this.language = data?.volumeInfo?.language;
             this.publisher = data?.volumeInfo?.publisher;
+            this.publishedDate = data?.volumeInfo?.publishedDate;
             // this.description = data?.volumeInfo?.description;
+            this.pageCount = data?.volumeInfo?.pageCount;
+            this.height = data?.volumeInfo?.dimensions?.height;
+            this.width = data?.volumeInfo?.dimensions?.width;
+            this.thickness = data?.volumeInfo?.dimensions?.thickness;
             this.imagelinks = data?.volumeInfo?.imageLinks;
-            this.retailPrice = data?.saleInfo?.listPrice?.amount;
-            this.retailPriceCurrency = data?.saleInfo?.listPrice?.currencyCode;
+            // this.retailPrice = data?.saleInfo?.listPrice?.amount;
+            // this.retailPriceCurrency = data?.saleInfo?.listPrice?.currencyCode;
             this.thumbSmall = this.imagelinks?.smallThumbnail;
             this.thumbLarge = this.imagelinks?.extraLarge ? this.imagelinks.extraLarge : this.imagelinks?.large ? this.imagelinks.large : this.imagelinks?.medium ? this.imagelinks.medium : this.imagelinks?.small ? this.imagelinks.small : this.imagelinks?.thumbnail ? this.imagelinks.thumbnail : this.imagelinks?.smallThumbnail;
 
             this.strings = {}
             this.strings.title = this.title || 'Unknown';
             this.strings.isbn = this.isbn || 'Unknown';
-            this.strings.publisher = this.publisher || 'Unknown';
-            this.strings.retailPrice = this.retailPrice && this.retailPriceCurrency ? `${this.retailPriceCurrency} ${this.retailPrice}` : 'No information'
-            // this.strings.description = this.description || '';
-            this.strings.thumbSmall = this.thumbSmall ? this.thumbSmall : this.thumbLarge ? this.thumbLarge : 'https://books.google.com.hk/googlebooks/images/no_cover_thumb.gif';
             this.strings.authors = this.authors ? this.authors.join(this.language && this.language.includes("en") ? ', ' : '、') : 'Unknown';
             this.strings.plurality = this.authors ? this.authors.length > 1 ? 's' : '' : '';
+            this.strings.publisher = this.publisher || 'Unknown';
+            this.strings.publishedDate = this.publishedDate || 'Unknown';
+            // this.strings.description = this.description || 'N/A';
+            this.strings.pageCount = this.pageCount || 'Unknown';
+            this.strings.dimensions = (this.height && this.width && this.thickness) ? `Height/Width/Thickness - ${this.height}/${this.width}/${this.thickness}` : 'Unknown';
+            this.strings.thumbSmall = this.thumbSmall ? this.thumbSmall : this.thumbLarge ? this.thumbLarge : 'https://books.google.com.hk/googlebooks/images/no_cover_thumb.gif';
+            // this.strings.retailPrice = this.retailPrice && this.retailPriceCurrency ? `${this.retailPriceCurrency} ${this.retailPrice}` : 'No information'
         }
     }
 
