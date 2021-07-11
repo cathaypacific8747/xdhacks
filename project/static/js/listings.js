@@ -17,17 +17,17 @@ $(document).ready(function() {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then((response) => {
-        if (response.ok) return response.json();
-        throw new NetworkError(response);
-    }).then((json) => {
-        if (json["status"] == "success") return json["data"];
-        throw new APIError(json);
-    }).then((listings) => {
-        if (!listings.length) {
+    }).then(response => {
+        if (!response.ok) throw new NetworkError;
+        return response.json();
+    }).then(json => {
+        if (json.status != "success") throw new APIError(json);
+        if (json.data.length == 0) {
             $('[data-element="help"]').html('You do not have any listings, start by creating one!');
             return;
         }
+        return json.data;
+    }).then(async listings => {
         return Promise.all(
             listings.map(({bookid}) => {
                 return fetch(`https://www.googleapis.com/books/v1/volumes/${bookid}`, {
@@ -38,17 +38,17 @@ $(document).ready(function() {
                     }
                 })
             })
-        ).then((responses) => {
-            return Promise.all(responses.map((response) => {
-                if (response.ok) return response.json();
-                throw new NetworkError(response);
+        ).then(responses => {
+            return Promise.all(responses.map(response => {
+                if (!response.ok) throw new NetworkError(response);
+                return response.json();
             }));
-        }).then((jsons) => {
-            return Promise.all(jsons.map((json) => {
+        }).then(jsons => {
+            return Promise.all(jsons.map(json => {
                 if ('error' in json) throw new NoGoogleBooksResultsError();
                 return json;
             }));
-        }).then((results) => {
+        }).then(results => {
             let resultsContainer = $('[data-element="listings_results"]')
             for (let i = 0; i < results.length; i++) {
                 let book = new Book(results[i]);
@@ -158,7 +158,7 @@ $(document).ready(function() {
                 resultsContainer.append(elem);
             }
             $('[data-element="help"]').addClass('hide').html('');
-            $('[data-button="view_image"]').click((e) => {
+            $('[data-button="view_image"]').click(e => {
                 const carousel = $('#carousel').empty()
                 const listingid = $(e.target).closest('[data-listingid]').attr('data-listingid');
                 listings.find(x => x.id == listingid).images.forEach(image => {
@@ -166,7 +166,7 @@ $(document).ready(function() {
                 })
                 $('#imagemodal').modal('open')
             })
-            $('[data-button="toggle_visibility"]').click((e) => {
+            $('[data-button="toggle_visibility"]').click(e => {
                 const parentElement = $(e.target).closest('[data-listingid]')
                 const listingId = parentElement.attr('data-listingid');
                 fetch(`/api/v1/listing/toggleOpen?listingId=${listingId}`, {
@@ -192,7 +192,7 @@ $(document).ready(function() {
                     toastError(error);
                 });
             })
-            $('[data-button="delete"]').click((e) => {
+            $('[data-button="delete"]').click(e => {
                 const listingId = $(e.target).closest('[data-listingid]').attr('data-listingid');
                 fetch(`/api/v1/listing/delete?listingId=${listingId}`, {
                     method: 'DELETE',
@@ -200,23 +200,23 @@ $(document).ready(function() {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                }).then((response) => {
-                    if (response.ok) return response.json();
-                    throw new NetworkError(response);
-                }).then((json) => {
+                }).then(response => {
+                    if (!response.ok) throw new NetworkError(response);
+                    return response.json();
+                }).then(json => {
                     if (json.status == "success") {
                         window.location.reload()
                         return;
                     }
                     throw new APIError(json);
-                }).catch((error) => {
+                }).catch(error => {
                     toastError(error);
                 });
             })
-        }).catch((e) => {
+        }).catch(e => {
             throw e;
         });
-    }).catch((e) => {
+    }).catch(e => {
         if (e instanceof NoGoogleBooksResultsError) {
             $('[data-element="help"]').html("An error occurred in Google's servers. Please try again later.");
         } else if (e instanceof APIError) {

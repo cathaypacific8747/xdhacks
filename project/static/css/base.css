@@ -238,6 +238,11 @@ body {
 	align-self: flex-start;
 }
 
+.align-items-end {
+	display: flex;
+	align-items: flex-end;
+}
+
 .justify-content-end {
 	display: flex;
 	justify-content: flex-end;

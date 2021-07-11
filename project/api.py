@@ -201,10 +201,10 @@ def aggregate():
     if not data or "bookIds" not in data:
         raise GenericInputError()
     
-    query = Listing.query
+    query = Listing.query.filter_by(open=True, deleted=False)
     if data["bookIds"]:
         query = query.filter(Listing.bookid.in_(data["bookIds"]))
-    books = query.with_entities(Listing.bookid, func.count(Listing.bookid), func.min(Listing.price)).group_by(Listing.bookid).all()
+    books = query.with_entities(Listing.bookid, func.count(Listing.bookid), func.min(Listing.price)).group_by(Listing.bookid).limit(40).all()
     
     return jsonify({
         "status": "success",

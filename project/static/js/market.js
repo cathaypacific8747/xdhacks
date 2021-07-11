@@ -27,10 +27,89 @@ $(document).ready(function() {
             throw new NetworkError(response);
         }).then(json => {
             if (json.status != "success") throw new APIError(json);
-            if (!json.data.length) throw new NoGoogleBooksResultsError();
+            if (json.data.length == 0) throw new NoGoogleBooksResultsError();
             return json.data;
-        }).then(data => {
-            console.log(data)
+        }).then(async data => {
+            return Promise.all(
+                data.map(({bookid}) => {
+                    return fetch(`https://www.googleapis.com/books/v1/volumes/${bookid}`, {
+                        method: 'GET',
+                        mode: 'cors',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                })
+            ).then(responses => {
+                return Promise.all(responses.map(response => {
+                    if (!response.ok) throw new NetworkError(response);
+                    return response.json();
+                }));
+            }).then(jsons => {
+                return Promise.all(jsons.map(json => {
+                    if ('error' in json) throw new NoGoogleBooksResultsError();
+                    return json;
+                }));
+            }).then(results => {
+                let resultsContainer = $('[data-element="market_results"]')
+                for (let i = 0; i < results.length; i++) {
+                    let book = new Book(results[i]);
+                    const offerPlurality = data[i].count > 1 ? 's' : '';
+                    // console.log(book, results[i], data[i]);
+                    let elem = $(`<div class="row mx-0 mb-8 p-8 roundBox book" data-bookid="${data[i].bookid}">
+                        <div class="col s2 mx-0 p-0 minPicHeight shimmerBG">
+                            <img class="google-book-image roundBox" src="${book.strings.thumbSmall}" onload="removeShimmer(this.parentElement);removeMinPicHeight(this.parentElement)" data-field="thumb">
+                        </div>
+                        <div class="col s10">
+                            <div class="row mt-0 mb-2">
+                                <div class="col font-size-24 text-bold">${book.strings.title}</div>
+                            </div>
+                            <div class="row mt-0 mb-2 align-items-end">
+                                <div class="col s6">
+                                    <div class="row mt-0 mb-0">
+                                        <div class="col font-size-14 text-muted">Author${book.strings.plurality}</div>
+                                    </div>
+                                    <div class="row mt-0 mb-0">
+                                        <div class="col font-size-16">${book.strings.authors}</div>
+                                    </div>
+                                    <div class="row mt-0 mb-0">
+                                        <div class="col font-size-14 text-muted">Publisher</div>
+                                    </div>
+                                    <div class="row mt-0 mb-0">
+                                        <div class="col font-size-16">${book.strings.publisher}</div>
+                                    </div>
+                                    <div class="row mt-0 mb-0">
+                                        <div class="col font-size-14 text-muted">ISBN</div>
+                                    </div>
+                                    <div class="row mt-0 mb-0">
+                                        <div class="col font-size-16">${book.strings.isbn}</div>
+                                    </div>
+                                </div>
+                                <div class="col s6">
+                                    <div class="row mt-0 mb-0 justify-content-end">
+                                        <div class="col font-size-16">${data[i].count} offer${offerPlurality}</div>
+                                    </div>
+                                    <div class="row mt-0 mb-0 justify-content-end">
+                                        <div class="col font-size-20">From HKD${data[i].minPrice}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-0 mb-0 justify-content-end">
+                                <div class="col">
+                                    <a class="btn px-8 roundBox btn-transparent btn-transparent-primary" data-button="view_image">
+                                        <i class="material-icons left">list</i>
+                                        View Offer${offerPlurality}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`);
+                    resultsContainer.append(elem);
+                }
+                $('[data-element="help"]').html('');
+            }).catch(e => {
+                throw e;
+            });
         }).catch(e => {
             if (e instanceof NoGoogleBooksResultsError) {
                 $('[data-element="help"]').html("No results found. Please check your inputs.");
@@ -40,7 +119,6 @@ $(document).ready(function() {
                 console.error(e);
             }
         }).finally(() => {
-            $('[data-element="help"]').html('');
             $('[data-element="progress"]').addClass("hide");
         });
     }
@@ -82,4 +160,6 @@ $(document).ready(function() {
             search(e.target.value);
         }
     });
+
+    aggregate(); // autosearch
 });
