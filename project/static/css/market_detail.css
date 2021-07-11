@@ -1,0 +1,25 @@
+.book {
+    border: 1px solid rgba(0, 158, 206, 25%);
+    background-color: rgba(0, 158, 206, 5%);
+}
+
+.google-book-image {
+    width: 100%;
+}
+
+.minPicHeight {
+    height: 172px;
+}
+
+.carousel .carousel-item > img {
+    height: 100% !important;
+    width: unset;
+}
+
+.modal, .modal-content, .carousel {
+    background-color: black;
+}
+
+.modal-content {
+    padding: 0 !important; 
+}

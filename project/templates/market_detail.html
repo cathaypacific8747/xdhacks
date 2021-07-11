@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <meta name="bookid" content="{{ bookid }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/market_detail.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row valign-wrapper">
+        <div class="col s12">
+            <div class="font-size-32 text-bold mb-8">Offer Details</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/market_detail.js') }}"></script>
+{% endblock %}

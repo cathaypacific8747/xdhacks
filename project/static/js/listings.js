@@ -157,7 +157,7 @@ $(document).ready(function() {
                 </div>`);
                 resultsContainer.append(elem);
             }
-            $('[data-element="help"]').addClass('hide').html('');
+            $('[data-element="help"]').addClass('hide').empty();
             $('[data-button="view_image"]').click(e => {
                 const carousel = $('#carousel').empty()
                 const listingid = $(e.target).closest('[data-listingid]').attr('data-listingid');

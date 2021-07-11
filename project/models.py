@@ -80,7 +80,7 @@ class Listing(db.Model):
     open = db.Column(db.Boolean, default=True)
     deleted = db.Column(db.Boolean, default=False)
 
-    def getDetails(self, public=True):        
+    def getDetails(self, public=True):
         data = {
             'id': self.id,
             'bookid': self.bookid,

@@ -19,7 +19,7 @@ $(document).ready(function() {
             return;
         }
         $('[data-element="progress"]').removeClass("hide");
-        $('[data-element="help"]').html('');
+        $('[data-element="help"]').empty();
 
         fetch(`https://www.googleapis.com/books/v1/volumes?q=${string}&orderBy=relevance&maxResults=40`, {
             method: 'GET',

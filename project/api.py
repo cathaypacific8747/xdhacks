@@ -198,12 +198,12 @@ def aggregate():
         raise APIForbiddenError()
 
     data = request.json
-    if not data or "bookIds" not in data:
+    if not data or "bookids" not in data:
         raise GenericInputError()
     
     query = Listing.query.filter_by(open=True, deleted=False)
-    if data["bookIds"]:
-        query = query.filter(Listing.bookid.in_(data["bookIds"]))
+    if data["bookids"]:
+        query = query.filter(Listing.bookid.in_(data["bookids"]))
     books = query.with_entities(Listing.bookid, func.count(Listing.bookid), func.min(Listing.price)).group_by(Listing.bookid).limit(40).all()
     
     return jsonify({
@@ -214,4 +214,12 @@ def aggregate():
             'count': book[1],
             'minPrice': book[2] 
         } for book in books]
+    })
+
+@api.get('/api/v1/market/detail')
+def market_detail():
+    return jsonify({
+        "status": "success",
+        "message": None,
+        "data": None
     })

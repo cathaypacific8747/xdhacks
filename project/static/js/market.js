@@ -10,17 +10,22 @@ $(document).ready(function() {
         }
     }
 
-    async function aggregate(bookIds=[]) {
+    function showLoading() {
         $('[data-element="progress"]').removeClass("hide");
         $('[data-element="help"]').html(initialHelpText);
-        await fetch('api/v1/market/aggregate', {
+        $('[data-element="market_results"]').empty()
+    }
+
+    async function aggregate(bookids=[]) {
+        showLoading();
+        await fetch('/api/v1/market/aggregate', {
             method: 'POST',
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                bookIds: bookIds
+                bookids: bookids
             })
         }).then(response => {
             if (response.ok) return response.json();
@@ -51,11 +56,10 @@ $(document).ready(function() {
                     return json;
                 }));
             }).then(results => {
-                let resultsContainer = $('[data-element="market_results"]')
+                let resultsContainer = $('[data-element="market_results"]');
                 for (let i = 0; i < results.length; i++) {
                     let book = new Book(results[i]);
                     const offerPlurality = data[i].count > 1 ? 's' : '';
-                    // console.log(book, results[i], data[i]);
                     let elem = $(`<div class="row mx-0 mb-8 p-8 roundBox book" data-bookid="${data[i].bookid}">
                         <div class="col s2 mx-0 p-0 minPicHeight shimmerBG">
                             <img class="google-book-image roundBox" src="${book.strings.thumbSmall}" onload="removeShimmer(this.parentElement);removeMinPicHeight(this.parentElement)" data-field="thumb">
@@ -96,9 +100,9 @@ $(document).ready(function() {
                             </div>
                             <div class="row mt-0 mb-0 justify-content-end">
                                 <div class="col">
-                                    <a class="btn px-8 roundBox btn-transparent btn-transparent-primary" data-button="view_image">
+                                    <a class="btn px-8 roundBox btn-transparent btn-transparent-primary" data-button="view_details">
                                         <i class="material-icons left">list</i>
-                                        View Offer${offerPlurality}
+                                        View Details
                                     </a>
                                 </div>
                             </div>
@@ -106,7 +110,11 @@ $(document).ready(function() {
                     </div>`);
                     resultsContainer.append(elem);
                 }
-                $('[data-element="help"]').html('');
+                $('[data-button="view_details"]').click(e => {
+                    const bookid = $(e.target).closest('[data-bookid]').attr('data-bookid');
+                    window.open(`/market/${bookid}`, "_blank");
+                })
+                $('[data-element="help"]').empty();
             }).catch(e => {
                 throw e;
             });
@@ -124,11 +132,11 @@ $(document).ready(function() {
     }
 
     async function search(string) {
-        $('[data-element="google_book_results"]').addClass("hide").empty();
         if (!string) {
             await aggregate();
             return;
         }
+        showLoading();
         fetch(`https://www.googleapis.com/books/v1/volumes?q=${string}&orderBy=relevance&maxResults=40&projection=lite`, {
             method: 'GET',
             mode: 'cors',

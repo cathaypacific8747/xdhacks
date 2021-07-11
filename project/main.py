@@ -24,7 +24,15 @@ def sell():
 def listings():
     return render_template('listings.html')
 
-@main.route('/market')
+@main.route('/market/')
+@main.route('/market/<string:bookid>')
 @login_required
-def market():
+def market(bookid=None):
+    if bookid:
+        return render_template('market_detail.html', bookid=bookid)
     return render_template('market.html')
+
+# @main.route('/market/<string:bookid>')
+# @login_required
+# def offer(bookid):
+#     return render_template('market_detail.html', bookid=bookid)

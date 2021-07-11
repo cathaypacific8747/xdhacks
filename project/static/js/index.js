@@ -1,4 +1,4 @@
 $('.show-1').css("opacity", 1)
-setTimeout(function() {
+setTimeout(() => {
     $('.show-2').css("opacity", 1)
 }, 500)
