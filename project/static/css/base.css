@@ -372,6 +372,11 @@ body {
 	background: var(--link-color-danger-hover);
 }
 
+.material-tooltip {
+	border-radius: .5rem !important;
+	background-color: #00000088 !important;
+}
+
 /* SHIMMER */
 
 .shimmerBG {

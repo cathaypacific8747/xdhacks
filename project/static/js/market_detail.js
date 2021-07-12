@@ -103,8 +103,7 @@ $(document).ready(function() {
             for (const l of listings) {
                 let listing = new Listing(l);
                 let owner = new Owner(l.owner);
-                console.log(owner);
-                let elem = $(`<div class="row mx-0 mb-8 p-16 roundBox listing" data-listingid="${listing.id}">
+                let elem = $(`<div class="row mx-0 mb-8 p-16 roundBox listing" data-listingid="${listing.id}" data-owneruserid="${owner.id}">
                     <div class="row mt-0 mb-2 valign-wrapper">
                         <div class="col s1">
                             <div class="profile-picture rounded shimmerBG">
@@ -158,7 +157,7 @@ $(document).ready(function() {
                                     </div>
                                     <div class="row mt-0 mb-0">
                                         <div class="col s12 word-wrap font-size-16 right-align">
-                                            <span class="${listing.strings.conditionClass} tooltipped" data-position="right" data-tooltip="${listing.strings.conditionDescription}">
+                                            <span class="${listing.strings.conditionClass} tooltipped" data-position="left" data-tooltip="${listing.strings.conditionDescription}">
                                                 ${listing.strings.condition}
                                             </span>
                                         </div>
@@ -191,6 +190,10 @@ $(document).ready(function() {
                     </div>
                     <div class="row mt-0 mb-0 justify-content-end">
                         <div class="col">
+                            <a class="btn px-8 roundBox btn-transparent btn-transparent-primary" data-button="view_profile">
+                                <i class="material-icons left">account_circle</i>
+                                View Owner Profile
+                            </a>
                             <a class="btn px-8 roundBox btn-transparent btn-transparent-primary" data-button="view_image">
                                 <i class="material-icons left">open_in_new</i>
                                 View Images
@@ -211,6 +214,10 @@ $(document).ready(function() {
                     carousel.append(`<a class="carousel-item justify-content-center"><img src="${image}"></a>`);
                 })
                 $('#imagemodal').modal('open');
+            })
+            $('[data-button="view_profile"]').click(e => {
+                const owneruserid = $(e.target).closest('[data-owneruserid]').attr('data-owneruserid');
+                window.location.href = `/profile/${owneruserid}`;
             })
             $('[data-element="help"]').empty();
             return;

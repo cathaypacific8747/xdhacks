@@ -54,7 +54,7 @@ $ ./start.sh
 - [x] Use UUIDs
 - [x] Use Postgres
 - [x] User Template - Server side validation and sanitizing.
-- [ ] User Template - Get specific user details
+- [x] User Template - Get specific user details
 - [ ] User Template - Clicking on 'show listings' redirects to Listing Template
 
 - [x] Listing API - Upload (POST `/api/v1/listing/upload`)
@@ -83,8 +83,7 @@ $ ./start.sh
 - [x] Market Sub-template - Basic routings
 - [x] Market Sub-template - Show book information from Google
 - [x] Market Sub-template - Display all listings offered by that user
-- [ ] Market Sub-template - Clicking on username redirects to User Template
-- [ ] Market API - Book Sort and Listing sort and filter
+- [x] Market Sub-template - Clicking on username redirects to User Template
 
 - [ ] Chat API (Flask-SocketIO, new blueprint?)
 - [ ] Chat Template - Basic send/recieve
@@ -95,6 +94,8 @@ $ ./start.sh
 - [ ] Privacy Policy
 - [ ] Terms of service
 - [ ] I agree to TOS and privacy policy checkbox in Signup Template
+
+- [ ] Enhancement - Market API: Book Sort and Listing sort and filter
 - [ ] Enhancement - Cache Book Names, ISBNs and use full-text search for Market Template
 - [ ] Enhancement - Image override if image isn't avaliable
 - [ ] Enhancement - add statistics to homepage, etc. user count, book count, successful transfer count

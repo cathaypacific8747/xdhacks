@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $('[data-editfield="customContactInfo_text"]').characterCounter();
     
-    fetch('api/v1/user/detail', {
+    fetch('/api/v1/user/detail', {
         method: 'GET',
         mode: 'cors',
         headers: {
@@ -77,7 +77,7 @@ $(document).ready(function() {
             for (let p of paymentInformations) {
                 if (this.data[p]) {
                     hasPaymentInformation = true;
-                    $(`[data-field="${p}"]`).attr("src", `static/img/payment/${p}.png`);
+                    $(`[data-field="${p}"]`).attr("src", `/static/img/payment/${p}.png`);
                 } else {
                     $(`[data-field="${p}"]`).attr("src", '');
                 }
@@ -200,7 +200,7 @@ $(document).ready(function() {
         }
         update_discord() {
             if (this.data.discord) {
-                $('[data-field="discord_icon"]').attr("src", "static/img/contact/discord.png");
+                $('[data-field="discord_icon"]').attr("src", "/static/img/contact/discord.png");
                 $('[data-field="discord"]').html(this.data.discord);
                 this.unhide_container("discord_container");
             } else {
@@ -226,7 +226,7 @@ $(document).ready(function() {
         }
         update_instagram() {
             if (this.data.instagram) {
-                $('[data-field="instagram_icon"]').attr("src", "static/img/contact/instagram.png");
+                $('[data-field="instagram_icon"]').attr("src", "/static/img/contact/instagram.png");
                 $('[data-field="instagram"]').html(this.data.instagram);
                 this.unhide_container("instagram_container");
             } else {
@@ -255,11 +255,11 @@ $(document).ready(function() {
         }
         update_phone() {
             if (this.data.phone) {
-                $('[data-field="phone_icon"]').attr("src", "static/img/contact/phone.png");
+                $('[data-field="phone_icon"]').attr("src", "/static/img/contact/phone.png");
                 $('[data-field="phone"]').html(this.data.phone);
-                if (this.data.whatsapp) $('[data-field="whatsapp"]').attr("src", "static/img/contact/whatsapp.png")
-                if (this.data.signal) $('[data-field="signal"]').attr("src", "static/img/contact/signal.png")
-                if (this.data.telegram) $('[data-field="telegram"]').attr("src", "static/img/contact/telegram.png")
+                if (this.data.whatsapp) $('[data-field="whatsapp"]').attr("src", "/static/img/contact/whatsapp.png")
+                if (this.data.signal) $('[data-field="signal"]').attr("src", "/static/img/contact/signal.png")
+                if (this.data.telegram) $('[data-field="telegram"]').attr("src", "/static/img/contact/telegram.png")
                 this.unhide_container("phone_container");
             } else {
                 this.hide_container("phone_container");
@@ -284,7 +284,7 @@ $(document).ready(function() {
         }
         update_customContactInfo() {
             if (this.data.customContactInfo) {
-                $('[data-field="customContactInfo_icon"]').attr("src", "static/img/contact/customContactInfo.png");
+                $('[data-field="customContactInfo_icon"]').attr("src", "/static/img/contact/customContactInfo.png");
                 $('[data-field="customContactInfo"]').html(this.data.customContactInfo);
                 this.unhide_container("customContactInfo_container");
             } else {
@@ -294,18 +294,6 @@ $(document).ready(function() {
         }
 
         populate() {
-            // this.data.cash = true;
-            // this.data.octopus = true;
-            // this.data.payme = true;
-            // this.data.seller = false;
-            // this.data.inSchoolExchange = true;
-            // this.data.public = false;
-            // this.data.discord = "cathayexpress#2424";
-            // this.data.instagram = "walter.stop.bullying.me";
-            // this.data.phone = "54102041"
-            // this.data.whatsapp = true;
-            // this.data.customContactInfo = "This is the service hotline for bullying Abraham. Operating hours - 24/7/365. Quality guaranteed, with life-time warranty."
-            
             this.update_profile();
 
             this.remove_loader("payment_information_loader");

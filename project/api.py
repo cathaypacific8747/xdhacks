@@ -30,8 +30,11 @@ def user_detail():
     if not current_user.is_authenticated:
         raise APIForbiddenError()
 
-    userid = request.args.get("userId")
+    userid = request.args.get("userid")
     user = User.query.filter_by(id=userid).first() if userid else current_user # get user information if specific user id not supplied
+
+    if not user:
+        raise GenericInputError(description='No such user found.')
 
     return jsonify({
         "status": "success",

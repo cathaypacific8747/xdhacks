@@ -10,8 +10,11 @@ def index():
     return render_template('index.html')
 
 @main.route('/settings')
+@main.route('/profile/<string:userid>')
 @login_required
-def settings():
+def settings(userid=None):
+    if userid:
+        return render_template('settings_readonly.html', userid=userid)
     return render_template('settings.html')
 
 @main.route('/sell')

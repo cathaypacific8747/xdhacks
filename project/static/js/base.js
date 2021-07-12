@@ -13,10 +13,6 @@ $(document).ready(function() {
     })
 
     $('.tooltipped').tooltip();
-    $('.material-tooltip').css({
-        "border-radius": ".5rem",
-        "background-color": "#00000088"
-    })
     M.updateTextFields(); // fix prefilled text overlapping bug
 
     dayjs.extend(window.dayjs_plugin_utc);
@@ -72,22 +68,22 @@ $(document).ready(function() {
             switch (this.condition) {
                 case 0:
                     this.strings.condition = 'Poor';
-                    this.strings.conditionDescription = 'significant wear, possibly with a broken spine, loose joints or missing pages';
+                    this.strings.conditionDescription = 'Significant wear, possibly with a broken spine, loose joints or missing pages';
                     this.strings.conditionClass = 'condition-poor';
                     break;
                 case 1:
                     this.strings.condition = 'Fair';
-                    this.strings.conditionDescription = 'some wear, possibly with folded pages, scratches or dents';
+                    this.strings.conditionDescription = 'Some wear, possibly with folded pages, scratches or dents';
                     this.strings.conditionClass = 'condition-fair';
                     break;
                 case 2:
                     this.strings.condition = 'Good';
-                    this.strings.conditionDescription = 'minor wear, but will still show signs of previous ownership';
+                    this.strings.conditionDescription = 'Minor wear, but will still show signs of previous ownership';
                     this.strings.conditionClass = 'condition-good';
                     break;
                 case 3:
                     this.strings.condition = 'Fine';
-                    this.strings.conditionDescription = 'very minor defects and faults, like brand new';
+                    this.strings.conditionDescription = 'Very minor defects and faults, like brand new';
                     this.strings.conditionClass = 'condition-fine';
                     break;
             }

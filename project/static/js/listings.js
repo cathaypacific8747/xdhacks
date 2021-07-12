@@ -11,7 +11,7 @@ $(document).ready(function() {
     $('[data-element="help"]').removeClass("hide").html(initialHelpText);
     $('[data-element="progress"]').removeClass("hide");
 
-    fetch('api/v1/listing/detail', {
+    fetch('/api/v1/listing/detail', {
         method: 'GET',
         mode: 'cors',
         headers: {
