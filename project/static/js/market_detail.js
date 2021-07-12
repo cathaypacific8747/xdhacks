@@ -21,7 +21,7 @@ $(document).ready(function() {
             this.strings = {}
             this.strings.profilePic = `${data.profilePic}=s96-c`
             this.strings.badgeElem = this.cky ? '<i class="font-size-20 material-icons unselectable tooltipped verified" data-position="right" data-tooltip="This user is a verified CKY student.">verified</i>' : '<i class="font-size-20 material-icons unselectable tooltipped not-verified" data-position="right" data-tooltip="This user may not be a CKY student.">warning</i>'
-            this.strings.negotiable = this.negotiable ? 'Yes<i class="font-size-20 material-icons unselectable negotiable ml-4">check</i>' : 'No<i class="font-size-20 material-icons unselectable not negotiable ml-4">close</i>'
+            this.strings.negotiable = this.negotiable ? 'Yes<i class="font-size-20 material-icons unselectable negotiable ml-4">check</i>' : 'No<i class="font-size-20 material-icons unselectable not-negotiable ml-4">close</i>'
             this.strings.payment = [
                 ['cash', 'Cash'], 
                 ['octopus', 'Octopus'], 
@@ -103,7 +103,7 @@ $(document).ready(function() {
             for (const l of listings) {
                 let listing = new Listing(l);
                 let owner = new Owner(l.owner);
-                let elem = $(`<div class="row mx-0 mb-8 p-16 roundBox listing" data-listingid="${listing.id}" data-owneruserid="${owner.id}">
+                let elem = $(`<div class="row mx-0 mb-8 p-16 roundBox listing" data-listingid="${listing.listingid}" data-owneruserid="${owner.userid}">
                     <div class="row mt-0 mb-2 valign-wrapper">
                         <div class="col s1">
                             <div class="profile-picture rounded shimmerBG">
@@ -210,7 +210,7 @@ $(document).ready(function() {
             $('[data-button="view_image"]').click(e => {
                 const carousel = $('#carousel').empty()
                 const listingid = $(e.target).closest('[data-listingid]').attr('data-listingid');
-                listings.find(x => x.id == listingid).images.forEach(image => {
+                listings.find(x => x.listingid == listingid).images.forEach(image => {
                     carousel.append(`<a class="carousel-item justify-content-center"><img src="${image}"></a>`);
                 })
                 $('#imagemodal').modal('open');

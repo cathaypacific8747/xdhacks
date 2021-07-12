@@ -54,7 +54,7 @@ $(document).ready(function() {
             for (let i = 0; i < results.length; i++) {
                 let book = new Book(results[i]);
                 let listing = new Listing(listings[i])
-                let elem = $(`<div class="row mx-0 mb-8 p-8 roundBox book" data-listingid="${listing.id}">
+                let elem = $(`<div class="row mx-0 mb-8 p-8 roundBox book" data-listingid="${listing.listingid}">
                     <div class="col s2 mx-0 p-0 minPicHeight shimmerBG">
                         <img class="google-book-image roundBox" src="${book.strings.thumbSmall}" onload="removeShimmer(this.parentElement);removeMinPicHeight(this.parentElement)" data-field="thumb">
                     </div>
@@ -145,7 +145,7 @@ $(document).ready(function() {
             $('[data-button="view_image"]').click(e => {
                 const carousel = $('#carousel').empty()
                 const listingid = $(e.target).closest('[data-listingid]').attr('data-listingid');
-                listings.find(x => x.id == listingid).images.forEach(image => {
+                listings.find(x => x.listingid == listingid).images.forEach(image => {
                     carousel.append(`<a class="carousel-item justify-content-center"><img src="${image}"></a>`);
                 })
                 $('#imagemodal').modal('open')

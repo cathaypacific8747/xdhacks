@@ -30,7 +30,7 @@ def user_detail():
         raise APIForbiddenError()
 
     userid = request.args.get("userid")
-    user = User.query.filter_by(id=userid).first() if userid else current_user # get user information if specific user id not supplied
+    user = User.query.filter_by(userid=userid).first() if userid else current_user # get user information if specific user id not supplied
 
     if not user:
         raise GenericInputError(description='No such user found.')
@@ -91,7 +91,7 @@ async def upload():
     async def store(file):
         return await current_app.discordThread.client.channel.send(file=file)
 
-    ownerid = current_user.id
+    ownerid = current_user.userid
     bookid = request.form.get('bookid')
     price = request.form.get('price')
     condition = request.form.get('condition')
@@ -139,10 +139,10 @@ def listing_detail():
 
     userid = request.args.get("userid")
     if userid: # querying others
-        listings = Listing.query.filter_by(ownerid=userid, deleted=False, open=True).order_by(Listing.created.desc()).all()
+        listings = Listing.query.filter_by(ownerid=userid, deleted=False, open=True, completed=False).order_by(Listing.created.desc()).all()
         data = [l.getDetails(public=True) for l in listings]
     else:
-        listings = Listing.query.filter_by(ownerid=current_user.id, deleted=False).order_by(Listing.created.desc()).all()
+        listings = Listing.query.filter_by(ownerid=current_user.userid, deleted=False, completed=False).order_by(Listing.created.desc()).all()
         data = [l.getDetails(public=False) for l in listings]
 
     return jsonify({
@@ -160,8 +160,8 @@ def listing_toggleOpen():
     if not listingid:
         raise GenericInputError()
     
-    listing = Listing.query.filter_by(id=listingid).first()
-    if listing.ownerid != current_user.id:
+    listing = Listing.query.filter_by(listingid=listingid).first()
+    if listing.ownerid != current_user.userid:
         raise APIForbiddenError()
     
     listing.open = not listing.open
@@ -183,8 +183,8 @@ def listing_delete():
     if not listingid:
         raise GenericInputError()
     
-    listing = Listing.query.filter_by(id=listingid).first()
-    if listing.ownerid != current_user.id:
+    listing = Listing.query.filter_by(listingid=listingid).first()
+    if listing.ownerid != current_user.userid:
         raise APIForbiddenError()
     
     listing.deleted = True
@@ -229,7 +229,7 @@ def market_detail():
         raise GenericInputError()
     
     listings = db.session.query(Listing, User)\
-        .join(User, Listing.ownerid == User.id)\
+        .join(User, Listing.ownerid == User.userid)\
         .filter(Listing.bookid == bookid)\
         .filter(Listing.open == True)\
         .filter(Listing.deleted == False)\
@@ -256,11 +256,11 @@ def create():
     if not data or "listingid" not in data:
         raise GenericInputError()
 
-    buyerid = current_user.id
-    listing = Listing.query.filter_by(id=data["listingid"], open=True, deleted=False, completed=False).first()
+    buyerid = current_user.userid
+    listing = Listing.query.filter_by(listingid=data["listingid"], open=True, deleted=False, completed=False).first()
     if not listing:
         raise GenericInputError() # listing has been deleted or completed
-    listingid = listing.id
+    listingid = listing.listingid
     sellerid = listing.ownerid
 
     room_new = Room(buyerid=buyerid, sellerid=sellerid, listingid=listingid)

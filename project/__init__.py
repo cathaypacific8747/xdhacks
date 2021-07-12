@@ -72,8 +72,8 @@ def create_app(run=False):
         app.discordThread = Threader()        
 
     @login_manager.user_loader
-    def load_user(uuid):
-        return User.query.get(uuid)
+    def load_user(userid):
+        return User.query.filter_by(userid=userid).first()
 
     from .auth import auth as auth_blueprint
     from .main import main as main_blueprint

@@ -8,7 +8,7 @@ from . import db
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
 
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    userid = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     googleId = db.Column(VARCHAR(255), unique=True)
     email = db.Column(db.String(254), unique=True)
     name = db.Column(db.String(70), index=True)
@@ -45,7 +45,7 @@ class User(UserMixin, db.Model):
         if read:
             invalid = ["googleId"] if public else ["googleId", "discord", "instagram", "phone", "whatsapp", "signal", "telegram", "wechat", "customContactInfo"]
         else:
-            invalid = ["id", "googleId", "email", "name", "profilePic", "cky"]
+            invalid = ["userid", "googleId", "email", "name", "profilePic", "cky"]
         return invalid + [k for k in list(vars(self)) if '_' in k]
     
     def getDetails(self):
@@ -65,11 +65,14 @@ class User(UserMixin, db.Model):
             if k not in invalidKeys:
                 setattr(self, k, data[k])
 
+    def get_id(self):
+        return str(self.userid) # should be unicode, but replace with str in Python 3
+
 class Listing(db.Model):
     __tablename__ = 'listings'
 
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
-    ownerid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'), nullable=False, index=True)
+    listingid = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    ownerid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.userid'), nullable=False, index=True)
     bookid = db.Column(db.String, default='', index=True)
     price = db.Column(db.SmallInteger, default=0)
     condition = db.Column(db.SmallInteger, default=0) # poor, acceptable, good, like new
@@ -84,7 +87,7 @@ class Listing(db.Model):
 
     def getDetails(self, public=True):
         data = {
-            'id': self.id,
+            'listingid': self.listingid,
             'bookid': self.bookid,
             'price': self.price,
             'condition': self.condition,
@@ -101,6 +104,6 @@ class Room(db.Model):
     __tablename__ = 'rooms'
 
     roomid = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
-    buyerid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'), nullable=False, index=True)
-    sellerid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'), nullable=False, index=True)
-    listingid = db.Column(UUID(as_uuid=True), db.ForeignKey('listings.id'), nullable=False, index=True)
+    buyerid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.userid'), nullable=False, index=True)
+    sellerid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.userid'), nullable=False, index=True)
+    listingid = db.Column(UUID(as_uuid=True), db.ForeignKey('listings.listingid'), nullable=False, index=True)
