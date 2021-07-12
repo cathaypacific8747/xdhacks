@@ -23,8 +23,11 @@ def sell():
     return render_template('sell.html')
 
 @main.route('/listings')
+@main.route('/listings/<string:userid>')
 @login_required
-def listings():
+def listings(userid=None):
+    if userid:
+        return render_template('listings_readonly.html', userid=userid)
     return render_template('listings.html')
 
 @main.route('/market/')

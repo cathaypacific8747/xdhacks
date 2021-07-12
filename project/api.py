@@ -138,7 +138,7 @@ def listing_detail():
     if not current_user.is_authenticated:
         raise APIForbiddenError()
 
-    userid = request.args.get("userId")
+    userid = request.args.get("userid")
     if userid: # querying others
         listings = Listing.query.filter_by(ownerid=userid, deleted=False, open=True).order_by(Listing.created.desc()).all()
         data = [l.getDetails(public=True) for l in listings]

@@ -55,7 +55,7 @@ $ ./start.sh
 - [x] Use Postgres
 - [x] User Template - Server side validation and sanitizing.
 - [x] User Template - Get specific user details
-- [ ] User Template - Clicking on 'show listings' redirects to Listing Template
+- [x] User Template - Clicking on 'show listings' redirects to Listing Template
 
 - [x] Listing API - Upload (POST `/api/v1/listing/upload`)
 - [x] Listing API - Validate file size and type
@@ -74,7 +74,7 @@ $ ./start.sh
 - [x] Listing Template - Set visibility
 - [x] Listing API - Delete listing (DELETE `/api/v1/listing/delete?listingId=___`)
 - [x] Listing Template - Delete listing
-- [ ] Listing Template - Get specific user listing
+- [x] Listing Template - Get specific user listing
 
 - [x] Market Template - Get list of googleIds from query
 - [x] Market API - Aggregate listings by book id from list of google book ids (GET `/api/v1/market/aggregate?bookids=[____]`)

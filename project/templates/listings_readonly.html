@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <meta name="userid" content="{{ userid }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/listings_readonly.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row valign-wrapper">
+        <div class="col s12">
+            <div class="font-size-32 text-bold mb-8">Listings</div>
+        </div>
+    </div>
+    <div class="row valign-wrapper">
+        <div class="col s12">
+            <div data-section="listings_container">
+                <div class="center-align" data-element="help"></div>
+                <div class="progress mb-8 hide" data-element="progress">
+                    <div class="indeterminate"></div>
+                </div>
+                <div data-element="listings_results"></div>
+                <div id="imagemodal" class="modal roundBox">
+                    <div class="modal-content">
+                        <div class="text-lightmuted center">
+                            Click outside or press Esc to close.
+                        </div>
+                        <div class="carousel carousel-slider" id="carousel"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/listings_readonly.js') }}"></script>
+{% endblock %}
