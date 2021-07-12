@@ -82,29 +82,30 @@ $(document).ready(function() {
                                     <div class="col font-size-16">${book.strings.isbn}</div>
                                 </div>
                             </div>
+
                             <div class="col s6">
-                                <div class="row mt-0 mb-0 justify-content-end">
-                                    <div class="col font-size-14 text-muted">Created</div>
+                                <div class="row mt-0 mb-0">
+                                    <div class="col s12 word-wrap font-size-14 right-align text-muted">Created</div>
                                 </div>
-                                <div class="row mt-0 mb-0 justify-content-end">
-                                    <div class="col font-size-16">${listing.strings.created}</div>
+                                <div class="row mt-0 mb-0">
+                                    <div class="col s12 word-wrap font-size-16 right-align">${listing.strings.created}</div>
                                 </div>
-                                <div class="row mt-0 mb-0 justify-content-end">
-                                    <div class="col font-size-14 text-muted">Visibility</div>
+                                <div class="row mt-0 mb-0">
+                                    <div class="col s12 word-wrap font-size-14 right-align text-muted">Visibility</div>
                                 </div>
-                                <div class="row mt-0 mb-0 justify-content-end">
-                                    <div class="col font-size-16 valign-wrapper">
+                                <div class="row mt-0 mb-0">
+                                    <div class="col s12 word-wrap font-size-16 justify-content-end valign-wrapper">
                                         <i class="material-icons left mr-8 font-size-14" data-field="openIcon">${listing.strings.openIcon}</i>
                                         <span data-field="open">${listing.strings.open}</span>
                                     </div>
                                 </div>
-                                <div class="row mt-0 mb-0 justify-content-end">
+                                <div class="row mt-0 mb-0 justify-content-end flex-wrap">
                                     <div class="col">
-                                        <div class="row mt-0 mb-0 justify-content-end">
-                                            <div class="col font-size-14 text-muted">Condition</div>
+                                        <div class="row mt-0 mb-0">
+                                            <div class="col s12 word-wrap font-size-14 right-align text-muted">Condition</div>
                                         </div>
-                                        <div class="row mt-0 mb-0 justify-content-end">
-                                            <div class="col font-size-16">
+                                        <div class="row mt-0 mb-0">
+                                            <div class="col s12 word-wrap font-size-16 right-align">
                                                 <span class="${listing.strings.conditionClass} tooltipped" data-position="right" data-tooltip="${listing.strings.conditionDescription}">
                                                     ${listing.strings.condition}
                                                 </span>
@@ -112,28 +113,27 @@ $(document).ready(function() {
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <div class="row mt-0 mb-0 justify-content-end">
-                                            <div class="col font-size-14 text-muted">Internal Markings</div>
+                                        <div class="row mt-0 mb-0">
+                                            <div class="col s12 word-wrap font-size-14 right-align text-muted">Internal Markings</div>
                                         </div>
-                                        <div class="row mt-0 mb-0 justify-content-end">
-                                            <div class="col font-size-16">${listing.strings.notes}</div>
+                                        <div class="row mt-0 mb-0">
+                                            <div class="col s12 word-wrap font-size-16 right-align">${listing.strings.notes}</div>
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <div class="row mt-0 mb-0 justify-content-end">
-                                            <div class="col font-size-14 text-muted">Price</div>
+                                        <div class="row mt-0 mb-0">
+                                            <div class="col s12 word-wrap font-size-14 right-align text-muted">Price</div>
                                         </div>
-                                        <div class="row mt-0 mb-0 justify-content-end">
-                                            <div class="col font-size-16">${listing.strings.price}</div>
+                                        <div class="row mt-0 mb-0">
+                                            <div class="col s12 word-wrap font-size-16">${listing.strings.price}</div>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <div class="row mt-0 mb-0 justify-content-end">
-                                    <div class="col font-size-14 text-muted">Remarks</div>
+                                <div class="row mt-0 mb-0">
+                                    <div class="col s12 word-wrap font-size-14 right-align text-muted">Remarks</div>
                                 </div>
-                                <div class="row mt-0 mb-0 justify-content-end">
-                                    <div class="col font-size-16">${listing.strings.remarks}</div>
+                                <div class="row mt-0 mb-0">
+                                    <div class="col s12 word-wrap font-size-16 right-align">${listing.strings.remarks}</div>
                                 </div>
                             </div>
                         </div>

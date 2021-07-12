@@ -51,7 +51,7 @@ $(document).ready(function() {
             this.strings.publishedDate = this.publishedDate || 'Unknown';
             // this.strings.description = this.description || 'N/A';
             this.strings.pageCount = this.pageCount || 'Unknown';
-            this.strings.dimensions = (this.height && this.width && this.thickness) ? `Height/Width/Thickness - ${this.height}/${this.width}/${this.thickness}` : 'Unknown';
+            this.strings.dimensions = (this.height && this.width && this.thickness) ? `Height - ${this.height}, Width - ${this.width}, Thickness - ${this.thickness}` : 'Unknown';
             this.strings.thumbSmall = this.thumbSmall ? this.thumbSmall : this.thumbLarge ? this.thumbLarge : 'https://books.google.com.hk/googlebooks/images/no_cover_thumb.gif';
             // this.strings.retailPrice = this.retailPrice && this.retailPriceCurrency ? `${this.retailPriceCurrency} ${this.retailPrice}` : 'No information'
         }

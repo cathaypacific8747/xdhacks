@@ -1,4 +1,5 @@
 from logging import NullHandler
+from typing import List
 from project.main import listings
 from flask import Blueprint, json, redirect, url_for, request, session, current_app, abort, jsonify
 from flask_login import login_required, current_user
@@ -225,12 +226,21 @@ def market_detail():
     if not bookid:
         raise GenericInputError()
     
-    listings = Listing.query.join(User, Listing.ownerid == User.id).filter(Listing.bookid == bookid).filter(Listing.open == True).filter(Listing.deleted == False).all()
-    print(listings)
-    # [l.getDetails(public=True, showOwner=True) for l in listings]
+    listings = db.session.query(Listing, User)\
+        .join(User, Listing.ownerid == User.id)\
+        .filter(Listing.bookid == bookid)\
+        .filter(Listing.open == True)\
+        .filter(Listing.deleted == False)\
+        .all()
+    
+    data = []
+    for l in listings:
+        lfull = l[0].getDetails()
+        lfull["owner"] = l[1].getDetails()
+        data.append(lfull)
 
     return jsonify({
         "status": "success",
         "message": None,
-        "data": None
+        "data": data
     })

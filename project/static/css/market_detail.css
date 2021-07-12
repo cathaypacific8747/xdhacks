@@ -1,9 +1,47 @@
+:root {
+    --profile-pic-width: 100%;
+    --payment-icon-height: 24px;
+    --chip-height: 32px;
+}
+
+.profile-picture {
+    display: inline-block;
+    margin-left: calc((100% - var(--profile-pic-width))/2);
+    width: var(--profile-pic-width);
+    height: 0;
+    padding-bottom: var(--profile-pic-width);
+}
+
+.payment-icon {
+    height: var(--payment-icon-height);
+}
+
+.payment-header {
+    min-height: var(--payment-icon-height) !important;
+}
+
+.chip {
+    border: 1px solid #bbb;
+    height: var(--chip-height);
+}
+
+.chip-header {
+    min-height: var(--chip-height) !important;
+}
+
+/*  */
+
+.listing {
+    border: 1px solid rgba(0, 158, 206, 25%);
+    background-color: rgba(0, 158, 206, 5%);
+}
+
 .google-book-image {
     width: 100%;
 }
 
 .minPicHeight {
-    height: 172px;
+    height: 180px;
 }
 
 .carousel .carousel-item > img {

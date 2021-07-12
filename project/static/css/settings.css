@@ -29,30 +29,6 @@
     min-height: var(--chip-height) !important;
 }
 
-.unselectable {
-    -moz-user-select: -moz-none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
- }
-
-.verified {
-    color: #007bff;
-}
-
-.not-verified {
-    color: #dc3545;
-}
-
-.negotiable {
-    color: #4a934a;
-}
-
-.not-negotiable {
-    color: #ae423f;
-}
-
 .edit-button:hover {
     background-color: #82abed44;
     border-radius: 50%;

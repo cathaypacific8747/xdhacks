@@ -79,12 +79,12 @@ $ ./start.sh
 - [x] Market Template - Get list of googleIds from query
 - [x] Market API - Aggregate listings by book id from list of google book ids (GET `/api/v1/market/aggregate?bookids=[____]`)
 - [x] Market Template - Show aggregated listings
-- [ ] Market API - Get all listings with specific book id (GET `/api/v1/listing/detail?bookid=___`)
+- [x] Market API - Get all listings with specific book id (GET `/api/v1/listing/detail?bookid=___`)
 - [x] Market Sub-template - Basic routings
 - [x] Market Sub-template - Show book information from Google
-- [ ] Market Sub-template - Display all listings offered by that user
+- [x] Market Sub-template - Display all listings offered by that user
 - [ ] Market Sub-template - Clicking on username redirects to User Template
-- [ ] Market Sub-template - Book Sort and Listing Sort
+- [ ] Market API - Book Sort and Listing sort and filter
 
 - [ ] Chat API (Flask-SocketIO, new blueprint?)
 - [ ] Chat Template - Basic send/recieve
