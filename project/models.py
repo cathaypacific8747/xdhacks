@@ -2,6 +2,7 @@ from datetime import datetime, timezone, tzinfo
 from sqlalchemy.dialects.postgresql import UUID, VARCHAR, ARRAY
 import uuid
 from flask_login import UserMixin
+from sqlalchemy.sql.expression import nullslast
 from . import db
 
 class User(UserMixin, db.Model):
@@ -79,6 +80,7 @@ class Listing(db.Model):
 
     open = db.Column(db.Boolean, default=True)
     deleted = db.Column(db.Boolean, default=False)
+    completed = db.Column(db.Boolean, default=False)
 
     def getDetails(self, public=True):
         data = {
@@ -94,3 +96,11 @@ class Listing(db.Model):
         if not public: # private, show visibility
             data['open'] = self.open
         return data
+
+class Room(db.Model):
+    __tablename__ = 'rooms'
+
+    roomid = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    buyerid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'), nullable=False, index=True)
+    sellerid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'), nullable=False, index=True)
+    listingid = db.Column(UUID(as_uuid=True), db.ForeignKey('listings.id'), nullable=False, index=True)

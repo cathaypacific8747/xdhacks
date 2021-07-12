@@ -79,11 +79,10 @@ def login_google_callback():
         return redirect(url_for('main.index'))
     # user doesn't exist, so sign up for user.
     user_new = User(googleId=googleId, email=email, name=name, profilePic=profilePic, cky=cky)
-    print(user_new.profilePic)
     db.session.add(user_new)
     db.session.commit()
     login_user(user_new)
-    flash('Signup successful!', 'success')
+    # flash('Signup successful!', 'success')
     return redirect(url_for('main.index'))
 
 @auth.route('/logout')

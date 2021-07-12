@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from oauthlib.oauth2 import WebApplicationClient
 from flask_wtf.csrf import CSRFProtect
 from flask_migrate import Migrate
+from flask_socketio import SocketIO
 import discord
 import asyncio
 from threading import Thread
@@ -15,6 +16,7 @@ db = SQLAlchemy()
 migrate = Migrate()
 csrf = CSRFProtect()
 login_manager = LoginManager()
+socketio = SocketIO()
 
 def create_app(run=False):
     app = Flask(__name__)
@@ -34,9 +36,10 @@ def create_app(run=False):
     app.config['DISCORD_STORAGE_CHANNEL_ID'] = env['DISCORD_STORAGE_CHANNEL_ID']
 
     db.init_app(app)
-    from .models import User, Listing
+    from .models import User, Listing, Room
     migrate.init_app(app, db)
     csrf.init_app(app)
+    socketio.init_app(app)
 
     # setup login
     login_manager.login_view = 'auth.login'

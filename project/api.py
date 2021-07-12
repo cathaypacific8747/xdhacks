@@ -1,11 +1,10 @@
-from logging import NullHandler
-from typing import List
-from project.main import listings
+from typing import Generic
 from flask import Blueprint, json, redirect, url_for, request, session, current_app, abort, jsonify
-from flask_login import login_required, current_user
-from .models import User, Listing
-from . import db
-import subprocess # for regen
+from flask_login import current_user
+from flask_migrate import current
+from .models import User, Listing, Room
+from . import db, socketio
+from flask_socketio import join_room, leave_room
 from .error_handler import APIForbiddenError, GenericInputError
 import re
 from bleach import clean
@@ -247,3 +246,41 @@ def market_detail():
         "message": None,
         "data": data
     })
+
+@api.post('/api/v1/message/create')
+def create():
+    if not current_user.is_authenticated:
+        raise APIForbiddenError()
+
+    data = request.json
+    if not data or "listingid" not in data:
+        raise GenericInputError()
+
+    buyerid = current_user.id
+    listing = Listing.query.filter_by(id=data["listingid"], open=True, deleted=False, completed=False).first()
+    if not listing:
+        raise GenericInputError() # listing has been deleted or completed
+    listingid = listing.id
+    sellerid = listing.ownerid
+
+    room_new = Room(buyerid=buyerid, sellerid=sellerid, listingid=listingid)
+    db.session.add(room_new)
+    db.session.commit()
+
+    return jsonify({
+        "status": "success",
+        "message": None,
+        "data": {
+            "roomid": room_new.roomid
+        }
+    })
+
+# @socketio.on('join')
+# def on_join(data):
+#     username = session['username']
+#     room = data['room']
+#     join_room(room)
+
+# @socketio.on('json')
+# def handle_json(data):
+#     print(f'MESSAGE RECIEVED: {data}')

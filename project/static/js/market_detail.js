@@ -199,8 +199,8 @@ $(document).ready(function() {
                                 View Images
                             </a>
                             <a class="btn px-8 roundBox btn-transparent btn-transparent-primary" data-button="contact_owner">
-                                <i class="material-icons left">contact_phone</i>
-                                Contact Owner
+                                <i class="material-icons left">shopping_cart</i>
+                                Make Offer
                             </a>
                         </div>
                     </div>
