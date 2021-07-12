@@ -34,7 +34,17 @@
                 <img class="logo-banner mx-16 show-on-small hide-on-med-and-up" src="{{ url_for('static', filename='img/logo/banner_logo.svg') }}" alt="Swappy">
             </a>
             <ul class="right">
+                <li>
+                    <a class="nav-item mr-8 ml-8 px-8 no-hover-event valign-wrapper" href="">
+                        Help
+                    </a>
+                </li>
                 {% if current_user.is_authenticated %}
+                <li>
+                    <a class="nav-item mr-8 ml-8 px-8 no-hover-event valign-wrapper" href="{{ url_for('main.dashboard') }}">
+                        Dashboard
+                    </a>
+                </li>
                 <li>
                     <a class="nav-item mr-8 ml-8 px-8 no-hover-event valign-wrapper" href="{{ url_for('main.market') }}">
                         Market

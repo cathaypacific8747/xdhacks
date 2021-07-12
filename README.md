@@ -85,9 +85,21 @@ $ ./start.sh
 - [x] Market Sub-template - Display all listings offered by that user
 - [x] Market Sub-template - Clicking on username redirects to User Template
 
-- [ ] Chat API (Flask-SocketIO, new blueprint?)
-- [ ] Chat Template - Basic send/recieve
-- [ ] Chat Template - Notifications
+- [x] Offer API - Create Offer (POST `/api/v1/offer/create` {"listingid": listingid})
+- [x] Market Sub-template - Clicking on create offer redirects to Dashboard Template
+- [ ] Offer API - Get all buyer and seller offers (GET `/api/v1/offer/detail`)
+- [ ] Dashboard template - Automatically fetches all buyer and seller offers
+- [ ] Market Sub-template - If offer is seller or buyer already has offer, disable button to create offer.
+- [ ] Offer API - Delete Offer (seller only, DELETE `/api/v1/offer/delete` {"offerid", "offerid"})
+- [ ] Dashboard template - Clicking on delete offer refreshes page.
+- [ ] Offer API - Complete Offer
+- [ ] Dashboard template - Clicking on complete offer refreshes page.
+- [ ] Listing API - Deleting Listing causes all offers to be deleted.
+
+- [ ] Chat API - Send message
+- [ ] Chat API - Get message
+- [ ] Dashboard template - Recieve functionality
+- [ ] Chat API - Mark as read
 
 - [ ] How to use website Template
 - [ ] About us
@@ -95,15 +107,18 @@ $ ./start.sh
 - [ ] Terms of service
 - [ ] I agree to TOS and privacy policy checkbox in Signup Template
 
-- [ ] Enhancement - Market API: Book Sort and Listing sort and filter
-- [ ] Enhancement - Cache Book Names, ISBNs and use full-text search for Market Template
-- [ ] Enhancement - Image override if image isn't avaliable
-- [ ] Enhancement - add statistics to homepage, etc. user count, book count, successful transfer count
-- [ ] Enhancement - Conform to REST standards
+## Enhancements
 
-- [x] Optimise Error Handling Algorithm
-- [ ] Admin accounts (regenDB, inventoryControl)
 - [ ] Minify
+- [ ] Market API: Book Sort and Listing sort and filter
+- [ ] Cache Book Names, ISBNs and use full-text search for Market Template
+- [ ] Image override if image isn't avaliable
+- [ ] Upgrade short polling to SSE
+- [ ] Add statistics to homepage, etc. user count, book count, successful transfer count
+- [ ] Admin accounts (regenDB, inventoryControl)
+- [ ] Conform to REST standards
+- [x] Optimise Error Handling Algorithm
+
 
 ## Before Production Checklist
 - [ ] Enforce CKY accounts in `login_google`'s `hd` parameter

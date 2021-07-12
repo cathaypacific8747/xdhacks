@@ -30,7 +30,7 @@ def listings(userid=None):
         return render_template('listings_readonly.html', userid=userid)
     return render_template('listings.html')
 
-@main.route('/market/')
+@main.route('/market')
 @main.route('/market/<string:bookid>')
 @login_required
 def market(bookid=None):
@@ -38,7 +38,7 @@ def market(bookid=None):
         return render_template('market_detail.html', bookid=bookid)
     return render_template('market.html')
 
-# @main.route('/market/<string:bookid>')
-# @login_required
-# def offer(bookid):
-#     return render_template('market_detail.html', bookid=bookid)
+@main.route('/dashboard')
+@login_required
+def dashboard():
+    return render_template('dashboard.html')

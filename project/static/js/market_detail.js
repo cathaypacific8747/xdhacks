@@ -198,7 +198,7 @@ $(document).ready(function() {
                                 <i class="material-icons left">open_in_new</i>
                                 View Images
                             </a>
-                            <a class="btn px-8 roundBox btn-transparent btn-transparent-primary" data-button="contact_owner">
+                            <a class="btn px-8 roundBox btn-transparent btn-transparent-primary" data-button="create_offer">
                                 <i class="material-icons left">shopping_cart</i>
                                 Make Offer
                             </a>
@@ -207,6 +207,10 @@ $(document).ready(function() {
                 </div>`)
                 resultsContainer.append(elem);
             }
+            $('[data-button="view_profile"]').click(e => {
+                const owneruserid = $(e.target).closest('[data-owneruserid]').attr('data-owneruserid');
+                window.location.href = `/profile/${owneruserid}`;
+            })
             $('[data-button="view_image"]').click(e => {
                 const carousel = $('#carousel').empty()
                 const listingid = $(e.target).closest('[data-listingid]').attr('data-listingid');
@@ -215,9 +219,28 @@ $(document).ready(function() {
                 })
                 $('#imagemodal').modal('open');
             })
-            $('[data-button="view_profile"]').click(e => {
-                const owneruserid = $(e.target).closest('[data-owneruserid]').attr('data-owneruserid');
-                window.location.href = `/profile/${owneruserid}`;
+            $('[data-button="create_offer"]').click(e => {                
+                const listingid = $(e.target).closest('[data-listingid]').attr('data-listingid');
+                fetch('/api/v1/offer/create', {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        listingid: listingid
+                    })
+                }).then(response => {
+                    if (!response.ok) throw new NetworkError;
+                    return response.json();
+                }).then(json => {
+                    if (json.status != "success") throw new APIError(json);
+                    return json.data;
+                }).then(() => {
+                    window.location.href = `/dashboard`
+                }).catch(e => {
+                    toastError(e);
+                })
             })
             $('[data-element="help"]').empty();
             return;

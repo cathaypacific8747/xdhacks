@@ -2,9 +2,8 @@ from typing import Generic
 from flask import Blueprint, json, redirect, url_for, request, session, current_app, abort, jsonify
 from flask_login import current_user
 from flask_migrate import current
-from .models import User, Listing, Room
-from . import db, socketio
-from flask_socketio import join_room, leave_room
+from .models import User, Listing, Offer
+from . import db
 from .error_handler import APIForbiddenError, GenericInputError
 import re
 from bleach import clean
@@ -247,7 +246,7 @@ def market_detail():
         "data": data
     })
 
-@api.post('/api/v1/message/create')
+@api.post('/api/v1/offer/create')
 def create():
     if not current_user.is_authenticated:
         raise APIForbiddenError()
@@ -259,28 +258,22 @@ def create():
     buyerid = current_user.userid
     listing = Listing.query.filter_by(listingid=data["listingid"], open=True, deleted=False, completed=False).first()
     if not listing:
-        raise GenericInputError() # listing has been deleted or completed
+        raise GenericInputError('Unfortunately, this listing no longer exists.') # listing has been deleted or completed
     listingid = listing.listingid
     sellerid = listing.ownerid
 
-    room_new = Room(buyerid=buyerid, sellerid=sellerid, listingid=listingid)
+    if buyerid == sellerid:
+        raise GenericInputError('You cannot create an offer on your own listing.')
+
+    if Offer.query.filter_by(listingid=listingid, buyerid=buyerid, sellerid=sellerid, deleted=False).first() is not None:
+        raise GenericInputError('You already have a pending offer on this listing.')
+
+    room_new = Offer(listingid=listingid, buyerid=buyerid, sellerid=sellerid)
     db.session.add(room_new)
     db.session.commit()
 
     return jsonify({
         "status": "success",
         "message": None,
-        "data": {
-            "roomid": room_new.roomid
-        }
+        "data": None
     })
-
-# @socketio.on('join')
-# def on_join(data):
-#     username = session['username']
-#     room = data['room']
-#     join_room(room)
-
-# @socketio.on('json')
-# def handle_json(data):
-#     print(f'MESSAGE RECIEVED: {data}')

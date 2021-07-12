@@ -3,6 +3,7 @@ from sqlalchemy.dialects.postgresql import UUID, VARCHAR, ARRAY
 import uuid
 from flask_login import UserMixin
 from sqlalchemy.sql.expression import nullslast
+from sqlalchemy.sql.sqltypes import Boolean
 from . import db
 
 class User(UserMixin, db.Model):
@@ -100,10 +101,16 @@ class Listing(db.Model):
             data['open'] = self.open
         return data
 
-class Room(db.Model):
-    __tablename__ = 'rooms'
+# class Message(db.Model):
+#     messageid = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    
 
-    roomid = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+class Offer(db.Model):
+    __tablename__ = 'offers'
+
+    offerid = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    listingid = db.Column(UUID(as_uuid=True), db.ForeignKey('listings.listingid'), nullable=False, index=True)
     buyerid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.userid'), nullable=False, index=True)
     sellerid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.userid'), nullable=False, index=True)
-    listingid = db.Column(UUID(as_uuid=True), db.ForeignKey('listings.listingid'), nullable=False, index=True)
+    deleted = db.Column(db.Boolean, default=False)
+    read = db.Column(db.Boolean, default=False)
