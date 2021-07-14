@@ -7,23 +7,95 @@
 
 {% block content %}
 <div class="container">
-    <div class="row valign-wrapper">
+    <div class="row mb-0">
         <div class="col s12">
-            <div class="font-size-32 text-bold mb-8">Dashboard</div>
+            <div class="font-size-32 text-bold mb-0">Dashboard</div>
         </div>
     </div>
-    <div class="row">
-        <div class="col s4">
-            <div class="row">
-                Pending buying offers
-            </div>
-            <div class="row">
-                Pending selling offers
+    <div class="row mb-0">
+        <div class="col s12">
+            <div class="font-size-14 text-muted mb-32">Last Updated: </div>
+        </div>
+    </div>
+    <div class="row mb-0 roundBox lightlightgrey" id="dashboard">
+        <div class="col s4 p-0 h-full">
+            <div class="row mx-0 mb-0 p-12 pr-6 h-full">
+                <div class="col s12 lightgrey roundBox h-full oy-auto">
+                    <div class="row mb-0">
+                        <div class="col s12 font-size-20 text-bold mt-8">
+                            Buy Offers
+                        </div>
+                    </div>
+                    <div class="row mb-0">
+                        <div class="col s12">
+                            <div class="center-align" data-element="buy_help"></div>
+                            <div class="progress mb-8 hide" data-element="offer_progress">
+                                <div class="indeterminate"></div>
+                            </div>
+                            <div data-element="buy_results">
+                                <ul class="collapsible box-shadow-none" data-element="buy_results">
+                                    <li>
+                                        <div class="collapsible-header p-0">
+                                            <div class="row mb-0 mx-0 valign-wrapper" data-bookid="0YzTCQAAQBAJ">
+                                                <div class="col s2 p-0 valign-wrapper">
+                                                    <img class="google-book-image" src="http://books.google.com/books/publisher/content?id=0YzTCQAAQBAJ&amp;printsec=frontcover&amp;img=1&amp;zoom=5&amp;edge=curl" onload="removeShimmer(this.parentElement);removeMinPicHeight(this.parentElement)" data-field="thumb">
+                                                </div>
+                                                <div class="col s9 p-0">
+                                                    <div class="col font-size-14 text-bold">Physics for the IB Diploma Coursebook with Free Online Material</div>
+                                                </div>
+                                                <div class="col s1 p-0">
+                                                    <i class="caret material-icons font-size-12 mx-0 w-unset unread">
+                                                        keyboard_arrow_down
+                                                    </i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="collapsible-body p-0">
+                                            <div class="row mb-0 mx-0 valign-wrapper" data-bookid="0YzTCQAAQBAJ">
+                                                <div class="col s2 p-0 valign-wrapper">
+                                                    <img class="profile-picture" src="https://lh3.googleusercontent.com/a-/AOh14GisTWu4QhxU6QXCgXodT1qo3uL6ujsM5KKcYwuNBQ=s96-c" onload="removeShimmer(this.parentElement)" data-field="thumb">
+                                                </div>
+                                                <div class="col s9 p-0">
+                                                    <div class="col font-size-14">Abraham Cheung</div>
+                                                </div>
+                                                <div class="col s1 p-0">
+                                                    <i class="material-icons font-size-12 mx-0 w-unset unread">
+                                                        circle
+                                                    </i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-0">
+                        <div class="col s12 font-size-20 text-bold mt-8">
+                            Sell Offers
+                        </div>
+                    </div>
+                    <div class="row mb-0">
+                        <div class="col s12">
+                            <div class="center-align" data-element="sell_help"></div>
+                            <div class="progress mb-8 hide" data-element="offer_progress">
+                                <div class="indeterminate"></div>
+                            </div>
+                            <div data-element="sell_results"></div>                            
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col s8">
-            <div class="row">
-                CHAT
+        <div class="col s8 p-0 h-full">
+            <div class="row mx-0 mb-0 p-12 pl-6 h-full oy-auto">
+                <div class="col s12 lightgrey roundBox h-full">
+                    <div class="row mb-0">
+                        <div class="col s12">
+                            CHAT
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -228,10 +228,10 @@ def market_detail():
         raise GenericInputError()
     
     listings = db.session.query(Listing, User)\
-        .join(User, Listing.ownerid == User.userid)\
         .filter(Listing.bookid == bookid)\
         .filter(Listing.open == True)\
         .filter(Listing.deleted == False)\
+        .join(User, Listing.ownerid == User.userid)\
         .all()
     
     data = []
@@ -276,4 +276,30 @@ def create():
         "status": "success",
         "message": None,
         "data": None
+    })
+
+@api.get('/api/v1/offer/detail')
+def offer_detail():
+    buyerOffers = db.session.query(Offer, Listing)\
+        .filter(Offer.buyerid == current_user.userid)\
+        .filter(Offer.deleted == False)\
+        .join(User, Offer.listingid == Listing.listingid)\
+        .all()
+
+    bOffer = []
+    for b in buyerOffers:
+        bfull = b[0].getDetails()
+        bfull["listing"] = b[1].getDetails()
+        bOffer.append(bfull)
+
+    # buyerOffers = Offer.query.filter_by(buyerid=current_user.userid, deleted=False).all()
+    # sellerOffers = Offer.query.filter_by(sellerid=current_user.userid, deleted=False).all()
+
+    return jsonify({
+        "status": "success",
+        "message": None,
+        "data": {
+            "buyer": bOffer,
+            # "seller": [],
+        }
     })

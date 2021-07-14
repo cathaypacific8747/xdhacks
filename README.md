@@ -106,6 +106,7 @@ $ ./start.sh
 - [ ] Privacy Policy
 - [ ] Terms of service
 - [ ] I agree to TOS and privacy policy checkbox in Signup Template
+- [x] disallow web crawlers with robots.txt
 
 ## Enhancements
 

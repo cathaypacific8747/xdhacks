@@ -1,5 +1,5 @@
 from project.auth import login
-from flask import Blueprint, render_template, redirect, url_for, request, current_app
+from flask import Blueprint, render_template, Response
 from flask_login import login_required, current_user
 from flask.helpers import flash
 
@@ -8,6 +8,12 @@ main = Blueprint('main', __name__)
 @main.route('/')
 def index():
     return render_template('index.html')
+
+@main.route('/robots.txt')
+def noindex():
+    r = Response(response="User-Agent: *\nDisallow: /\n", status=200, mimetype="text/plain")
+    r.headers["Content-Type"] = "text/plain; charset=utf-8"
+    return r
 
 @main.route('/settings')
 @main.route('/profile/<string:userid>')

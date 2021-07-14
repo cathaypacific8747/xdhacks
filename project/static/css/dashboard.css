@@ -3,10 +3,63 @@
     background-color: rgba(0, 158, 206, 5%);
 }
 
+
+li .collapsible-header {
+    justify-content: space-between;
+}
+li .collapsible-header .caret {
+    color: #999;
+    /* margin-right: 0; */
+    transition: transform 0.2s ease;
+}
+li.active .collapsible-header {
+    background-color: lightcoral;
+    color: white;
+}
+li.active .collapsible-header .caret {
+    color: white;
+    transform: rotate(-180deg);
+    transform-origin: 0.6em 0.5em;
+}
+
 .google-book-image {
     width: 100%;
 }
 
 .minPicHeight {
     height: 172px;
+}
+
+.lightlightgrey {
+    background-color: #ffffff88;
+    border: 1px solid #ddd;
+}
+
+.lightgrey {
+    background-color: #ffffffee;
+    border: 1px solid #ddd;
+}
+
+.p-12 {
+    padding: .75rem !important;
+}
+
+.pr-6 {
+    padding-right: .375rem !important;
+}
+
+.pl-6 {
+    padding-left: .375rem !important;
+}
+
+.oy-auto {
+    overflow-y: auto;
+}
+
+.unread {
+    color: rgb(212, 0, 0);
+}
+
+.read {
+    color: transparent;
 }

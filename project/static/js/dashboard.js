@@ -1,8 +1,18 @@
 $(document).ready(function() {
-    const initialHelpText = "Loading your listings...";
-    $('[data-element="help"]').removeClass("hide").html(initialHelpText);
-    $('[data-element="progress"]').removeClass("hide");
 
+    $(window).resize(changeDashboardHeight)
+    function changeDashboardHeight() {
+        $('#dashboard').height($(window).height() - $('#dashboard').offset().top - 32);
+    }
+    changeDashboardHeight();
+
+    $('.collapsible').collapsible({
+        accordion: false
+    });
+
+    // const initialHelpText = "Loading your listings...";
+    // $('[data-element="help"]').removeClass("hide").html(initialHelpText);
+    // $('[data-element="progress"]').removeClass("hide");
     // fetch('/api/v1/listing/detail', {
     //     method: 'GET',
     //     mode: 'cors',
