@@ -4,6 +4,7 @@
 	--link-color-primary-hover2: #1976D211;
 	--link-color-danger: #b73226;
 	--link-color-danger-hover: #b7322611;
+	--link-color-disabled: #999;
 	--condition-poor: #b73226;	
 	--condition-fair: #9e9d00;
 	--condition-good: #00a413;
@@ -408,6 +409,10 @@ body {
 
 .btn-transparent-danger:hover, .btn-transparent-danger:focus {
 	background: var(--link-color-danger-hover);
+}
+
+.btn-transparent-disabled {
+	color: var(--link-color-disabled);
 }
 
 .material-tooltip {

@@ -89,15 +89,16 @@ $ ./start.sh
 - [x] Market Sub-template - Clicking on create offer redirects to Dashboard Template
 - [x] Offer API - Get all buyer and seller offers (GET `/api/v1/offer/detail`)
 - [x] Dashboard template - Automatically fetches all buyer and seller offers
-- [ ] Market Sub-template - If offer is seller or buyer already has offer, disable button to create offer.
-- [ ] Offer API - Delete Offer (seller only, DELETE `/api/v1/offer/delete` {"offerid", "offerid"})
+- [x] Market Sub-template - If offer is seller, or buyer already has offer, disable create offer button
+- [ ] Dashboard API - Message Centre (GET `/api/v1/dashboard/messages`)
+- [ ] Dashboard template - get messages belonging to user.
+- [ ] Offer API - Create Offer sends notification to message centre
+- [ ] Offer API - Cancel Offer (buyer and seller, DELETE `/api/v1/offer/delete?offerid=____`)
 - [ ] Dashboard template - Clicking on delete offer refreshes page.
-- [ ] Offer API - Complete Offer
+- [ ] Offer API - Complete Offer (seller only, POST `/api/v1/offer/complete?offerid=____`)
 - [ ] Dashboard template - Clicking on complete offer refreshes page.
 - [ ] Listing API - Deleting Listing causes all offers to be deleted.
-
-- [ ] Message API - System messages
-- [ ] Dashboard Template - System messages
+- [ ] Offer API - Delete Listing, Cancel Offer, Complete Offer sends notification to message centre.
 
 - [x] Make email as private information, toggleable
 - [x] Make contact information to be private by default

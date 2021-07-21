@@ -168,9 +168,9 @@ $(document).ready(function() {
         } else if (e instanceof APIError) {
             toast(e.message, 'Server', 3);
         } else {
-            toast('DEBUG: Something went wrong. Please try again later', 'Unknown', 3)
+            toast('DEBUG: Something went wrong. Please try again later', 'Unknown', 3);
         }
-        console.error(e)
+        console.error(e);
     }
 
     window.removeShimmer = function(e) {

@@ -101,9 +101,10 @@ $(document).ready(function() {
         }).then(listings => {
             let resultsContainer = $('[data-element="offer_results"]')
             for (const l of listings) {
-                let listing = new Listing(l);
-                let owner = new Owner(l.owner);
-                let elem = $(`<div class="row mx-0 mb-8 p-16 roundBox listing" data-listingid="${listing.listingid}" data-owneruserid="${owner.userid}">
+                const listing = new Listing(l);
+                const owner = new Owner(l.owner);
+                const validityClass = l.invalid ? 'btn-transparent-disabled tooltipped' : 'btn-transparent-primary';
+                let elem = $(`<div class="row mx-0 mb-8 p-16 roundBox listing" data-listingid="${listing.listingid}" data-owneruserid="${owner.userid}" data-invalid="${Boolean(l.invalid)}">
                     <div class="row mt-0 mb-2 valign-wrapper">
                         <div class="col s1">
                             <div class="profile-picture rounded shimmerBG">
@@ -198,7 +199,7 @@ $(document).ready(function() {
                                 <i class="material-icons left">open_in_new</i>
                                 View Images
                             </a>
-                            <a class="btn px-8 roundBox btn-transparent btn-transparent-primary" data-button="create_offer">
+                            <a class="btn px-8 roundBox btn-transparent ${validityClass}" data-button="create_offer" data-position="top" data-tooltip="${l.invalid}">
                                 <i class="material-icons left">shopping_cart</i>
                                 Make Offer
                             </a>
@@ -219,8 +220,10 @@ $(document).ready(function() {
                 })
                 $('#imagemodal').modal('open');
             })
-            $('[data-button="create_offer"]').click(e => {                
-                const listingid = $(e.target).closest('[data-listingid]').attr('data-listingid');
+            $('[data-button="create_offer"]').click(e => {
+                const parent = $(e.target).closest('[data-listingid]');
+                if (parent.attr('data-invalid') == 'true') return;
+                const listingid = parent.attr('data-listingid');
                 fetch('/api/v1/offer/create', {
                     method: 'POST',
                     mode: 'cors',
@@ -237,7 +240,7 @@ $(document).ready(function() {
                     if (json.status != "success") throw new APIError(json);
                     return json.data;
                 }).then(() => {
-                    window.location.href = `/dashboard`
+                    toast(description='Successfully created offer. Please go to the <a href="/dashboard">dashboard</a> for further steps.', headerPrefix='', code=1);
                 }).catch(e => {
                     toastError(e);
                 })
@@ -255,7 +258,7 @@ $(document).ready(function() {
         } else if (e instanceof NetworkError) {
             $('[data-element="help"]').html("An error occured when retrieving data. Please check your connection or try again.");
         } else {
-            console.error(e)
+            console.error(e);
         }
     }).finally(() => {
         $('[data-element="progress"]').addClass("hide");

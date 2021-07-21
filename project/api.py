@@ -2,6 +2,7 @@ from typing import Generic, List
 from flask import Blueprint, json, redirect, url_for, request, session, current_app, abort, jsonify
 from flask_login import current_user
 from flask_migrate import current
+from sqlalchemy.sql.functions import user
 from .models import User, Listing, Offer
 from . import db
 from .error_handler import APIForbiddenError, GenericInputError
@@ -235,9 +236,14 @@ def market_detail():
         .all()
     
     data = []
-    for l in listings:
-        lfull = l[0].getDetails()
-        lfull["owner"] = l[1].getDetails()
+    for listing, owner in listings:
+        lfull = listing.getDetails()
+        lfull["owner"] = owner.getDetails()
+        lfull["invalid"] = ''
+        if owner.userid == current_user.userid:
+            lfull["invalid"] = 'You cannot create an offer on your own listing.'
+        if Offer.query.filter_by(listingid=listing.listingid, buyerid=current_user.userid, deleted=False).first() is not None:
+            lfull["invalid"] = 'You already have a pending offer on this listing.'
         data.append(lfull)
 
     return jsonify({
@@ -265,11 +271,11 @@ def create():
     if buyerid == sellerid:
         raise GenericInputError('You cannot create an offer on your own listing.')
 
-    if Offer.query.filter_by(listingid=listingid, buyerid=buyerid, sellerid=sellerid, deleted=False).first() is not None:
+    if Offer.query.filter_by(listingid=listingid, buyerid=buyerid, deleted=False).first() is not None:
         raise GenericInputError('You already have a pending offer on this listing.')
 
-    room_new = Offer(listingid=listingid, buyerid=buyerid, sellerid=sellerid)
-    db.session.add(room_new)
+    offer_new = Offer(listingid=listingid, buyerid=buyerid, sellerid=sellerid)
+    db.session.add(offer_new)
     db.session.commit()
 
     return jsonify({
