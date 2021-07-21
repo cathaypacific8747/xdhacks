@@ -135,9 +135,19 @@ body {
 
 /* PADDINGS */
 
+.px-4 {
+	padding-left: .25rem !important;
+	padding-right: .25rem !important;
+}
+
 .px-8 {
 	padding-left: .5rem;
 	padding-right: .5rem;
+}
+
+.py-8 {
+	padding-top: .5rem;
+	padding-bottom: .5rem;
 }
 
 .p-0 {
@@ -217,7 +227,7 @@ body {
 }
 
 .font-size-14 {
-	font-size: .875rem;
+	font-size: .875rem !important;
 }
 
 .font-size-12 {
@@ -264,6 +274,10 @@ body {
 
 .roundBox {
 	border-radius: .5rem !important;
+}
+
+.border-none {
+	border: none;
 }
 
 .align-self-start {

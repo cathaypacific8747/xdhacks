@@ -1,4 +1,4 @@
-from typing import Generic
+from typing import Generic, List
 from flask import Blueprint, json, redirect, url_for, request, session, current_app, abort, jsonify
 from flask_login import current_user
 from flask_migrate import current
@@ -280,26 +280,47 @@ def create():
 
 @api.get('/api/v1/offer/detail')
 def offer_detail():
-    buyerOffers = db.session.query(Offer, Listing)\
-        .filter(Offer.buyerid == current_user.userid)\
-        .filter(Offer.deleted == False)\
-        .join(User, Offer.listingid == Listing.listingid)\
+    if not current_user.is_authenticated:
+        raise APIForbiddenError()
+
+    sellerOffers = db.session.query(Offer, User, Listing)\
+        .filter(Offer.sellerid == current_user.userid, Offer.deleted == False)\
+        .join(User, Offer.buyerid == User.userid)\
+        .join(Listing, Offer.listingid == Listing.listingid)\
         .all()
+    
+    buyerOffers = db.session.query(Offer, User, Listing)\
+        .filter(Offer.buyerid == current_user.userid, Offer.deleted == False)\
+        .join(User, Offer.sellerid == User.userid)\
+        .join(Listing, Offer.listingid == Listing.listingid)\
+        .all()
+    
+    sOffers = []
+    bOffers = []
+    for raw, processed in [[sellerOffers, sOffers], [buyerOffers, bOffers]]:
+        for offer, user, listing in raw:
+            ld = listing.getDetails()
+            ud = user.getDetails()
+            od = offer.getDetails()
 
-    bOffer = []
-    for b in buyerOffers:
-        bfull = b[0].getDetails()
-        bfull["listing"] = b[1].getDetails()
-        bOffer.append(bfull)
-
-    # buyerOffers = Offer.query.filter_by(buyerid=current_user.userid, deleted=False).all()
-    # sellerOffers = Offer.query.filter_by(sellerid=current_user.userid, deleted=False).all()
+            if not any(s['listing'] == ld for s in processed):
+                processed.append({
+                    "listing": ld,
+                    "offers": []
+                })
+            for s in processed:
+                if s["listing"] == ld:
+                    s["offers"].append({
+                        "user": ud,
+                        "offer": od
+                    })
+                    break
 
     return jsonify({
         "status": "success",
         "message": None,
         "data": {
-            "buyer": bOffer,
-            # "seller": [],
+            "seller": sOffers,
+            "buyer": bOffers
         }
     })

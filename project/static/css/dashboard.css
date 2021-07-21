@@ -1,29 +1,44 @@
+:root {
+    --notification-badge-width: 62.5%;
+    --collapsible-border: 1px solid #ddd;
+}
+
 .book {
     border: 1px solid rgba(0, 158, 206, 25%);
     background-color: rgba(0, 158, 206, 5%);
 }
 
+li:not(.active) .collapsible-header {
+    border-radius: .5rem;
+    border: var(--collapsible-border);
+}
 
-li .collapsible-header {
-    justify-content: space-between;
+li.active .collapsible-body > div {
+    border: var(--collapsible-border);
 }
-li .collapsible-header .caret {
-    color: #999;
-    /* margin-right: 0; */
-    transition: transform 0.2s ease;
+
+li.active .collapsible-body > div:last-child {
+    border-bottom-left-radius: .5rem;
+    border-bottom-right-radius: .5rem;
 }
+
 li.active .collapsible-header {
-    background-color: lightcoral;
-    color: white;
+    background-color: #E3F2FD !important;
+    border: var(--collapsible-border);
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
 }
-li.active .collapsible-header .caret {
-    color: white;
-    transform: rotate(-180deg);
-    transform-origin: 0.6em 0.5em;
+
+li.active .collapsible-header:active {
+    background-color: red;
 }
 
 .google-book-image {
     width: 100%;
+}
+
+.profile-picture {
+    width: 75%;
 }
 
 .minPicHeight {
@@ -56,10 +71,6 @@ li.active .collapsible-header .caret {
     overflow-y: auto;
 }
 
-.unread {
-    color: rgb(212, 0, 0);
-}
-
-.read {
-    color: transparent;
+i.material-icons.unread {
+    color: #b00;
 }

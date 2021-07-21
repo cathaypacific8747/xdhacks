@@ -114,3 +114,12 @@ class Offer(db.Model):
     sellerid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.userid'), nullable=False, index=True)
     deleted = db.Column(db.Boolean, default=False)
     read = db.Column(db.Boolean, default=False)
+
+    def getDetails(self):
+        return {
+            'offerid': self.offerid,
+            'listingid': self.listingid,
+            'buyerid': self.buyerid,
+            'sellerid': self.sellerid,
+            'read': self.read
+        }
