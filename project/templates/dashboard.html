@@ -14,7 +14,10 @@
     </div>
     <div class="row mb-0">
         <div class="col s12">
-            <div class="font-size-14 text-muted mb-32">Last Updated: </div>
+            <div class="font-size-14 text-muted mb-32">
+                Last Updated: <span data-field="updated">---</span>
+                <i class="material-icons font-size-14 valign-middle unselectable" data-refresh>refresh</i>
+            </div>
         </div>
     </div>
     <div class="row mb-0 roundBox lightlightgrey" id="dashboard">
@@ -28,46 +31,11 @@
                     </div>
                     <div class="row mb-0">
                         <div class="col s12">
-                            <div class="center-align" data-element="buy_help"></div>
-                            <div class="progress mb-8 hide" data-element="offer_progress">
+                            <div class="center-align font-size-14" data-element="seller_help"></div>
+                            <div class="progress mb-8 hide" data-element="seller_progress">
                                 <div class="indeterminate"></div>
                             </div>
-                            <div data-element="buy_results">
-                                <ul class="collapsible box-shadow-none border-none" data-element="buy_results">
-                                    <li data-bookid="0YzTCQAAQBAJ">
-                                        <div class="collapsible-header p-0 border-none">
-                                            <div class="row mb-0 mx-0 valign-wrapper py-8">
-                                                <div class="col s2 px-4 valign-wrapper">
-                                                    <img class="google-book-image" src="http://books.google.com/books/publisher/content?id=0YzTCQAAQBAJ&amp;printsec=frontcover&amp;img=1&amp;zoom=5&amp;edge=curl" onload="removeShimmer(this.parentElement);removeMinPicHeight(this.parentElement)">
-                                                </div>
-                                                <div class="col s9 px-4 font-size-14 text-bold">
-                                                    Physics for the IB Diploma Coursebook with Free Online Material
-                                                </div>
-                                                <div class="col s1 p-0 justify-content-center">
-                                                    <i class="material-icons font-size-12 mx-0 w-unset unread">
-                                                        circle
-                                                    </i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="collapsible-body p-0 border-none">
-                                            <div class="row mb-0 mx-0 valign-wrapper py-8">
-                                                <div class="col s2 px-4 valign-wrapper justify-content-center">
-                                                    <img class="profile-picture" src="https://lh3.googleusercontent.com/a-/AOh14GisTWu4QhxU6QXCgXodT1qo3uL6ujsM5KKcYwuNBQ=s96-c" onload="removeShimmer(this.parentElement)">
-                                                </div>
-                                                <div class="col s9 px-4 font-size-14">
-                                                    Abraham Cheung
-                                                </div>
-                                                <div class="col s1 p-0 justify-content-center">
-                                                    <i class="material-icons font-size-12 mx-0 w-unset unread">
-                                                        circle
-                                                    </i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
+                            <div data-element="seller_results"></div>
                         </div>
                     </div>
                     <div class="row mb-0">
@@ -77,11 +45,11 @@
                     </div>
                     <div class="row mb-0">
                         <div class="col s12">
-                            <div class="center-align" data-element="sell_help"></div>
-                            <div class="progress mb-8 hide" data-element="offer_progress">
+                            <div class="center-align font-size-14" data-element="buyer_help"></div>
+                            <div class="progress mb-8 hide" data-element="buyer_progress">
                                 <div class="indeterminate"></div>
                             </div>
-                            <div data-element="sell_results"></div>                            
+                            <div data-element="buyer_results"></div>
                         </div>
                     </div>
                 </div>

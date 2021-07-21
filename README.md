@@ -88,7 +88,7 @@ $ ./start.sh
 - [x] Offer API - Create Offer (POST `/api/v1/offer/create` {"listingid": listingid})
 - [x] Market Sub-template - Clicking on create offer redirects to Dashboard Template
 - [x] Offer API - Get all buyer and seller offers (GET `/api/v1/offer/detail`)
-- [ ] Dashboard template - Automatically fetches all buyer and seller offers
+- [x] Dashboard template - Automatically fetches all buyer and seller offers
 - [ ] Market Sub-template - If offer is seller or buyer already has offer, disable button to create offer.
 - [ ] Offer API - Delete Offer (seller only, DELETE `/api/v1/offer/delete` {"offerid", "offerid"})
 - [ ] Dashboard template - Clicking on delete offer refreshes page.
@@ -96,10 +96,8 @@ $ ./start.sh
 - [ ] Dashboard template - Clicking on complete offer refreshes page.
 - [ ] Listing API - Deleting Listing causes all offers to be deleted.
 
-- [ ] Chat API - Send message
-- [ ] Chat API - Get message
-- [ ] Dashboard template - Recieve functionality
-- [ ] Chat API - Mark as read
+- [ ] Message API - System messages
+- [ ] Dashboard Template - System messages
 
 - [ ] How to use website Template
 - [ ] About us

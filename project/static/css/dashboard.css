@@ -13,6 +13,13 @@ li:not(.active) .collapsible-header {
     border: var(--collapsible-border);
 }
 
+li:not(.active) .collapsible-header:hover {
+    background-color: #edf4fa !important;
+    -webkit-transition: background-color 200ms linear;
+    -ms-transition: background-color 200ms linear;
+    transition: background-color 200ms linear;
+}
+
 li.active .collapsible-body > div {
     border: var(--collapsible-border);
 }
@@ -23,14 +30,25 @@ li.active .collapsible-body > div:last-child {
 }
 
 li.active .collapsible-header {
-    background-color: #E3F2FD !important;
+    background-color: #e0f1fd !important;
     border: var(--collapsible-border);
     border-top-left-radius: .5rem;
     border-top-right-radius: .5rem;
+
 }
 
-li.active .collapsible-header:active {
-    background-color: red;
+[data-offerid]:hover {
+    background-color: #ebf5ec !important;
+    -webkit-transition: background-color 200ms linear;
+    -ms-transition: background-color 200ms linear;
+    transition: background-color 200ms linear;
+}
+
+[data-offerid].active {
+    background-color: #e2f5e4 !important;
+    -webkit-transition: background-color 200ms linear;
+    -ms-transition: background-color 200ms linear;
+    transition: background-color 200ms linear;
 }
 
 .google-book-image {

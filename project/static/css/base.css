@@ -299,6 +299,10 @@ body {
 	justify-content: center;
 }
 
+.valign-middle {
+	vertical-align: middle;
+}
+
 #profileDropdown a {
 	padding: .5rem .5rem .5rem 1rem;
 	text-align: right;
