@@ -1,9 +1,7 @@
-from typing import Generic, List
 from flask import Blueprint, json, redirect, url_for, request, session, current_app, abort, jsonify
 from flask_login import current_user
-from flask_migrate import current
 from sqlalchemy.sql.functions import user
-from .models import User, Listing, Offer
+from .models import Message, User, Listing, Offer
 from . import db
 from .error_handler import APIForbiddenError, GenericInputError
 import re
@@ -252,6 +250,19 @@ def market_detail():
         "data": data
     })
 
+@api.get('/api/v1/dashboard/messages')
+def messages():
+    if not current_user.is_authenticated:
+        raise APIForbiddenError()
+
+    messages = Message.query.filter_by(destinationuserid=current_user.userid).order_by(Message.created.desc()).all()
+
+    return jsonify({
+        "status": "success",
+        "message": None,
+        "data": [m.getDetails() for m in messages]
+    })
+
 @api.post('/api/v1/offer/create')
 def create():
     if not current_user.is_authenticated:
@@ -276,6 +287,10 @@ def create():
 
     offer_new = Offer(listingid=listingid, buyerid=buyerid, sellerid=sellerid)
     db.session.add(offer_new)
+
+    message_new = Message(destinationuserid=sellerid, message=f"{current_user.name} has created an offer on your listing '{listing.listingid}'.")
+    db.session.add(message_new)
+
     db.session.commit()
 
     return jsonify({

@@ -101,9 +101,20 @@ class Listing(db.Model):
             data['open'] = self.open
         return data
 
-# class Message(db.Model):
-#     messageid = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
-    
+class Message(db.Model):
+    __tablename__ = 'messages'
+
+    messageid = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    destinationuserid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.userid'), nullable=False, index=True)
+    message = db.Column(db.String, default='')
+    created = db.Column(db.DateTime(), default=datetime.utcnow)
+
+    def getDetails(self):
+        return {
+            'messageid': self.messageid,
+            'message': self.message,
+            'created': self.created.replace(tzinfo=timezone.utc).timestamp(),
+        }
 
 class Offer(db.Model):
     __tablename__ = 'offers'
@@ -113,7 +124,6 @@ class Offer(db.Model):
     buyerid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.userid'), nullable=False, index=True)
     sellerid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.userid'), nullable=False, index=True)
     deleted = db.Column(db.Boolean, default=False)
-    read = db.Column(db.Boolean, default=False)
 
     def getDetails(self):
         return {
@@ -121,5 +131,4 @@ class Offer(db.Model):
             'listingid': self.listingid,
             'buyerid': self.buyerid,
             'sellerid': self.sellerid,
-            'read': self.read
         }
