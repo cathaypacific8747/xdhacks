@@ -37,7 +37,7 @@ def user_detail():
     return jsonify({
         "status": "success",
         "message": None,
-        "data": user.getDetails()
+        "data": user.getDetails(overridepublic=not bool(userid))
     })
 
 @api.patch('/api/v1/user/update')

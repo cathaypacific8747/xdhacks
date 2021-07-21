@@ -41,7 +41,6 @@ $(document).ready(function() {
         update_profile() {
             $('[data-field="profilePic"]').attr("src", `${this.data.profilePic}=s172-c`);
             $('[data-field="name"]').html(this.data.name).removeClass("shimmerBG");
-            $('[data-field="email"]').html(this.data.email).removeClass("shimmerBG");
             if (this.data.cky) {
                 $('[data-field="cky"]').attr("data-tooltip", "This user is a verified CKY student.").html("verified").addClass("verified");
             } else {
@@ -123,14 +122,22 @@ $(document).ready(function() {
         update_publicity() {
             if (this.data.public) {
                 $('[data-field="public"]').html("Public");
-                $('[data-field="public_icon"]').html("public").attr("data-tooltip", "Everyone can see your information.");
+                $('[data-field="public_icon"]').html("public").attr("data-tooltip", "Everyone can see this person's information.");
             } else {
                 $('[data-field="public"]').html("Private");
-                $('[data-field="public_icon"]').html("lock").attr("data-tooltip", "Only you can see the information.");
+                $('[data-field="public_icon"]').html("lock").attr("data-tooltip", "Only the owner can see this person's information.");
             }
             this.unhide_container("public_container");
         }
 
+        update_email() {
+            if (this.data.email) {
+                $('[data-field="email"]').html(this.data.email);
+                this.unhide_container("email_container");
+            } else {
+                this.hide_container("email_container");
+            }
+        }
         update_discord() {
             if (this.data.discord) {
                 $('[data-field="discord_icon"]').attr("src", "/static/img/contact/discord.png");
@@ -153,7 +160,6 @@ $(document).ready(function() {
 
         update_phone() {
             if (this.data.phone) {
-                $('[data-field="phone_icon"]').attr("src", "/static/img/contact/phone.png");
                 $('[data-field="phone"]').html(this.data.phone);
                 if (this.data.whatsapp) $('[data-field="whatsapp"]').attr("src", "/static/img/contact/whatsapp.png")
                 if (this.data.signal) $('[data-field="signal"]').attr("src", "/static/img/contact/signal.png")
@@ -166,7 +172,6 @@ $(document).ready(function() {
 
         update_customContactInfo() {
             if (this.data.customContactInfo) {
-                $('[data-field="customContactInfo_icon"]').attr("src", "/static/img/contact/customContactInfo.png");
                 $('[data-field="customContactInfo"]').html(this.data.customContactInfo);
                 this.unhide_container("customContactInfo_container");
             } else {
@@ -191,6 +196,7 @@ $(document).ready(function() {
 
             this.remove_loader("contact_information_loader");
             this.update_publicity();
+            this.update_email();
             this.update_discord();
             this.update_instagram();
             this.update_phone();

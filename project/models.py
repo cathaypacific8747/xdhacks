@@ -11,7 +11,6 @@ class User(UserMixin, db.Model):
 
     userid = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     googleId = db.Column(VARCHAR(255), unique=True)
-    email = db.Column(db.String(254), unique=True)
     name = db.Column(db.String(70), index=True)
     profilePic = db.Column(db.String(100))
     cky = db.Column(db.Boolean, default=False)
@@ -25,15 +24,16 @@ class User(UserMixin, db.Model):
     alipay = db.Column(db.Boolean, default=False)
     eCheque = db.Column(db.Boolean, default=False)
     # account_type
-    buyer = db.Column(db.Boolean, default=False)
-    seller = db.Column(db.Boolean, default=False)
+    buyer = db.Column(db.Boolean, default=True)
+    seller = db.Column(db.Boolean, default=True)
     # sellerDetails
     negotiable = db.Column(db.Boolean, default=False)
     inSchoolExchange = db.Column(db.Boolean, default=False)
     meetup = db.Column(db.Boolean, default=False)
     delivery = db.Column(db.Boolean, default=False)
     # contactInfo
-    public = db.Column(db.Boolean, default=True)
+    public = db.Column(db.Boolean, default=False)
+    email = db.Column(db.String(254), unique=True)
     discord = db.Column(db.String, default='')
     instagram = db.Column(db.String, default='')
     phone = db.Column(db.String, default='')
@@ -44,14 +44,14 @@ class User(UserMixin, db.Model):
 
     def getInvalidKeys(self, read=True, public=True):
         if read:
-            invalid = ["googleId"] if public else ["googleId", "discord", "instagram", "phone", "whatsapp", "signal", "telegram", "wechat", "customContactInfo"]
+            invalid = ["googleId"] if public else ["googleId", "email", "discord", "instagram", "phone", "whatsapp", "signal", "telegram", "wechat", "customContactInfo"]
         else:
             invalid = ["userid", "googleId", "email", "name", "profilePic", "cky"]
         return invalid + [k for k in list(vars(self)) if '_' in k]
     
-    def getDetails(self):
+    def getDetails(self, overridepublic=False):
         data = vars(self)
-        invalidKeys = self.getInvalidKeys(read=True, public=self.public)
+        invalidKeys = self.getInvalidKeys(read=True, public=self.public or overridepublic)
 
         for k in data.copy():
             if k in invalidKeys:

@@ -381,6 +381,10 @@ body {
     color: #ae423f;
 }
 
+.contact-info-icon {
+	color: #0D47A1;
+}
+
 .nav-dropdown-item:hover {
 	background: var(--link-color-primary-hover2);
 }

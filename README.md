@@ -99,7 +99,9 @@ $ ./start.sh
 - [ ] Message API - System messages
 - [ ] Dashboard Template - System messages
 
-- [ ] How to use website Template
+- [x] Make email as private information, toggleable
+- [x] Make contact information to be private by default
+- [ ] Help Template
 - [ ] About us
 - [ ] Privacy Policy
 - [ ] Terms of service

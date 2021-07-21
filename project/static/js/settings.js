@@ -53,7 +53,6 @@ $(document).ready(function() {
         update_profile() {
             $('[data-field="profilePic"]').attr("src", `${this.data.profilePic}=s172-c`);
             $('[data-field="name"]').html(this.data.name).removeClass("shimmerBG");
-            $('[data-field="email"]').html(this.data.email).removeClass("shimmerBG");
             if (this.data.cky) {
                 $('[data-field="cky"]').attr("data-tooltip", "This user is a verified CKY student.").html("verified").addClass("verified");
             } else {
@@ -183,6 +182,15 @@ $(document).ready(function() {
             this.update_publicity_edit();
         }
 
+        update_email() {
+            if (this.data.email) {
+                $('[data-field="email"]').html(this.data.email);
+                this.unhide_container("email_container");
+            } else {
+                this.hide_container("email_container");
+            }
+        }
+
         update_discord_edit_text() {
             $('[data-editfield="discord_text"]').val(this.data.discord);
             M.updateTextFields();
@@ -255,7 +263,6 @@ $(document).ready(function() {
         }
         update_phone() {
             if (this.data.phone) {
-                $('[data-field="phone_icon"]').attr("src", "/static/img/contact/phone.png");
                 $('[data-field="phone"]').html(this.data.phone);
                 if (this.data.whatsapp) $('[data-field="whatsapp"]').attr("src", "/static/img/contact/whatsapp.png")
                 if (this.data.signal) $('[data-field="signal"]').attr("src", "/static/img/contact/signal.png")
@@ -284,7 +291,6 @@ $(document).ready(function() {
         }
         update_customContactInfo() {
             if (this.data.customContactInfo) {
-                $('[data-field="customContactInfo_icon"]').attr("src", "/static/img/contact/customContactInfo.png");
                 $('[data-field="customContactInfo"]').html(this.data.customContactInfo);
                 this.unhide_container("customContactInfo_container");
             } else {
@@ -310,6 +316,7 @@ $(document).ready(function() {
 
             this.remove_loader("contact_information_loader");
             this.update_publicity();
+            this.update_email();
             this.update_discord();
             this.update_instagram();
             this.update_phone();
