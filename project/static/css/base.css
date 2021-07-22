@@ -142,8 +142,8 @@ body {
 }
 
 .px-8 {
-	padding-left: .5rem;
-	padding-right: .5rem;
+	padding-left: .5rem !important;
+	padding-right: .5rem !important;
 }
 
 .py-8 {
@@ -422,6 +422,18 @@ body {
 
 .box-shadow-none {
 	box-shadow: none;
+}
+
+.rotating {
+    animation: rotating .5s linear infinite;
+}
+
+@keyframes rotating {
+    from {
+        transform: rotate(0deg);
+    } to {
+        transform: rotate(360deg);
+    }
 }
 
 /* SHIMMER */

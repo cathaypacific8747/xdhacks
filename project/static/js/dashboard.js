@@ -6,10 +6,98 @@ $(document).ready(function() {
     }
     changeDashboardHeight();
     
-    var updated;
-    function load() {
-        const initialHelpText = "Loading offers...";
-        $('[data-element$="_help"]').removeClass("hide").html(initialHelpText);
+    var push = Notification.permission == 'granted';
+    function loadMesssage() {
+        function updateButton(push) {       
+            $('[data-field="notification_icon"]').html(push ? 'notifications_active' : 'notifications_off');
+            $('[data-field="notification_text"]').html(push ? 'Notifications on' : 'Notifications off');
+            $('[data-button="toggle_notification"]').removeClass(push ? 'btn-transparent-danger' : 'btn-transparent-primary').addClass(push ? 'btn-transparent-primary' : 'btn-transparent-danger');
+        }
+        $('[data-element="controls"]').html(`<div class="row mb-0">
+            <div class="col s12 mt-8" data-element="message_box">
+                <div class="font-size-12 text-italic text-muted mb-0">Keep this tab open to recieve push notifications.</div>
+                <a class="btn px-8 mb-8 roundBox btn-transparent unselectable" data-button="toggle_notification">
+                    <i class="material-icons left" data-field="notification_icon"></i>
+                    <span data-field="notification_text"></span>
+                </a>
+                <div class="center-align font-size-14" data-element="message_box_help">Loading messages...</div>
+                <div class="progress mb-8" data-element="message_progress">
+                    <div class="indeterminate"></div>
+                </div>
+            </div>
+        </div>
+        `);
+        updateButton(push);
+        fetch('/api/v1/dashboard/messages', {
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (!response.ok) throw new NetworkError;
+            return response.json();
+        }).then(json => {
+            if (json.status != "success") throw new APIError(json);
+            return json.data;
+        }).then(messages => {
+            let m = '';
+            for (message of messages) {
+                const updated = dayjs.unix(message.created);
+                m += `<div class="row mx-0 mb-8 p-8 roundBox lightgrey">
+                    <div class="col s3 right-align">
+                        <div class="row mb-0 font-size-14">${updated.local().format('DD/MM/YYYY HH:mm:ss')}</div>
+                        <div class="row mb-0 font-size-14 text-muted" data-field="updatedRelative" data-val="${message.created}">${updated.local().fromNow()}</div>
+                    </div>
+                    <div class="col s9 font-size-14">${message.message}</div>
+                </div>`
+            }
+            $('[data-element="message_box_help"]').html(m ? '' : 'No messages.')
+            $('[data-element="message_box"]').append($(m));
+        }).catch(e => {
+            if (e instanceof APIError) {
+                $('[data-element="message_box_help"]').html("An error occurred in our server. Please try again later.");
+            } else if (e instanceof NetworkError) {
+                $('[data-element="message_box_help"]').html("An error occured when retrieving data. Please check your connection or try again.");
+            } else {
+                console.error(e)
+            }
+        }).finally(() => {
+            $('[data-element="message_progress"]').addClass("hide");
+        })
+        $('[data-button="toggle_notification"]').click(() => {
+            console.log(push);
+            if (push) {
+                push = false;
+                updateButton(push);
+            } else {
+                if (Notification.permission == 'granted') {
+                    push = true;
+                    updateButton(push);
+                } else {
+                    Notification.requestPermission(() => {
+                        push = true;
+                        updateButton(push);
+                    })
+                }
+            }
+        })
+    }
+
+    function loadBox() {
+        switch ($('[data-element="controls"][data-control]').attr('data-control')) {
+            case 'message':
+                loadMesssage();
+                break;
+            default:
+                console.log('default');
+        }
+    }
+
+    function loadPanel() {
+        $(`[data-refresh]`).addClass('rotating')
+        $('[data-element$="_help"]').removeClass("hide").html("Loading offers...");
+        $('[data-element="message_help"]').removeClass("hide").html("View messages");
         $('[data-element$="_progress"]').removeClass("hide");
         $('[data-element$="_results"]').empty();
         fetch('/api/v1/offer/detail', {
@@ -31,7 +119,7 @@ $(document).ready(function() {
                     $(`[data-element="${offertype}_progress"]`).addClass("hide");
                     continue;
                 }
-                Promise.all(
+                await Promise.all(
                     offers[offertype].map(({listing}) => {
                         return fetch(`https://www.googleapis.com/books/v1/volumes/${listing.bookid}`, {
                             method: 'GET',
@@ -112,15 +200,28 @@ $(document).ready(function() {
                 console.error(e)
             }
         }).finally(() => {
-            updated = dayjs().local();
-            $(`[data-field="updated"]`).html(`${updated.format('DD/MM/YYYY HH:mm:ss')} (<span data-field="updatedRelative">now</span>)`);
+            const updated = dayjs();
+            $(`[data-field="updated"]`).html(`${updated.local().format('DD/MM/YYYY HH:mm:ss')} (<span data-field="updatedRelative" data-val="${updated.valueOf()/1000}">a few seconds ago</span>)`);
+            $(`[data-refresh]`).removeClass('rotating')
         })
     }
-    load();
 
-    $('[data-refresh]').click(load);
+    loadPanel();
+    loadBox();
+    $('[data-refresh]').click(() => {
+        loadPanel();
+        loadBox();
+    });
+    $('[data-element="message_help"]').click(() => {
+        $('[data-element="controls"]').attr('data-control', 'message');
+        loadBox();
+    })
+
+    // loadMesssage()
 
     setInterval(() => {
-        $('[data-field="updatedRelative"]').html(updated.fromNow())
+        $('[data-field="updatedRelative"][data-val]').each(function() {
+            $(this).html(dayjs.unix($(this).attr('data-val')).local().fromNow())
+        })
     }, 1000)
 });

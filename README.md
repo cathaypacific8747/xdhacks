@@ -90,13 +90,15 @@ $ ./start.sh
 - [x] Offer API - Get all buyer and seller offers (GET `/api/v1/offer/detail`)
 - [x] Dashboard template - Automatically fetches all buyer and seller offers
 - [x] Market Sub-template - If offer is seller, or buyer already has offer, disable create offer button
-- [x] Dashboard API - Message Centre (GET `/api/v1/dashboard/messages`)
-- [ ] Dashboard template - get messages belonging to user.
-- [x] Offer API - Create Offer sends notification to message centre
+- [x] Dashboard API - System messages (GET `/api/v1/dashboard/messages`)
+- [x] Dashboard template - get messages belonging to user.
+- [ ] Offer API - Create Offer queries Google for book name, then sends notification to message centre
+- [ ] Dashboard template - Handle buyer/seller toggle
 - [ ] Offer API - Cancel Offer (buyer and seller, DELETE `/api/v1/offer/delete?offerid=____`)
 - [ ] Dashboard template - Clicking on delete offer refreshes page.
 - [ ] Offer API - Complete Offer (seller only, POST `/api/v1/offer/complete?offerid=____`)
 - [ ] Dashboard template - Clicking on complete offer refreshes page.
+- [ ] Dashboard template - Manual and automatic updates refreshes box.
 - [ ] Listing API - Deleting Listing causes all offers to be deleted.
 - [ ] Offer API - Delete Listing, Cancel Offer, Complete Offer sends notification to message centre.
 
