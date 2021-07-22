@@ -92,7 +92,7 @@ $ ./start.sh
 - [x] Market Sub-template - If offer is seller, or buyer already has offer, disable create offer button
 - [x] Dashboard API - System messages (GET `/api/v1/dashboard/messages`)
 - [x] Dashboard template - get messages belonging to user.
-- [ ] Offer API - Create Offer queries Google for book name, then sends notification to message centre
+- [x] Offer API - Create Offer queries Google for book name, then sends notification to message centre
 - [ ] Dashboard template - Handle buyer/seller toggle
 - [ ] Offer API - Cancel Offer (buyer and seller, DELETE `/api/v1/offer/delete?offerid=____`)
 - [ ] Dashboard template - Clicking on delete offer refreshes page.

@@ -12,6 +12,7 @@ import uuid
 from io import BytesIO
 import discord
 from sqlalchemy import func
+import requests
 
 api = Blueprint('api', __name__)
 
@@ -288,9 +289,13 @@ def create():
     offer_new = Offer(listingid=listingid, buyerid=buyerid, sellerid=sellerid)
     db.session.add(offer_new)
 
-    message_new = Message(destinationuserid=sellerid, message=f"{current_user.name} has created an offer on your listing '{listing.listingid}'.")
+    try:
+        name = requests.get(f'https://www.googleapis.com/books/v1/volumes/{listing.bookid}?projection=lite').json()['volumeInfo']['title']
+        bookname = f'<span class="text-bold">{name}</span>'
+    except Exception:
+        bookname = '<span class="text-italic">Unknown</span>'
+    message_new = Message(destinationuserid=sellerid, message=f'<span class="text-bold">{current_user.name}</span> has created an offer on your listing: {bookname}.')
     db.session.add(message_new)
-
     db.session.commit()
 
     return jsonify({
