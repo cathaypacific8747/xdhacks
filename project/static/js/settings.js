@@ -451,6 +451,9 @@ $(document).ready(function() {
             input.discord = $('[data-editfield="discord"]').is(':checked') ? $('[data-editfield="discord_text"]').val() : '';
             input.instagram = $('[data-editfield="instagram"]').is(':checked') ? $('[data-editfield="instagram_text"]').val() : '';
             input.phone = $('[data-editfield="phone"]').is(':checked') ? $('[data-editfield="phone_text"]').val() : '';
+            input.whatsapp = $('[data-editfield="whatsapp"]').is(':checked');
+            input.signal = $('[data-editfield="signal"]').is(':checked');
+            input.telegram = $('[data-editfield="telegram"]').is(':checked');
             input.customContactInfo = $('[data-editfield="customContactInfo"]').is(':checked') ? $('[data-editfield="customContactInfo_text"]').val() : '';
 
             return input;

@@ -14,6 +14,9 @@ $(document).ready(function() {
     changeDashboardHeight();
 
     const unhide_container = container => $(`[data-field="${container}"]`).removeClass("hide");
+    String.prototype.capitalise = function() {
+        return this.charAt(0).toUpperCase() + this.slice(1);
+    }
 
     class User {
         constructor(data) {
@@ -121,10 +124,11 @@ $(document).ready(function() {
         })
     }
 
-    function loadSeller(offerid) {
+    function loadOffer(offerid, role) {
+        let oppositeRole = role == 'seller' ? 'buyer' : 'seller';
         let public = listings.public;
-        var offer;
-        let listing = new Listing(listings.seller.find(e => {
+        let offer;
+        let listing = new Listing(listings[role].find(e => {
             offer = e.offers.find(f => f.offer.offerid == offerid);
             return Boolean(offer);
         }).listing)
@@ -211,7 +215,7 @@ $(document).ready(function() {
         </div>
         <div class="row font-size-20 text-bold mt-8 mb-0">
             <div class="col s12">
-                Buyer Details
+                ${oppositeRole.capitalise()} Details
             </div>
         </div>
         <div class="row mx-0 mt-8 mb-0">
@@ -224,16 +228,16 @@ $(document).ready(function() {
                     <div class="col s3 pr-6 right-align">Delivery methods</div>
                     <div class="col s9 pl-6 py-8 valign-wrapper">${user.strings.deliveryMethod}</div>
                 </div>
-                <div class="row my-0 font-size-14 valign-wrapper" data-field="negotiable_container">
+                <div class="row my-0 font-size-14 valign-wrapper pb-8" data-field="negotiable_container">
                     <div class="col s3 pr-6 right-align">Negotiable</div>
                     <div class="col s9 pl-6 valign-wrapper">${user.strings.negotiable}</div>
                 </div>
-                <div class="row my-0 font-size-14 valign-wrapper py-8">
+                <div class="row my-0 font-size-14 valign-wrapper">
                     <div class="col s3 pr-6 right-align">Contact Information</div>
                     <div class="col s9 pl-6">
                         <div class="row mb-0 mx-0 hide" data-field="public_container">
                             <div class="col s12 p-0 valign-wrapper">
-                                The buyer has set the contact information to be private.
+                                The ${oppositeRole} has set the contact information to be private.
                             </div>
                         </div>
                         <div class="row mb-0 mx-0 hide" data-field="public_container">
@@ -243,7 +247,7 @@ $(document).ready(function() {
                         </div>
                         <div class="row mb-0 mx-0 hide" data-field="public_container">
                             <div class="col s12 p-0 valign-wrapper mb-2">
-                                When the buyer accepts the request, a system message will be sent to you.
+                                When the ${oppositeRole} accepts the request, a system message will be sent to you.
                             </div>
                         </div>
                         <div class="row mb-2 mx-0 hide" data-field="email_container">
@@ -301,6 +305,8 @@ $(document).ready(function() {
         </div>
         `);
 
+        oppositeRole == 'buyer' && $('[data-field="negotiable_container"]').addClass("hide");
+
         if (!user.public) {
             $('[data-field="public"]').html("Private");
             $('[data-field="public_icon"]').html("").attr("data-tooltip", "");
@@ -334,18 +340,18 @@ $(document).ready(function() {
         }
 
         if (public) {
-            $('[data-field="my_publicity_help"]').html("Your contact information is visible to everyone.")
+            $('[data-field="my_publicity_help"]').html("Your contact information is visible to everyone, including the buyer.")
         } else {
-            if (offer.sellerpublic) {
-                $('[data-field="my_publicity_help"]').html("Your contact information is visible to the buyer only.")
+            if (offer[`${role}public`]) {
+                $('[data-field="my_publicity_help"]').html(`Your contact information is visible to the ${oppositeRole} only.`)
                 $('[data-button="my_publicity_toggle"]').removeClass("btn-transparent-primary").addClass("btn-transparent-danger");
                 $('[data-field="my_publicity_icon"]').html('remove_circle_outline')
-                $('[data-field="my_publicity_text"]').html("Revoke buyer's access to contact information")
+                $('[data-field="my_publicity_text"]').html(`Revoke ${oppositeRole}'s access to contact information`)
             } else {
-                $('[data-field="my_publicity_help"]').html("Your contact information is not visible to anyone. The buyer would like to view your contact information.")
+                $('[data-field="my_publicity_help"]').html(`Your contact information is not visible to anyone. The ${oppositeRole} would like to view your contact information.`)
                 $('[data-button="my_publicity_toggle"]').removeClass("btn-transparent-danger").addClass("btn-transparent-primary");
                 $('[data-field="my_publicity_icon"]').html('check_circle_outline')
-                $('[data-field="my_publicity_text"]').html("Grant buyer's access to contact information")
+                $('[data-field="my_publicity_text"]').html(`Grant ${oppositeRole}'s access to contact information`)
             }
             $('[data-button="my_publicity_toggle"]').removeClass("hide")
         }
@@ -361,20 +367,16 @@ $(document).ready(function() {
         $('.tooltipped').tooltip()
     }
 
-    // function loadBuyer(offerid) {
-    //     console.log('buyer', offerid, listings);
-    // }
-
     function loadBox() {
         switch ($('[data-element="controls"][data-control]').attr('data-control')) {
             case 'message':
                 loadMesssage();
                 break;
             case 'seller':
-                loadSeller($('[data-element="controls"][data-control]').attr('data-control-offerid'));
+                loadOffer($('[data-element="controls"][data-control]').attr('data-control-offerid'), 'seller');
                 break;
             case 'buyer':
-                loadBuyer($('[data-element="controls"][data-control]').attr('data-control-offerid'));
+                loadOffer($('[data-element="controls"][data-control]').attr('data-control-offerid'), 'buyer');
                 break;
         }
     }
@@ -506,8 +508,6 @@ $(document).ready(function() {
         $('[data-element="controls"]').attr('data-control', 'message');
         loadBox();
     })
-
-    // loadMesssage()
 
     setInterval(() => {
         $('[data-field="updatedRelative"][data-val]').each(function() {

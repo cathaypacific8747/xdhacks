@@ -96,7 +96,7 @@ $ ./start.sh
 - [x] Dashboard template - show offer information
 - [x] Dashboard template - show buyer/seller information
 - [x] Dashboard template - show my information visibility
-- [ ] Dashboard template - add buyer/seller detection
+- [x] Dashboard template - add buyer/seller detection
 - [ ] Offer API - Toggle Publicity (buyer and seller, PATCH `/api/v1/offer/togglePublicity?offerid=____`)
 - [ ] Dashboard template - toggle publicity of contact information
 - [ ] Offer API - Cancel Offer (buyer and seller, DELETE `/api/v1/offer/cancel?offerid=____`)
