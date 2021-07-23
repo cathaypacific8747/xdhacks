@@ -1,6 +1,4 @@
-# xdhacks
-
-[![CodeFactor](https://www.codefactor.io/repository/github/cathaypacific8747/xdhacks/badge/main?s=d3edd417b3e9f6023f6f201ea5dcf58b3e7c16ba)](https://www.codefactor.io/repository/github/cathaypacific8747/xdhacks/overview/main)
+# xdhacks [![CodeFactor](https://www.codefactor.io/repository/github/cathaypacific8747/xdhacks/badge/main?s=d3edd417b3e9f6023f6f201ea5dcf58b3e7c16ba)](https://www.codefactor.io/repository/github/cathaypacific8747/xdhacks/overview/main)
 
 A place for us to store code for xdhacks 2021.
 
@@ -86,7 +84,7 @@ $ ./start.sh
 - [x] Market Sub-template - Clicking on username redirects to User Template
 
 - [x] Offer API - Create Offer (POST `/api/v1/offer/create` {"listingid": listingid})
-- [x] Market Sub-template - Clicking on create offer redirects to Dashboard Template
+- [x] Market Sub-template - Clicking on create offer redirects to Dashboard Template, disables button
 - [x] Offer API - Get all buyer and seller offers (GET `/api/v1/offer/detail`)
 - [x] Dashboard template - Automatically fetches all buyer and seller offers
 - [x] Market Sub-template - If offer is seller, or buyer already has offer, disable create offer button
@@ -97,6 +95,7 @@ $ ./start.sh
 - [x] Dashboard template - show book information
 - [x] Dashboard template - show offer information
 - [ ] Dashboard template - show buyer/seller information
+- [ ] Dashboard template - add buyer/seller detection
 - [ ] Offer API - Toggle Publicity (buyer and seller, PATCH `/api/v1/offer/togglePublicity?offerid=____`)
 - [ ] Dashboard template - toggle publicity of contact information
 - [ ] Offer API - Cancel Offer (buyer and seller, DELETE `/api/v1/offer/cancel?offerid=____`)

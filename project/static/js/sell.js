@@ -46,13 +46,13 @@ $(document).ready(function() {
                         <div class="row mt-0 mb-2">
                             <div class="col font-size-24 text-bold">${book.strings.title}</div>
                         </div>
-                        <div class="row mt-0 mb-0">
+                        <div class="row my-0">
                             <div class="col font-size-16">Author${book.strings.plurality}: ${book.strings.authors}</div>
                         </div>
-                        <div class="row mt-0 mb-0">
+                        <div class="row my-0">
                             <div class="col font-size-16">Publisher: ${book.strings.publisher}</div>
                         </div>
-                        <div class="row mt-0 mb-0">
+                        <div class="row my-0">
                             <div class="col font-size-16">ISBN: ${book.strings.isbn}</div>
                         </div>
                     </div>

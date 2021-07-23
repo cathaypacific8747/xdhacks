@@ -62,22 +62,22 @@ $(document).ready(function() {
                 <div class="row mt-0 mb-2">
                     <div class="col font-size-24 text-bold">${book.strings.title}</div>
                 </div>
-                <div class="row mt-0 mb-0">
+                <div class="row my-0">
                     <div class="col font-size-16">Author${book.strings.plurality}: ${book.strings.authors}</div>
                 </div>
-                <div class="row mt-0 mb-0">
+                <div class="row my-0">
                     <div class="col font-size-16">Publisher: ${book.strings.publisher}</div>
                 </div>
-                <div class="row mt-0 mb-0">
+                <div class="row my-0">
                     <div class="col font-size-16">Date of publication: ${book.strings.publishedDate}</div>
                 </div>
-                <div class="row mt-0 mb-0">
+                <div class="row my-0">
                     <div class="col font-size-16">ISBN: ${book.strings.isbn}</div>
                 </div>
-                <div class="row mt-0 mb-0">
+                <div class="row my-0">
                     <div class="col font-size-16">Number of pages: ${book.strings.pageCount}</div>
                 </div>
-                <div class="row mt-0 mb-0">
+                <div class="row my-0">
                     <div class="col font-size-16">Dimensions: ${book.strings.dimensions}</div>
                 </div>
             </div>
@@ -112,7 +112,7 @@ $(document).ready(function() {
                             </div>
                         </div>
                         <div class="col s11">
-                            <div class="row mt-0 mb-0 valign-wrapper">
+                            <div class="row my-0 valign-wrapper">
                                 <div class="col font-size-20 text-bold">${owner.name}</div>
                                 ${owner.strings.badgeElem}
                             </div>
@@ -121,42 +121,42 @@ $(document).ready(function() {
                     <div class="row mt-0 mb-2">
                         <div class="col s1"></div>
                         <div class="col s6">
-                            <div class="row mt-0 mb-0">
+                            <div class="row my-0">
                                 <div class="col s12 word-wrap font-size-14 text-muted">Negotiable</div>
                             </div>
-                            <div class="row mt-0 mb-0">
+                            <div class="row my-0">
                                 <div class="col s12 font-size-16 valign-wrapper">${owner.strings.negotiable}</div>
                             </div>
-                            <div class="row mt-0 mb-0">
+                            <div class="row my-0">
                                 <div class="col s12 word-wrap font-size-14 text-muted">Payment Methods</div>
                             </div>
-                            <div class="row mt-0 mb-0">
+                            <div class="row my-0">
                                 <div class="col font-size-16">
                                     ${owner.strings.payment}
                                 </div>
                             </div>
-                            <div class="row mt-0 mb-0">
+                            <div class="row my-0">
                                 <div class="col s12 word-wrap font-size-14 text-muted">Delivery Methods</div>
                             </div>
-                            <div class="row mt-0 mb-0">
+                            <div class="row my-0">
                                 <div class="col font-size-16">
                                     ${owner.strings.deliveryMethod}
                                 </div>
                             </div>
                         </div>
                         <div class="col s5">
-                            <div class="row mt-0 mb-0">
+                            <div class="row my-0">
                                 <div class="col s12 word-wrap font-size-14 right-align text-muted">Created</div>
                             </div>
-                            <div class="row mt-0 mb-0">
+                            <div class="row my-0">
                                 <div class="col s12 word-wrap font-size-16 right-align">${listing.strings.created}</div>
                             </div>
-                            <div class="row mt-0 mb-0 justify-content-end flex-wrap">
+                            <div class="row my-0 justify-content-end flex-wrap">
                                 <div class="col">
-                                    <div class="row mt-0 mb-0">
+                                    <div class="row my-0">
                                         <div class="col s12 word-wrap font-size-14 right-align text-muted">Condition</div>
                                     </div>
-                                    <div class="row mt-0 mb-0">
+                                    <div class="row my-0">
                                         <div class="col s12 word-wrap font-size-16 right-align">
                                             <span class="${listing.strings.conditionClass} tooltipped" data-position="left" data-tooltip="${listing.strings.conditionDescription}">
                                                 ${listing.strings.condition}
@@ -165,31 +165,31 @@ $(document).ready(function() {
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <div class="row mt-0 mb-0">
+                                    <div class="row my-0">
                                         <div class="col s12 word-wrap font-size-14 right-align text-muted">Internal Markings</div>
                                     </div>
-                                    <div class="row mt-0 mb-0">
+                                    <div class="row my-0">
                                         <div class="col s12 word-wrap font-size-16 right-align">${listing.strings.notes}</div>
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <div class="row mt-0 mb-0">
+                                    <div class="row my-0">
                                         <div class="col s12 word-wrap font-size-14 right-align text-muted">Price</div>
                                     </div>
-                                    <div class="row mt-0 mb-0">
+                                    <div class="row my-0">
                                         <div class="col s12 word-wrap font-size-16">${listing.strings.price}</div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-0 mb-0">
+                            <div class="row my-0">
                                 <div class="col s12 word-wrap font-size-14 right-align text-muted">Remarks</div>
                             </div>
-                            <div class="row mt-0 mb-0">
+                            <div class="row my-0">
                                 <div class="col s12 word-wrap font-size-16 right-align">${listing.strings.remarks}</div>
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-0 mb-0 justify-content-end">
+                    <div class="row my-0 justify-content-end">
                         <div class="col">
                             <a class="btn px-8 roundBox btn-transparent btn-transparent-primary" data-button="view_profile">
                                 <i class="material-icons left">account_circle</i>
@@ -240,6 +240,7 @@ $(document).ready(function() {
                     if (json.status != "success") throw new APIError(json);
                     return json.data;
                 }).then(() => {
+                    $(e.target).removeClass('btn-transparent-primary').addClass('btn-transparent-disabled tooltipped')
                     toast(description='Successfully created offer. Please go to the <a href="/dashboard">dashboard</a> for further steps.', headerPrefix='', code=1);
                 }).catch(e => {
                     toastError(e);

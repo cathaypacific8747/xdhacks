@@ -1,6 +1,20 @@
 :root {
     --notification-badge-width: 62.5%;
     --collapsible-border: 1px solid #ddd;
+    --payment-icon-height: 24px;
+    --chip-height: 32px;
+}
+
+.profile-picture {
+    display: inline-block;
+    margin-left: calc((100% - var(--profile-pic-width))/2);
+    width: var(--profile-pic-width);
+    height: 0;
+    padding-bottom: var(--profile-pic-width);
+}
+
+.payment-icon {
+    height: var(--payment-icon-height);
 }
 
 .book {
@@ -105,3 +119,15 @@ i.material-icons.unread {
 .modal-content {
     padding: 0 !important; 
 }
+
+.payment-icon {
+    height: var(--payment-icon-height);
+}
+
+.chip {
+    border: 1px solid #bbb;
+    height: var(--chip-height);
+}
+
+/*     --payment-icon-height: 24px;
+    --chip-height: 32px; */

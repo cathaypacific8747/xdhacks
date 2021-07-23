@@ -12,6 +12,34 @@ $(document).ready(function() {
         $('#dashboard').height($(window).height() - $('#dashboard').offset().top - 32);
     }
     changeDashboardHeight();
+
+    class User {
+        constructor(data) {
+            for (const key in data) {
+                this[key] = data[key];
+            }
+
+            this.strings = {}
+            this.strings.profilePic = `${data.profilePic}=s96-c`
+            this.strings.badgeElem = this.cky ? '<i class="font-size-20 material-icons unselectable tooltipped verified" data-position="right" data-tooltip="This user is a verified CKY student.">verified</i>' : '<i class="font-size-20 material-icons unselectable tooltipped not-verified" data-position="right" data-tooltip="This user may not be a CKY student.">warning</i>'
+            this.strings.negotiable = this.negotiable ? 'Yes<i class="font-size-20 material-icons unselectable negotiable ml-4">check</i>' : 'No<i class="font-size-20 material-icons unselectable not-negotiable ml-4">close</i>'
+            this.strings.payment = [
+                ['cash', 'Cash'], 
+                ['octopus', 'Octopus'], 
+                ['payme', 'PayMe'], 
+                ['tapngo', 'Tap & Go'], 
+                ['bankTransfer', 'Bank Transfer'], 
+                ['eCheque', 'e-Cheque'], 
+                ['alipay', 'Alipay'], 
+                ['wechatPay', 'WeChat Pay']
+            ].map(a => this[a[0]] ? `<img class="payment-icon mr-4 tooltipped" src="/static/img/payment/${a[0]}.png" data-position="top" data-tooltip="${a[1]}">` : '').join('') || 'Unset';
+            this.strings.deliveryMethod = [
+                ['inSchoolExchange', 'In-school exchange'], 
+                ['meetup', 'Meetup'], 
+                ['delivery', 'Door-to-door delivery']
+            ].map(a => this[a[0]] ? `<div class="chip mb-0 unselectable">${a[1]}</div>` : '').join('') || 'Unset';
+        }
+    }
     
     var push = Notification.permission == 'granted';
     function loadMesssage() {
@@ -95,10 +123,10 @@ $(document).ready(function() {
         var offer;
         let listing = new Listing(listings.seller.find(e => {
             offer = e.offers.find(f => f.offer.offerid == offerid);
-            return Boolean(offer)
+            return Boolean(offer);
         }).listing)
-        let book = listing.book
-        console.log(listing, offer)
+        let book = listing.book;
+        let user = new User(offer.user);
 
         $('[data-element="controls"]').html(`<div class="row font-size-20 text-bold mt-8 mb-0">
             <div class="col s12">
@@ -113,23 +141,29 @@ $(document).ready(function() {
                 <div class="row mt-0 mb-2">
                     <div class="col font-size-16 text-bold">${book.strings.title}</div>
                 </div>
-                <div class="row mt-0 mb-0">
-                    <div class="col font-size-14">Author${book.strings.plurality}: ${book.strings.authors}</div>
+                <div class="row my-0 font-size-14">
+                    <div class="col s4 pr-6 right-align">Author${book.strings.plurality}</div>
+                    <div class="col s8 pl-6">${book.strings.authors}</div>
                 </div>
-                <div class="row mt-0 mb-0">
-                    <div class="col font-size-14">Publisher: ${book.strings.publisher}</div>
+                <div class="row my-0 font-size-14">
+                    <div class="col s4 pr-6 right-align">Publisher</div>
+                    <div class="col s8 pl-6">${book.strings.publisher}</div>
                 </div>
-                <div class="row mt-0 mb-0">
-                    <div class="col font-size-14">Date of publication: ${book.strings.publishedDate}</div>
+                <div class="row my-0 font-size-14">
+                    <div class="col s4 pr-6 right-align">Date of publication</div>
+                    <div class="col s8 pl-6">${book.strings.publishedDate}</div>
                 </div>
-                <div class="row mt-0 mb-0">
-                    <div class="col font-size-14">ISBN: ${book.strings.isbn}</div>
+                <div class="row my-0 font-size-14">
+                    <div class="col s4 pr-6 right-align">ISBN</div>
+                    <div class="col s8 pl-6">${book.strings.isbn}</div>
                 </div>
-                <div class="row mt-0 mb-0">
-                    <div class="col font-size-14">Number of pages: ${book.strings.pageCount}</div>
+                <div class="row my-0 font-size-14">
+                    <div class="col s4 pr-6 right-align">Number of pages</div>
+                    <div class="col s8 pl-6">${book.strings.pageCount}</div>
                 </div>
-                <div class="row mt-0 mb-0">
-                    <div class="col font-size-14">Dimensions: ${book.strings.dimensions}</div>
+                <div class="row my-0 font-size-14">
+                    <div class="col s4 pr-6 right-align">Dimensions</div>
+                    <div class="col s8 pl-6">${book.strings.dimensions}</div>
                 </div>
             </div>
         </div>
@@ -140,30 +174,77 @@ $(document).ready(function() {
         </div>
         <div class="row mx-0 mt-8 mb-0" data-listingid="${listing.listingid}">
             <div class="col s12 p-0">
-                <div class="row mt-0 mb-0">
-                    <div class="col s12 font-size-14">Created: ${listing.strings.created}</div>
+                <div class="row my-0 font-size-14">
+                    <div class="col s3 pr-6 right-align">Created</div>
+                    <div class="col s9 pl-6">${listing.strings.created}</div>
                 </div>
-                <div class="row mt-0 mb-0">
-                    <div class="col s12 font-size-14">
-                        Condition: 
+                <div class="row my-0 font-size-14">
+                    <div class="col s3 pr-6 right-align">Condition</div>
+                    <div class="col s9 pl-6">
                         <span class="${listing.strings.conditionClass} tooltipped" data-position="right" data-tooltip="${listing.strings.conditionDescription}">    
                             ${listing.strings.condition}
                         </span>
                     </div>
                 </div>
-                <div class="row mt-0 mb-0">
-                    <div class="col s12 font-size-14">Internal Markings: ${listing.strings.notes}</div>
+                <div class="row my-0 font-size-14">
+                    <div class="col s3 pr-6 right-align">Internal Markings</div>
+                    <div class="col s9 pl-6">${listing.strings.notes}</div>
                 </div>
-                <div class="row mt-0 mb-0">
-                    <div class="col s12 font-size-14">Price: ${listing.strings.price}</div>
+                <div class="row my-0 font-size-14">
+                    <div class="col s3 pr-6 right-align">Price</div>
+                    <div class="col s9 pl-6">${listing.strings.price}</div>
                 </div>
-                <div class="row mt-0 mb-0">
-                    <div class="col s12 font-size-14">Remarks: ${listing.strings.remarks}</div>
+                <div class="row my-0 font-size-14">
+                    <div class="col s3 pr-6 right-align">Remarks</div>
+                    <div class="col s9 pl-6">${listing.strings.remarks}</div>
                 </div>
-                <div class="row mt-0 mb-0 px-8">
+                <div class="row my-0 px-8">
                     <a class="btn px-8 roundBox btn-transparent btn-transparent-primary" data-button="view_image">
                         <i class="material-icons left">open_in_new</i>
                         View Images
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row font-size-20 text-bold mt-8 mb-0">
+            <div class="col s12">
+                Buyer Details
+            </div>
+        </div>
+        <div class="row mx-0 mt-8 mb-0">
+            <div class="col s12 p-0">
+                <div class="row my-0 font-size-14 valign-wrapper">
+                    <div class="col s3 pr-6 right-align">Payment methods</div>
+                    <div class="col s9 pl-6 valign-wrapper">${user.strings.payment}</div>
+                </div>
+                <div class="row my-0 font-size-14 valign-wrapper py-8">
+                    <div class="col s3 pr-6 right-align">Delivery methods</div>
+                    <div class="col s9 pl-6 py-8 valign-wrapper">${user.strings.deliveryMethod}</div>
+                </div>
+                <div class="row my-0 font-size-14 valign-wrapper">
+                    <div class="col s3 pr-6 right-align">Negotiable</div>
+                    <div class="col s9 pl-6 valign-wrapper">${user.strings.negotiable}</div>
+                </div>
+                <div class="row my-0 font-size-14 valign-wrapper">
+                    <div class="col s3 pr-6 right-align">Contact Information</div>
+                    <div class="col s9 pl-6 valign-wrapper"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row font-size-20 text-bold mt-8 mb-0">
+            <div class="col s12">
+                My Information
+            </div>
+        </div>
+        <div class="row mx-0 mt-8 mb-0">
+            <div class="col s12 p-0 font-size-14">
+                Your contact information is visible to the buyer only.
+                The buyer is requesting to view your contact information.
+                <div class="row my-0 px-8">
+                    <a class="btn px-8 roundBox btn-transparent btn-transparent-primary" data-button="view_image">
+                        <i class="material-icons left">check_circle_outline</i>    
+                        <i class="material-icons left">remove_circle_outline</i>
+                        Grant private access to contact information
                     </a>
                 </div>
             </div>
@@ -176,6 +257,7 @@ $(document).ready(function() {
             })
             $('#imagemodal').modal('open');
         })
+        
         $('.tooltipped').tooltip()
     }
 

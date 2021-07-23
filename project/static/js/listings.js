@@ -63,48 +63,48 @@ $(document).ready(function() {
                         </div>
                         <div class="row mt-0 mb-2">
                             <div class="col s6">
-                                <div class="row mt-0 mb-0">
+                                <div class="row my-0">
                                     <div class="col font-size-14 text-muted">Author${book.strings.plurality}</div>
                                 </div>
-                                <div class="row mt-0 mb-0">
+                                <div class="row my-0">
                                     <div class="col font-size-16">${book.strings.authors}</div>
                                 </div>
-                                <div class="row mt-0 mb-0">
+                                <div class="row my-0">
                                     <div class="col font-size-14 text-muted">Publisher</div>
                                 </div>
-                                <div class="row mt-0 mb-0">
+                                <div class="row my-0">
                                     <div class="col font-size-16">${book.strings.publisher}</div>
                                 </div>
-                                <div class="row mt-0 mb-0">
+                                <div class="row my-0">
                                     <div class="col font-size-14 text-muted">ISBN</div>
                                 </div>
-                                <div class="row mt-0 mb-0">
+                                <div class="row my-0">
                                     <div class="col font-size-16">${book.strings.isbn}</div>
                                 </div>
                             </div>
 
                             <div class="col s6">
-                                <div class="row mt-0 mb-0">
+                                <div class="row my-0">
                                     <div class="col s12 word-wrap font-size-14 right-align text-muted">Created</div>
                                 </div>
-                                <div class="row mt-0 mb-0">
+                                <div class="row my-0">
                                     <div class="col s12 word-wrap font-size-16 right-align">${listing.strings.created}</div>
                                 </div>
-                                <div class="row mt-0 mb-0">
+                                <div class="row my-0">
                                     <div class="col s12 word-wrap font-size-14 right-align text-muted">Visibility</div>
                                 </div>
-                                <div class="row mt-0 mb-0">
+                                <div class="row my-0">
                                     <div class="col s12 word-wrap font-size-16 justify-content-end valign-wrapper">
                                         <i class="material-icons left mr-8 font-size-14" data-field="openIcon">${listing.strings.openIcon}</i>
                                         <span data-field="open">${listing.strings.open}</span>
                                     </div>
                                 </div>
-                                <div class="row mt-0 mb-0 justify-content-end flex-wrap">
+                                <div class="row my-0 justify-content-end flex-wrap">
                                     <div class="col">
-                                        <div class="row mt-0 mb-0">
+                                        <div class="row my-0">
                                             <div class="col s12 word-wrap font-size-14 right-align text-muted">Condition</div>
                                         </div>
-                                        <div class="row mt-0 mb-0">
+                                        <div class="row my-0">
                                             <div class="col s12 word-wrap font-size-16 right-align">
                                                 <span class="${listing.strings.conditionClass} tooltipped" data-position="right" data-tooltip="${listing.strings.conditionDescription}">
                                                     ${listing.strings.condition}
@@ -113,31 +113,31 @@ $(document).ready(function() {
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <div class="row mt-0 mb-0">
+                                        <div class="row my-0">
                                             <div class="col s12 word-wrap font-size-14 right-align text-muted">Internal Markings</div>
                                         </div>
-                                        <div class="row mt-0 mb-0">
+                                        <div class="row my-0">
                                             <div class="col s12 word-wrap font-size-16 right-align">${listing.strings.notes}</div>
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <div class="row mt-0 mb-0">
+                                        <div class="row my-0">
                                             <div class="col s12 word-wrap font-size-14 right-align text-muted">Price</div>
                                         </div>
-                                        <div class="row mt-0 mb-0">
+                                        <div class="row my-0">
                                             <div class="col s12 word-wrap font-size-16">${listing.strings.price}</div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row mt-0 mb-0">
+                                <div class="row my-0">
                                     <div class="col s12 word-wrap font-size-14 right-align text-muted">Remarks</div>
                                 </div>
-                                <div class="row mt-0 mb-0">
+                                <div class="row my-0">
                                     <div class="col s12 word-wrap font-size-16 right-align">${listing.strings.remarks}</div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-0 mb-0 justify-content-end">
+                        <div class="row my-0 justify-content-end">
                             <div class="col">
                                 <a class="btn px-8 roundBox btn-transparent btn-transparent-primary" data-button="view_image">
                                     <i class="material-icons left">open_in_new</i>
