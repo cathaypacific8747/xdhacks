@@ -264,6 +264,13 @@ def messages():
         "data": [m.getDetails() for m in messages]
     })
 
+def getBookname(bookid):
+    try:
+        name = requests.get(f'https://www.googleapis.com/books/v1/volumes/{bookid}?projection=lite').json()['volumeInfo']['title']
+        return f'<span class="text-bold">{name}</span>'
+    except Exception:
+        return '<span class="text-italic">Unknown</span>'
+
 @api.post('/api/v1/offer/create')
 def create():
     if not current_user.is_authenticated:
@@ -289,12 +296,7 @@ def create():
     offer_new = Offer(listingid=listingid, buyerid=buyerid, sellerid=sellerid)
     db.session.add(offer_new)
 
-    try:
-        name = requests.get(f'https://www.googleapis.com/books/v1/volumes/{listing.bookid}?projection=lite').json()['volumeInfo']['title']
-        bookname = f'<span class="text-bold">{name}</span>'
-    except Exception:
-        bookname = '<span class="text-italic">Unknown</span>'
-    message_new = Message(destinationuserid=sellerid, message=f'<span class="text-bold">{current_user.name}</span> has created an offer on your listing: {bookname}.')
+    message_new = Message(destinationuserid=sellerid, message=f'<span class="text-bold">{current_user.name}</span> has created an offer on your listing: {getBookname(listing.bookid)}.')
     db.session.add(message_new)
     db.session.commit()
 
@@ -323,10 +325,10 @@ def offer_detail():
     
     sOffers = []
     bOffers = []
-    for raw, processed in [[sellerOffers, sOffers], [buyerOffers, bOffers]]:
+    for raw, processed, oppositerole in [[sellerOffers, sOffers, 'buyer'], [buyerOffers, bOffers, 'seller']]:
         for offer, user, listing in raw:
             ld = listing.getDetails()
-            ud = user.getDetails()
+            ud = user.getDetails(overridepublic=getattr(offer, f'{oppositerole}public'))
             od = offer.getDetails()
 
             if not any(s['listing'] == ld for s in processed):
@@ -349,5 +351,33 @@ def offer_detail():
             "seller": sOffers,
             "buyer": bOffers,
             "public": current_user.public
+        }
+    })
+
+@api.put('/api/v1/offer/togglePublicity')
+def offer_togglePublicity():
+    if not current_user.is_authenticated:
+        raise APIForbiddenError()
+
+    offerid = request.args.get("offerid")
+    if not offerid:
+        raise GenericInputError()
+
+    offer = Offer.query.filter_by(offerid=offerid).first()
+    if offer.sellerid == current_user.userid:
+        offer.sellerpublic = not offer.sellerpublic
+        public = offer.sellerpublic
+    elif offer.buyerid == current_user.userid:
+        offer.buyerpublic = not offer.buyerpublic
+        public = offer.buyerpublic
+    else:
+        raise APIForbiddenError()
+
+    db.session.commit()
+    return jsonify({
+        "status": "success",
+        "message": None,
+        "data": {
+            "public": public
         }
     })

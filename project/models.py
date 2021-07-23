@@ -1,9 +1,7 @@
-from datetime import datetime, timezone, tzinfo
+from datetime import datetime, timezone
 from sqlalchemy.dialects.postgresql import UUID, VARCHAR, ARRAY
 import uuid
 from flask_login import UserMixin
-from sqlalchemy.sql.expression import nullslast
-from sqlalchemy.sql.sqltypes import Boolean
 from . import db
 
 class User(UserMixin, db.Model):

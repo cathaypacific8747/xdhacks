@@ -106,7 +106,6 @@ $(document).ready(function() {
             $('[data-element="message_progress"]').addClass("hide");
         })
         $('[data-button="toggle_notification"]').click(() => {
-            console.log(push);
             if (push) {
                 push = false;
                 updateButton(push);
@@ -115,8 +114,8 @@ $(document).ready(function() {
                     push = true;
                     updateButton(push);
                 } else {
-                    Notification.requestPermission(() => {
-                        push = true;
+                    Notification.requestPermission((permission) => {
+                        push = permission == 'granted';
                         updateButton(push);
                     })
                 }
@@ -125,15 +124,34 @@ $(document).ready(function() {
     }
 
     function loadOffer(offerid, role) {
-        let oppositeRole = role == 'seller' ? 'buyer' : 'seller';
-        let public = listings.public;
+        const oppositeRole = role == 'seller' ? 'buyer' : 'seller';
+        const public = listings.public;
         let offer;
-        let listing = new Listing(listings[role].find(e => {
+        const listing = new Listing(listings[role].find(e => {
             offer = e.offers.find(f => f.offer.offerid == offerid);
             return Boolean(offer);
         }).listing)
-        let book = listing.book;
-        let user = new User(offer.user);
+        const book = listing.book;
+        const user = new User(offer.user);
+        console.log(user)
+        const updatePublicity = () => {
+            if (public) {
+                $('[data-field="my_publicity_help"]').html('Your contact information is visible to everyone, including the buyer. To hide it from everyone, go to your <a href="/settings">account settings</a>.')
+            } else {
+                if (offer.offer[`${role}public`]) {
+                    $('[data-field="my_publicity_help"]').html(`Your contact information is not visible to everyone, but is visible to the ${oppositeRole}.`)
+                    $('[data-button="my_publicity_toggle"]').removeClass("btn-transparent-primary").addClass("btn-transparent-danger");
+                    $('[data-field="my_publicity_icon"]').html('remove_circle_outline')
+                    $('[data-field="my_publicity_text"]').html(`Revoke ${oppositeRole}'s access to contact information`)
+                } else {
+                    $('[data-field="my_publicity_help"]').html(`Your contact information is not visible to anyone. The ${oppositeRole} would like to view your contact information.`)
+                    $('[data-button="my_publicity_toggle"]').removeClass("btn-transparent-danger").addClass("btn-transparent-primary");
+                    $('[data-field="my_publicity_icon"]').html('check_circle_outline')
+                    $('[data-field="my_publicity_text"]').html(`Grant ${oppositeRole}'s access to contact information`)
+                }
+                $('[data-button="my_publicity_toggle"]').removeClass("hide")
+            }
+        }
 
         $('[data-element="controls"]').html(`<div class="row font-size-20 text-bold mt-8 mb-0">
             <div class="col s12">
@@ -296,7 +314,7 @@ $(document).ready(function() {
             <div class="col s12 p-0 font-size-14">
                 <span data-field="my_publicity_help"></span>
                 <div class="row my-0 px-8">
-                    <a class="btn px-8 roundBox btn-transparent btn-transparent-primary hide" data-button="my_publicity_toggle">
+                    <a class="btn px-8 roundBox btn-transparent unselectable hide" data-button="my_publicity_toggle">
                         <i class="material-icons left" data-field="my_publicity_icon"></i>
                         <span data-field="my_publicity_text"></i>
                     </a>
@@ -307,7 +325,7 @@ $(document).ready(function() {
 
         oppositeRole == 'buyer' && $('[data-field="negotiable_container"]').addClass("hide");
 
-        if (!user.public) {
+        if (!(user.public || offer.offer[`${oppositeRole}public`])) {
             $('[data-field="public"]').html("Private");
             $('[data-field="public_icon"]').html("").attr("data-tooltip", "");
             $('[data-field="public_container"]').removeClass("hide");
@@ -339,22 +357,7 @@ $(document).ready(function() {
             }
         }
 
-        if (public) {
-            $('[data-field="my_publicity_help"]').html("Your contact information is visible to everyone, including the buyer.")
-        } else {
-            if (offer[`${role}public`]) {
-                $('[data-field="my_publicity_help"]').html(`Your contact information is visible to the ${oppositeRole} only.`)
-                $('[data-button="my_publicity_toggle"]').removeClass("btn-transparent-primary").addClass("btn-transparent-danger");
-                $('[data-field="my_publicity_icon"]').html('remove_circle_outline')
-                $('[data-field="my_publicity_text"]').html(`Revoke ${oppositeRole}'s access to contact information`)
-            } else {
-                $('[data-field="my_publicity_help"]').html(`Your contact information is not visible to anyone. The ${oppositeRole} would like to view your contact information.`)
-                $('[data-button="my_publicity_toggle"]').removeClass("btn-transparent-danger").addClass("btn-transparent-primary");
-                $('[data-field="my_publicity_icon"]').html('check_circle_outline')
-                $('[data-field="my_publicity_text"]').html(`Grant ${oppositeRole}'s access to contact information`)
-            }
-            $('[data-button="my_publicity_toggle"]').removeClass("hide")
-        }
+        updatePublicity();
 
         $('[data-button="view_image"]').click(() => {
             const carousel = $('#carousel').empty()
@@ -362,6 +365,31 @@ $(document).ready(function() {
                 carousel.append(`<a class="carousel-item justify-content-center"><img src="${image}"></a>`);
             })
             $('#imagemodal').modal('open');
+        })
+
+        $('[data-button="my_publicity_toggle"]').click(() => {
+            fetch(`/api/v1/offer/togglePublicity?offerid=${offer.offer.offerid}`, {
+                method: 'PUT',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then((response) => {
+                if (response.ok) return response.json();
+                throw new NetworkError(response);
+            })
+            .then((json) => {
+                if (json.status == "success") {
+                    offer.offer[`${role}public`] = json.data.public
+                    updatePublicity();
+                    return;
+                }
+                throw new APIError(json);
+            })
+            .catch((error) => {
+                toastError(error);
+            });
         })
         
         $('.tooltipped').tooltip()

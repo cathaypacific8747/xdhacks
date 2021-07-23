@@ -97,8 +97,8 @@ $ ./start.sh
 - [x] Dashboard template - show buyer/seller information
 - [x] Dashboard template - show my information visibility
 - [x] Dashboard template - add buyer/seller detection
-- [ ] Offer API - Toggle Publicity (buyer and seller, PATCH `/api/v1/offer/togglePublicity?offerid=____`)
-- [ ] Dashboard template - toggle publicity of contact information
+- [x] Offer API - Toggle Publicity (buyer and seller, PATCH `/api/v1/offer/togglePublicity?offerid=____`)
+- [x] Dashboard template - toggle publicity of contact information
 - [ ] Offer API - Cancel Offer (buyer and seller, DELETE `/api/v1/offer/cancel?offerid=____`)
 - [ ] Dashboard template - Clicking on cancel offer refreshes page manually.
 - [ ] Offer API - Complete Offer (seller only, POST `/api/v1/offer/complete?offerid=____`)
@@ -106,6 +106,7 @@ $ ./start.sh
 - [ ] Dashboard template - Manual and automatic updates refreshes box.
 - [ ] Listing API - Deleting Listing causes all offers to be deleted.
 - [ ] Offer API - Delete Listing, Cancel Offer, Complete Offer sends notification to message centre.
+- [ ] Dashboard Template - Automatic notification polling
 
 - [x] Make email as private information, toggleable
 - [x] Make contact information to be private by default
