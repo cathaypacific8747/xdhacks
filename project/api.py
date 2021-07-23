@@ -347,6 +347,7 @@ def offer_detail():
         "message": None,
         "data": {
             "seller": sOffers,
-            "buyer": bOffers
+            "buyer": bOffers,
+            "public": current_user.public
         }
     })

@@ -95,6 +95,7 @@ $ ./start.sh
 - [x] Dashboard template - show book information
 - [x] Dashboard template - show offer information
 - [x] Dashboard template - show buyer/seller information
+- [x] Dashboard template - show my information visibility
 - [ ] Dashboard template - add buyer/seller detection
 - [ ] Offer API - Toggle Publicity (buyer and seller, PATCH `/api/v1/offer/togglePublicity?offerid=____`)
 - [ ] Dashboard template - toggle publicity of contact information
@@ -118,6 +119,8 @@ $ ./start.sh
 ## Enhancements
 
 - [ ] Minify
+- [ ] Make relative time from now update dynamically
+- [ ] Site-wide notification polling.
 - [ ] Market API: Book Sort and Listing sort and filter
 - [ ] Cache Book Names, ISBNs and use full-text search for Market Template
 - [ ] Image override if image isn't avaliable

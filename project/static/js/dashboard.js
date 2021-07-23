@@ -122,6 +122,7 @@ $(document).ready(function() {
     }
 
     function loadSeller(offerid) {
+        let public = listings.public;
         var offer;
         let listing = new Listing(listings.seller.find(e => {
             offer = e.offers.find(f => f.offer.offerid == offerid);
@@ -287,15 +288,13 @@ $(document).ready(function() {
                 My Information
             </div>
         </div>
-        <div class="row mx-0 mt-8 mb-0">
+        <div class="row mx-0 mt-8 mb-8">
             <div class="col s12 p-0 font-size-14">
-                Your contact information is visible to the buyer only.
-                The buyer is requesting to view your contact information.
+                <span data-field="my_publicity_help"></span>
                 <div class="row my-0 px-8">
-                    <a class="btn px-8 roundBox btn-transparent btn-transparent-primary" data-button="view_image">
-                        <i class="material-icons left">check_circle_outline</i>    
-                        <i class="material-icons left">remove_circle_outline</i>
-                        Grant private access to contact information
+                    <a class="btn px-8 roundBox btn-transparent btn-transparent-primary hide" data-button="my_publicity_toggle">
+                        <i class="material-icons left" data-field="my_publicity_icon"></i>
+                        <span data-field="my_publicity_text"></i>
                     </a>
                 </div>
             </div>
@@ -332,6 +331,23 @@ $(document).ready(function() {
                 $('[data-field="customContactInfo"]').html(user.customContactInfo);
                 unhide_container("customContactInfo_container");
             }
+        }
+
+        if (public) {
+            $('[data-field="my_publicity_help"]').html("Your contact information is visible to everyone.")
+        } else {
+            if (offer.sellerpublic) {
+                $('[data-field="my_publicity_help"]').html("Your contact information is visible to the buyer only.")
+                $('[data-button="my_publicity_toggle"]').removeClass("btn-transparent-primary").addClass("btn-transparent-danger");
+                $('[data-field="my_publicity_icon"]').html('remove_circle_outline')
+                $('[data-field="my_publicity_text"]').html("Revoke buyer's access to contact information")
+            } else {
+                $('[data-field="my_publicity_help"]').html("Your contact information is not visible to anyone. The buyer would like to view your contact information.")
+                $('[data-button="my_publicity_toggle"]').removeClass("btn-transparent-danger").addClass("btn-transparent-primary");
+                $('[data-field="my_publicity_icon"]').html('check_circle_outline')
+                $('[data-field="my_publicity_text"]').html("Grant buyer's access to contact information")
+            }
+            $('[data-button="my_publicity_toggle"]').removeClass("hide")
         }
 
         $('[data-button="view_image"]').click(() => {
@@ -383,6 +399,7 @@ $(document).ready(function() {
             return json.data;
         }).then(async listings => {
             for (let listingtype in listings) {
+                if (listingtype == 'public') continue;
                 if (listings[listingtype].length == 0) {
                     $(`[data-element="${listingtype}_help"]`).html(listingtype == 'buyer' ? 'There are no pending offers. Go to the <a href="/market">Market</a> to make an offer.' : 'There are no pending offers. <a href="/sell">Sell</a> a book or wait until someone makes an offer.');
                     $(`[data-element="${listingtype}_progress"]`).addClass("hide");
