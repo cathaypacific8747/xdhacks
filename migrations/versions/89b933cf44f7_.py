@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 8fcbd92ffb9b
+Revision ID: 89b933cf44f7
 Revises: 
-Create Date: 2021-07-13 01:27:13.666700
+Create Date: 2021-07-23 20:29:05.261919
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '8fcbd92ffb9b'
+revision = '89b933cf44f7'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,7 +21,6 @@ def upgrade():
     op.create_table('users',
     sa.Column('userid', postgresql.UUID(as_uuid=True), nullable=False),
     sa.Column('googleId', sa.VARCHAR(length=255), nullable=True),
-    sa.Column('email', sa.String(length=254), nullable=True),
     sa.Column('name', sa.String(length=70), nullable=True),
     sa.Column('profilePic', sa.String(length=100), nullable=True),
     sa.Column('cky', sa.Boolean(), nullable=True),
@@ -40,6 +39,7 @@ def upgrade():
     sa.Column('meetup', sa.Boolean(), nullable=True),
     sa.Column('delivery', sa.Boolean(), nullable=True),
     sa.Column('public', sa.Boolean(), nullable=True),
+    sa.Column('email', sa.String(length=254), nullable=True),
     sa.Column('discord', sa.String(), nullable=True),
     sa.Column('instagram', sa.String(), nullable=True),
     sa.Column('phone', sa.String(), nullable=True),
@@ -72,13 +72,23 @@ def upgrade():
     op.create_index(op.f('ix_listings_bookid'), 'listings', ['bookid'], unique=False)
     op.create_index(op.f('ix_listings_listingid'), 'listings', ['listingid'], unique=False)
     op.create_index(op.f('ix_listings_ownerid'), 'listings', ['ownerid'], unique=False)
+    op.create_table('messages',
+    sa.Column('messageid', postgresql.UUID(as_uuid=True), nullable=False),
+    sa.Column('destinationuserid', postgresql.UUID(as_uuid=True), nullable=False),
+    sa.Column('message', sa.String(), nullable=True),
+    sa.Column('created', sa.DateTime(), nullable=True),
+    sa.ForeignKeyConstraint(['destinationuserid'], ['users.userid'], ),
+    sa.PrimaryKeyConstraint('messageid')
+    )
+    op.create_index(op.f('ix_messages_destinationuserid'), 'messages', ['destinationuserid'], unique=False)
     op.create_table('offers',
     sa.Column('offerid', postgresql.UUID(as_uuid=True), nullable=False),
     sa.Column('listingid', postgresql.UUID(as_uuid=True), nullable=False),
     sa.Column('buyerid', postgresql.UUID(as_uuid=True), nullable=False),
     sa.Column('sellerid', postgresql.UUID(as_uuid=True), nullable=False),
+    sa.Column('buyerpublic', sa.Boolean(), nullable=True),
+    sa.Column('sellerpublic', sa.Boolean(), nullable=True),
     sa.Column('deleted', sa.Boolean(), nullable=True),
-    sa.Column('read', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['buyerid'], ['users.userid'], ),
     sa.ForeignKeyConstraint(['listingid'], ['listings.listingid'], ),
     sa.ForeignKeyConstraint(['sellerid'], ['users.userid'], ),
@@ -98,6 +108,8 @@ def downgrade():
     op.drop_index(op.f('ix_offers_listingid'), table_name='offers')
     op.drop_index(op.f('ix_offers_buyerid'), table_name='offers')
     op.drop_table('offers')
+    op.drop_index(op.f('ix_messages_destinationuserid'), table_name='messages')
+    op.drop_table('messages')
     op.drop_index(op.f('ix_listings_ownerid'), table_name='listings')
     op.drop_index(op.f('ix_listings_listingid'), table_name='listings')
     op.drop_index(op.f('ix_listings_bookid'), table_name='listings')

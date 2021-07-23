@@ -92,3 +92,16 @@ li.active .collapsible-header {
 i.material-icons.unread {
     color: #b00;
 }
+
+.carousel .carousel-item > img {
+    height: 100% !important;
+    width: unset;
+}
+
+.modal, .modal-content, .carousel {
+    background-color: black;
+}
+
+.modal-content {
+    padding: 0 !important; 
+}

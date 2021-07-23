@@ -1,4 +1,11 @@
 $(document).ready(function() {
+    $('#imagemodal').modal({
+        onOpenEnd: () => {
+            $('#carousel').carousel({
+                indicators: true,
+            });
+        }
+    })
 
     $(window).resize(changeDashboardHeight)
     function changeDashboardHeight() {
@@ -84,10 +91,108 @@ $(document).ready(function() {
         })
     }
 
+    function loadSeller(offerid) {
+        var offer;
+        let listing = new Listing(listings.seller.find(e => {
+            offer = e.offers.find(f => f.offer.offerid == offerid);
+            return Boolean(offer)
+        }).listing)
+        let book = listing.book
+        console.log(listing, offer)
+
+        $('[data-element="controls"]').html(`<div class="row font-size-20 text-bold mt-8 mb-0">
+            <div class="col s12">
+                Book Details
+            </div>
+        </div>
+        <div class="row mx-0 mt-8 mb-0" data-googleid="${book.googleId}">
+            <div class="col s2 mx-0 p-0 minPicHeight shimmerBG">
+                <img class="google-book-image roundBox" src="${book.strings.thumbSmall}" onload="removeShimmer(this.parentElement);removeMinPicHeight(this.parentElement)" data-field="thumb">
+            </div>
+            <div class="col s10">
+                <div class="row mt-0 mb-2">
+                    <div class="col font-size-16 text-bold">${book.strings.title}</div>
+                </div>
+                <div class="row mt-0 mb-0">
+                    <div class="col font-size-14">Author${book.strings.plurality}: ${book.strings.authors}</div>
+                </div>
+                <div class="row mt-0 mb-0">
+                    <div class="col font-size-14">Publisher: ${book.strings.publisher}</div>
+                </div>
+                <div class="row mt-0 mb-0">
+                    <div class="col font-size-14">Date of publication: ${book.strings.publishedDate}</div>
+                </div>
+                <div class="row mt-0 mb-0">
+                    <div class="col font-size-14">ISBN: ${book.strings.isbn}</div>
+                </div>
+                <div class="row mt-0 mb-0">
+                    <div class="col font-size-14">Number of pages: ${book.strings.pageCount}</div>
+                </div>
+                <div class="row mt-0 mb-0">
+                    <div class="col font-size-14">Dimensions: ${book.strings.dimensions}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row font-size-20 text-bold mt-8 mb-0">
+            <div class="col s12">
+                Offer Details
+            </div>
+        </div>
+        <div class="row mx-0 mt-8 mb-0" data-listingid="${listing.listingid}">
+            <div class="col s12 p-0">
+                <div class="row mt-0 mb-0">
+                    <div class="col s12 font-size-14">Created: ${listing.strings.created}</div>
+                </div>
+                <div class="row mt-0 mb-0">
+                    <div class="col s12 font-size-14">
+                        Condition: 
+                        <span class="${listing.strings.conditionClass} tooltipped" data-position="right" data-tooltip="${listing.strings.conditionDescription}">    
+                            ${listing.strings.condition}
+                        </span>
+                    </div>
+                </div>
+                <div class="row mt-0 mb-0">
+                    <div class="col s12 font-size-14">Internal Markings: ${listing.strings.notes}</div>
+                </div>
+                <div class="row mt-0 mb-0">
+                    <div class="col s12 font-size-14">Price: ${listing.strings.price}</div>
+                </div>
+                <div class="row mt-0 mb-0">
+                    <div class="col s12 font-size-14">Remarks: ${listing.strings.remarks}</div>
+                </div>
+                <div class="row mt-0 mb-0 px-8">
+                    <a class="btn px-8 roundBox btn-transparent btn-transparent-primary" data-button="view_image">
+                        <i class="material-icons left">open_in_new</i>
+                        View Images
+                    </a>
+                </div>
+            </div>
+        </div>
+        `);
+        $('[data-button="view_image"]').click(e => {
+            const carousel = $('#carousel').empty()
+            listing.images.forEach(image => {
+                carousel.append(`<a class="carousel-item justify-content-center"><img src="${image}"></a>`);
+            })
+            $('#imagemodal').modal('open');
+        })
+        $('.tooltipped').tooltip()
+    }
+
+    // function loadBuyer(offerid) {
+    //     console.log('buyer', offerid, listings);
+    // }
+
     function loadBox() {
         switch ($('[data-element="controls"][data-control]').attr('data-control')) {
             case 'message':
                 loadMesssage();
+                break;
+            case 'seller':
+                loadSeller($('[data-element="controls"][data-control]').attr('data-control-offerid'));
+                break;
+            case 'buyer':
+                loadBuyer($('[data-element="controls"][data-control]').attr('data-control-offerid'));
                 break;
             default:
                 console.log('default');
@@ -97,7 +202,7 @@ $(document).ready(function() {
     function loadPanel() {
         $(`[data-refresh]`).addClass('rotating')
         $('[data-element$="_help"]').removeClass("hide").html("Loading offers...");
-        $('[data-element="message_help"]').removeClass("hide").html("View messages");
+        $('[data-element="message_help"]').removeClass("hide").html('<i class="material-icons left">mail</i>View messages');
         $('[data-element$="_progress"]').removeClass("hide");
         $('[data-element$="_results"]').empty();
         fetch('/api/v1/offer/detail', {
@@ -112,15 +217,15 @@ $(document).ready(function() {
         }).then(json => {
             if (json.status != "success") throw new APIError(json);
             return json.data;
-        }).then(async offers => {
-            for (let offertype in offers) {
-                if (offers[offertype].length == 0) {
-                    $(`[data-element="${offertype}_help"]`).html(offertype == 'buyer' ? 'There are no pending offers. Go to the <a href="/market">Market</a> to make an offer.' : 'There are no pending offers. <a href="/sell">Sell</a> a book or wait until someone makes an offer.');
-                    $(`[data-element="${offertype}_progress"]`).addClass("hide");
+        }).then(async listings => {
+            for (let listingtype in listings) {
+                if (listings[listingtype].length == 0) {
+                    $(`[data-element="${listingtype}_help"]`).html(listingtype == 'buyer' ? 'There are no pending offers. Go to the <a href="/market">Market</a> to make an offer.' : 'There are no pending offers. <a href="/sell">Sell</a> a book or wait until someone makes an offer.');
+                    $(`[data-element="${listingtype}_progress"]`).addClass("hide");
                     continue;
                 }
                 await Promise.all(
-                    offers[offertype].map(({listing}) => {
+                    listings[listingtype].map(({listing}) => {
                         return fetch(`https://www.googleapis.com/books/v1/volumes/${listing.bookid}`, {
                             method: 'GET',
                             mode: 'cors',
@@ -143,7 +248,7 @@ $(document).ready(function() {
                     let lis = '';
                     for (let i = 0; i < results.length; i++) {
                         let lis2 = '';
-                        for (const o of offers[offertype][i].offers) {
+                        for (const o of listings[listingtype][i].offers) {
                             lis2 += `<div class="row mb-0 mx-0 valign-wrapper py-8 unselectable" data-offerid="${o.offer.offerid}">
                                 <div class="col s2 px-4 valign-wrapper justify-content-center">
                                     <img class="profile-picture rounded" src="${o.user.profilePic}=s96-c">
@@ -153,7 +258,8 @@ $(document).ready(function() {
                                 </div>
                             </div>`
                         }
-                        let book = new Book(results[i]);
+                        const book = new Book(results[i]);
+                        listings[listingtype][i].listing.book = book;
                         lis += `<li data-bookid="0YzTCQAAQBAJ">
                             <div class="collapsible-header p-0 border-none">
                                 <div class="row mb-0 mx-0 valign-wrapper py-8 unselectable">
@@ -168,29 +274,32 @@ $(document).ready(function() {
                             <div class="collapsible-body p-0 border-none">${lis2}</div>
                         </li>`
                     }
-                    $(`[data-element="${offertype}_results"]`).html(`<ul class="collapsible box-shadow-none border-none">${lis}</ul>`);
+                    $(`[data-element="${listingtype}_results"]`).html(`<ul class="collapsible box-shadow-none border-none">${lis}</ul>`);
                     $('.collapsible').collapsible({
                         accordion: false
                     });
-                    $(`[data-offerid]`).click(e => {
-                        $('[data-offerid]').removeClass('active')
-                        const offerid = $(e.target).closest('[data-offerid]').addClass('active').attr('data-offerid')
-                        console.log(offerid)
-                    })
-                    $(`[data-element="${offertype}_help"]`).addClass('hide').empty();
+                    $(`[data-element="${listingtype}_help"]`).addClass('hide').empty();
                 }).catch(e => {
                     if (e instanceof NoGoogleBooksResultsError) {
-                        $(`[data-element="${offertype}_help"]`).html("An error occurred in Google's servers. Please try again later.");
+                        $(`[data-element="${listingtype}_help"]`).html("An error occurred in Google's servers. Please try again later.");
                     } else if (e instanceof NetworkError) {
-                        $(`[data-element="${offertype}_help"]`).html("An error occured when retrieving data. Please check your connection or try again.");
+                        $(`[data-element="${listingtype}_help"]`).html("An error occured when retrieving data. Please check your connection or try again.");
                     } else {
-                        $(`[data-element="${offertype}_help"]`).html("An unknown error occured.");
+                        $(`[data-element="${listingtype}_help"]`).html("An unknown error occured.");
                         console.error(e);
                     }
                 }).finally(() => {
-                    $(`[data-element="${offertype}_progress"]`).addClass("hide");
+                    $(`[data-element="${listingtype}_progress"]`).addClass("hide");
                 });
             }
+            $(`[data-offerid]`).click(e => {
+                $('[data-offerid]').removeClass('active')
+                const listingtype = $(e.target).closest('[data-element$="_results"]').attr('data-element').replace('_results', '');
+                const offerid = $(e.target).closest('[data-offerid]').addClass('active').attr('data-offerid')
+                $('[data-element="controls"]').attr('data-control', listingtype).attr('data-control-offerid', offerid);
+                loadBox();
+            })
+            window.listings = listings;
         }).catch(e => {
             if (e instanceof APIError) {
                 $('[data-element$="_help"]').html("An error occurred in our server. Please try again later.");

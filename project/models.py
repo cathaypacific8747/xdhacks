@@ -123,6 +123,8 @@ class Offer(db.Model):
     listingid = db.Column(UUID(as_uuid=True), db.ForeignKey('listings.listingid'), nullable=False, index=True)
     buyerid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.userid'), nullable=False, index=True)
     sellerid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.userid'), nullable=False, index=True)
+    buyerpublic = db.Column(db.Boolean, default=False)
+    sellerpublic = db.Column(db.Boolean, default=False)
     deleted = db.Column(db.Boolean, default=False)
 
     def getDetails(self):
@@ -131,4 +133,6 @@ class Offer(db.Model):
             'listingid': self.listingid,
             'buyerid': self.buyerid,
             'sellerid': self.sellerid,
+            'buyerpublic': self.buyerpublic,
+            'sellerpublic': self.sellerpublic,
         }

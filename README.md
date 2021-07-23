@@ -93,11 +93,16 @@ $ ./start.sh
 - [x] Dashboard API - System messages (GET `/api/v1/dashboard/messages`)
 - [x] Dashboard template - get messages belonging to user.
 - [x] Offer API - Create Offer queries Google for book name, then sends notification to message centre
-- [ ] Dashboard template - Handle buyer/seller toggle
-- [ ] Offer API - Cancel Offer (buyer and seller, DELETE `/api/v1/offer/delete?offerid=____`)
-- [ ] Dashboard template - Clicking on delete offer refreshes page.
+- [x] Dashboard template - Handle buyer/seller toggle
+- [x] Dashboard template - show book information
+- [x] Dashboard template - show offer information
+- [ ] Dashboard template - show buyer/seller information
+- [ ] Offer API - Toggle Publicity (buyer and seller, PATCH `/api/v1/offer/togglePublicity?offerid=____`)
+- [ ] Dashboard template - toggle publicity of contact information
+- [ ] Offer API - Cancel Offer (buyer and seller, DELETE `/api/v1/offer/cancel?offerid=____`)
+- [ ] Dashboard template - Clicking on cancel offer refreshes page manually.
 - [ ] Offer API - Complete Offer (seller only, POST `/api/v1/offer/complete?offerid=____`)
-- [ ] Dashboard template - Clicking on complete offer refreshes page.
+- [ ] Dashboard template - Clicking on complete offer refreshes page manually.
 - [ ] Dashboard template - Manual and automatic updates refreshes box.
 - [ ] Listing API - Deleting Listing causes all offers to be deleted.
 - [ ] Offer API - Delete Listing, Cancel Offer, Complete Offer sends notification to message centre.

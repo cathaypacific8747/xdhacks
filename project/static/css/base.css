@@ -304,6 +304,12 @@ body {
 	vertical-align: middle;
 }
 
+.valign-center {
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
 #profileDropdown a {
 	padding: .5rem .5rem .5rem 1rem;
 	text-align: right;
