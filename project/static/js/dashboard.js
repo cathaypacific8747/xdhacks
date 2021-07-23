@@ -13,6 +13,8 @@ $(document).ready(function() {
     }
     changeDashboardHeight();
 
+    const unhide_container = container => $(`[data-field="${container}"]`).removeClass("hide");
+
     class User {
         constructor(data) {
             for (const key in data) {
@@ -221,13 +223,62 @@ $(document).ready(function() {
                     <div class="col s3 pr-6 right-align">Delivery methods</div>
                     <div class="col s9 pl-6 py-8 valign-wrapper">${user.strings.deliveryMethod}</div>
                 </div>
-                <div class="row my-0 font-size-14 valign-wrapper">
+                <div class="row my-0 font-size-14 valign-wrapper" data-field="negotiable_container">
                     <div class="col s3 pr-6 right-align">Negotiable</div>
                     <div class="col s9 pl-6 valign-wrapper">${user.strings.negotiable}</div>
                 </div>
-                <div class="row my-0 font-size-14 valign-wrapper">
+                <div class="row my-0 font-size-14 valign-wrapper py-8">
                     <div class="col s3 pr-6 right-align">Contact Information</div>
-                    <div class="col s9 pl-6 valign-wrapper"></div>
+                    <div class="col s9 pl-6">
+                        <div class="row mb-0 mx-0 hide" data-field="public_container">
+                            <div class="col s12 p-0 valign-wrapper">
+                                The buyer has set the contact information to be private.
+                            </div>
+                        </div>
+                        <div class="row mb-0 mx-0 hide" data-field="public_container">
+                            <div class="col s12 p-0 valign-wrapper">
+                                A request to view the contact information has been sent.
+                            </div>
+                        </div>
+                        <div class="row mb-0 mx-0 hide" data-field="public_container">
+                            <div class="col s12 p-0 valign-wrapper mb-2">
+                                When the buyer accepts the request, a system message will be sent to you.
+                            </div>
+                        </div>
+                        <div class="row mb-2 mx-0 hide" data-field="email_container">
+                            <div class="col s12 p-0 valign-wrapper">
+                                <span class="material-icons mr-4 tooltipped contact-info-icon unselectable" data-position="left" data-tooltip="E-mail">email</span>
+                                <span data-field="email"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-2 mx-0 hide" data-field="discord_container">
+                            <div class="col s12 p-0 valign-wrapper">
+                                <img class="payment-icon mr-4 tooltipped" data-field="discord_icon" data-position="left" data-tooltip="Discord">
+                                <span data-field="discord"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-2 mx-0 hide" data-field="instagram_container">
+                            <div class="col s12 p-0 valign-wrapper">
+                                <img class="payment-icon mr-4 tooltipped" data-field="instagram_icon" data-position="left" data-tooltip="Instagram">
+                                <span data-field="instagram"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-2 mx-0 hide" data-field="phone_container">
+                            <div class="col s12 p-0 valign-wrapper">
+                                <span class="material-icons mr-4 tooltipped contact-info-icon unselectable" data-position="left" data-tooltip="Phone">phone</span>
+                                <span class="mr-6" data-field="phone"></span>
+                                <img class="payment-icon mr-4 tooltipped" data-field="whatsapp" data-position="top" data-tooltip="WhatsApp">
+                                <img class="payment-icon mr-4 tooltipped" data-field="signal" data-position="top" data-tooltip="Signal">
+                                <img class="payment-icon mr-4 tooltipped" data-field="telegram" data-position="top" data-tooltip="Telegram">
+                            </div>
+                        </div>
+                        <div class="row mb-2 mx-0 hide" data-field="customContactInfo_container">
+                            <div class="col s12 p-0 valign-wrapper">
+                                <span class="material-icons mr-4 tooltipped contact-info-icon unselectable" data-position="left" data-tooltip="Custom Contact Information">contact_mail</span>
+                                <span data-field="customContactInfo"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -250,7 +301,40 @@ $(document).ready(function() {
             </div>
         </div>
         `);
-        $('[data-button="view_image"]').click(e => {
+
+        if (!user.public) {
+            $('[data-field="public"]').html("Private");
+            $('[data-field="public_icon"]').html("").attr("data-tooltip", "");
+            $('[data-field="public_container"]').removeClass("hide");
+        } else {
+            if (user.email) {
+                $('[data-field="email"]').html(user.email);
+                unhide_container("email_container")
+            }
+            if (user.discord) {
+                $('[data-field="discord_icon"]').attr("src", "/static/img/contact/discord.png");
+                $('[data-field="discord"]').html(user.discord);
+                unhide_container("discord_container");
+            }
+            if (user.instagram) {
+                $('[data-field="instagram_icon"]').attr("src", "/static/img/contact/instagram.png");
+                $('[data-field="instagram"]').html(user.instagram);
+                unhide_container("instagram_container");
+            }
+            if (user.phone) {
+                $('[data-field="phone"]').html(user.phone);
+                if (user.whatsapp) $('[data-field="whatsapp"]').attr("src", "/static/img/contact/whatsapp.png")
+                if (user.signal) $('[data-field="signal"]').attr("src", "/static/img/contact/signal.png")
+                if (user.telegram) $('[data-field="telegram"]').attr("src", "/static/img/contact/telegram.png")
+                unhide_container("phone_container");
+            }
+            if (user.customContactInfo) {
+                $('[data-field="customContactInfo"]').html(user.customContactInfo);
+                unhide_container("customContactInfo_container");
+            }
+        }
+
+        $('[data-button="view_image"]').click(() => {
             const carousel = $('#carousel').empty()
             listing.images.forEach(image => {
                 carousel.append(`<a class="carousel-item justify-content-center"><img src="${image}"></a>`);
@@ -276,8 +360,6 @@ $(document).ready(function() {
             case 'buyer':
                 loadBuyer($('[data-element="controls"][data-control]').attr('data-control-offerid'));
                 break;
-            default:
-                console.log('default');
         }
     }
 

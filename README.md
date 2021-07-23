@@ -94,7 +94,7 @@ $ ./start.sh
 - [x] Dashboard template - Handle buyer/seller toggle
 - [x] Dashboard template - show book information
 - [x] Dashboard template - show offer information
-- [ ] Dashboard template - show buyer/seller information
+- [x] Dashboard template - show buyer/seller information
 - [ ] Dashboard template - add buyer/seller detection
 - [ ] Offer API - Toggle Publicity (buyer and seller, PATCH `/api/v1/offer/togglePublicity?offerid=____`)
 - [ ] Dashboard template - toggle publicity of contact information
@@ -127,9 +127,7 @@ $ ./start.sh
 - [ ] Conform to REST standards
 - [x] Optimise Error Handling Algorithm
 
-
 ## Before Production Checklist
-- [ ] Enforce CKY accounts in `login_google`'s `hd` parameter
 - [ ] Remove DEBUG flag in .env
 - [ ] Enable CSRF in API
 - [ ] Remove useless modules in `requirements.txt`
