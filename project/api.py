@@ -1,3 +1,4 @@
+from discord import message
 from flask import Blueprint, json, redirect, url_for, request, session, current_app, abort, jsonify
 from flask_login import current_user
 from sqlalchemy.sql.functions import user
@@ -22,6 +23,12 @@ def intable(string):
         return True
     except ValueError:
         return False
+def getBookname(bookid):
+    try:
+        name = requests.get(f'https://www.googleapis.com/books/v1/volumes/{bookid}?projection=lite').json()['volumeInfo']['title']
+        return f'{name}'
+    except Exception:
+        return 'Unknown'
 
 @api.get('/api/v1/user/detail')
 def user_detail():
@@ -164,6 +171,17 @@ def listing_toggleOpen():
         raise APIForbiddenError()
     
     listing.open = not listing.open
+
+    # notify buyers of this change.
+    bookname = getBookname(listing.bookid)
+    offers = Offer.query.filter_by(listingid=listing.listingid, deleted=False).all()
+    for offer in offers:
+        if not listing.open:
+            message_new = Message(destinationuserid=offer.buyerid, message=f'{current_user.name} has temporarily disabled their listing: {bookname}.')
+        else:
+            message_new = Message(destinationuserid=offer.buyerid, message=f'{current_user.name} has re-enabled their listing: {bookname}.')
+        db.session.add(message_new)
+    
     db.session.commit()
     return jsonify({
         "status": "success",
@@ -185,8 +203,17 @@ def listing_delete():
     listing = Listing.query.filter_by(listingid=listingid, deleted=False, completed=False).first()
     if listing.ownerid != current_user.userid:
         raise APIForbiddenError()
+
+    # delete buyer's offer and notify them.
+    bookname = getBookname(listing.bookid)
+    offers = Offer.query.filter_by(listingid=listing.listingid, deleted=False).all()
+    for offer in offers:
+        offer.deleted = True
+        message_new = Message(destinationuserid=offer.buyerid, message=f'{current_user.name} has deleted their listing: {bookname}.')
+        db.session.add(message_new)
     
     listing.deleted = True
+
     db.session.commit()
     return jsonify({
         "status": "success",
@@ -264,13 +291,6 @@ def messages():
         "data": [m.getDetails() for m in messages]
     })
 
-def getBookname(bookid):
-    try:
-        name = requests.get(f'https://www.googleapis.com/books/v1/volumes/{bookid}?projection=lite').json()['volumeInfo']['title']
-        return f'<span class="text-bold">{name}</span>'
-    except Exception:
-        return '<span class="text-italic">Unknown</span>'
-
 @api.post('/api/v1/offer/create')
 def create():
     if not current_user.is_authenticated:
@@ -296,7 +316,7 @@ def create():
     offer_new = Offer(listingid=listingid, buyerid=buyerid, sellerid=sellerid)
     db.session.add(offer_new)
 
-    message_new = Message(destinationuserid=sellerid, message=f'<span class="text-bold">{current_user.name}</span> has created an offer on your listing: {getBookname(listing.bookid)}.')
+    message_new = Message(destinationuserid=sellerid, message=f'{current_user.name} has created an offer on your listing: {getBookname(listing.bookid)}.')
     db.session.add(message_new)
     db.session.commit()
 
@@ -315,12 +335,14 @@ def offer_detail():
         .filter(Offer.sellerid == current_user.userid, Offer.deleted == False)\
         .join(User, Offer.buyerid == User.userid)\
         .join(Listing, Offer.listingid == Listing.listingid)\
+        .filter(Listing.deleted == False, Listing.completed == False)\
         .all()
     
     buyerOffers = db.session.query(Offer, User, Listing)\
         .filter(Offer.buyerid == current_user.userid, Offer.deleted == False)\
         .join(User, Offer.sellerid == User.userid)\
         .join(Listing, Offer.listingid == Listing.listingid)\
+        .filter(Listing.deleted == False, Listing.completed == False)\
         .all()
     
     sOffers = []
@@ -396,11 +418,17 @@ def offer_cancel():
     offer = Offer.query.filter_by(offerid=offerid, deleted=False).first()
     if not offer:
         raise GenericInputError()
-    elif current_user.userid == offer.sellerid or offer.buyerid:
-        offer.deleted = True
+    elif current_user.userid == offer.sellerid:
+        listing = Listing.query.filter_by(listingid=offer.listingid, deleted=False, completed=False).first()
+        message_new = Message(destinationuserid=offer.buyerid, message=f'{current_user.name} has cancelled the offer on your listing: {getBookname(listing.bookid)}.')
+    elif current_user.userid == offer.buyerid:
+        listing = Listing.query.filter_by(listingid=offer.listingid, deleted=False, completed=False).first()
+        message_new = Message(destinationuserid=offer.sellerid, message=f'{current_user.name} has cancelled the offer on your listing: {getBookname(listing.bookid)}.')
     else:
         raise APIForbiddenError()
     
+    offer.deleted = True
+    db.session.add(message_new)
     db.session.commit()
     return jsonify({
         "status": "success",
@@ -423,10 +451,14 @@ def offer_complete():
     elif current_user.userid == offer.sellerid:
         offers = Offer.query.filter_by(listingid=offer.listingid, deleted=False).all()
         for o in offers:
-            o.deleted = True
+            if o != offer:
+                o.deleted = True
+                message_new = Message(destinationuserid=o.buyerid, message=f"{current_user.name}'s listing in no longer avaliable because it has been sold out: {getBookname(listing.bookid)}.")
+                db.session.add(message_new)
         
         listing = Listing.query.filter_by(listingid=offer.listingid, deleted=False, completed=False).first()
         listing.completed = True
+
     else:
         raise APIForbiddenError()
     

@@ -25,7 +25,7 @@ $(document).ready(function() {
         if (json.status != "success") throw new APIError(json);
         if (json.data.length == 0) {
             $('[data-element="help"]').html('This user does not have listings.');
-            return;
+            throw new ControlledError();
         }
         return json.data;
     }).then(async listings => {
@@ -160,7 +160,7 @@ $(document).ready(function() {
             $('[data-element="help"]').html("An error occurred in our server. Please try again later.");
         } else if (e instanceof NetworkError) {
             $('[data-element="help"]').html("An error occured when retrieving data. Please check your connection or try again.");
-        } else {
+        } else if (!(e instanceof ControlledError)) {
             console.error(e)
         }
     }).finally(() => {

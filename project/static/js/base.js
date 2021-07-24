@@ -103,6 +103,12 @@ $(document).ready(function() {
         }
     }
 
+    class ControlledError extends Error {
+        constructor(response) {
+            super(response);
+        }
+    }
+
     class NetworkError extends Error {
         constructor(response) {
             super(response);
@@ -127,6 +133,7 @@ $(document).ready(function() {
     window.NetworkError = NetworkError;
     window.APIError = APIError;
     window.NoGoogleBooksResultsError = NoGoogleBooksResultsError;
+    window.ControlledError = ControlledError;
 
     window.toast = function(description='An unknown error occured', headerPrefix='', code=3) {
         headerPrefix = headerPrefix ? `${headerPrefix} `: '';

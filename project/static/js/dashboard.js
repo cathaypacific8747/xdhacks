@@ -414,10 +414,12 @@ $(document).ready(function() {
 
         if (role == 'seller') {
             $('[data-button="complete_offer"]').click(() => {
+                $('[data-button="complete_offer_confirm"]').attr('data-offerid', offer.offer.offerid)
                 $('#completemodal').modal('open');
             });
-            $('[data-button="complete_offer_confirm"]').click(() => {
-                fetch(`/api/v1/offer/complete?offerid=${offer.offer.offerid}`, {
+            $('[data-button="complete_offer_confirm"]').click(e => {
+                const offerid = $(e.target).attr('data-offerid');
+                fetch(`/api/v1/offer/complete?offerid=${offerid}`, {
                     method: 'DELETE',
                     mode: 'cors',
                     headers: {
@@ -448,11 +450,13 @@ $(document).ready(function() {
 
 
         $('[data-button="cancel_offer"]').click(() => {
+            $('[data-button="cancel_offer_confirm"]').attr('data-offerid', offer.offer.offerid)
             $('[data-field="cancel_offer_role"]').html(oppositeRole);
             $('#cancelmodal').modal('open');
         });
-        $('[data-button="cancel_offer_confirm"]').click(() => {
-            fetch(`/api/v1/offer/cancel?offerid=${offer.offer.offerid}`, {
+        $('[data-button="cancel_offer_confirm"]').click(e => {
+            const offerid = $(e.target).attr('data-offerid');
+            fetch(`/api/v1/offer/cancel?offerid=${offerid}`, {
                 method: 'DELETE',
                 mode: 'cors',
                 headers: {
@@ -482,6 +486,7 @@ $(document).ready(function() {
     }
 
     function loadBox(mode='normal') {
+        $('[data-button]').off(); // remove all event listeners of custom buttons.
         if (mode == 'empty') $('[data-element="controls"]').attr('data-control', '').removeAttr('data-control-offerid')
         switch ($('[data-element="controls"][data-control]').attr('data-control')) {
             case 'message':

@@ -104,10 +104,13 @@ $ ./start.sh
 - [x] Offer API - Complete Offer (seller only, DELETE `/api/v1/offer/complete?offerid=____`)
 - [x] Dashboard template - Clicking on complete offer refreshes page automatically.
 - [x] Dashboard template - Manual and automatic updates refreshes box.
-- [ ] Listing API - Deleting Listing causes all offers to be deleted.
-- [ ] Offer API - Delete Listing, Cancel Offer, Complete Offer sends notification to message centre.
+- [x] Listing API - Deleting Listing causes all offers to be deleted.
+- [x] Listing, Offer API - Delete Listing, Cancel Offer, Complete Offer sends notification to message centre.
+- [ ] Show error message if user attempted to cancel/complete offers that are no longer avaliable.
 - [ ] Dashboard Template - Automatic notification polling
 
+- [ ] Fix duplicate requests due to multiple event listeners.
+- [x] Listing Template - Modal box on delete listing
 - [ ] Market Sub-template - Modal box on create offer
 - [x] Make email as private information, toggleable
 - [x] Make contact information to be private by default

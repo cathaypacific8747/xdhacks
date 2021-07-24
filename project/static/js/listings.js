@@ -6,6 +6,7 @@ $(document).ready(function() {
             });
         }
     })
+    $('#deletemodal').modal()
 
     const initialHelpText = "Loading your listings...";
     $('[data-element="help"]').removeClass("hide").html(initialHelpText);
@@ -24,7 +25,7 @@ $(document).ready(function() {
         if (json.status != "success") throw new APIError(json);
         if (json.data.length == 0) {
             $('[data-element="help"]').html('You do not have any listings, start by creating one!');
-            return;
+            throw new ControlledError();
         }
         return json.data;
     }).then(async listings => {
@@ -194,6 +195,11 @@ $(document).ready(function() {
             })
             $('[data-button="delete"]').click(e => {
                 const listingid = $(e.target).closest('[data-listingid]').attr('data-listingid');
+                $('[data-button="delete_confirm"]').attr('data-listingid', listingid);
+                $('#deletemodal').modal('open')
+            })
+            $('[data-button="delete_confirm"]').click(e => {
+                const listingid = $(e.target).attr('data-listingid');
                 fetch(`/api/v1/listing/delete?listingid=${listingid}`, {
                     method: 'DELETE',
                     mode: 'cors',
@@ -205,6 +211,7 @@ $(document).ready(function() {
                     return response.json();
                 }).then(json => {
                     if (json.status == "success") {
+                        $('#completemodal').modal('close');
                         window.location.reload()
                         return;
                     }
@@ -223,7 +230,7 @@ $(document).ready(function() {
             $('[data-element="help"]').html("An error occurred in our server. Please try again later.");
         } else if (e instanceof NetworkError) {
             $('[data-element="help"]').html("An error occured when retrieving data. Please check your connection or try again.");
-        } else {
+        } else if (!(e instanceof ControlledError)) {
             console.error(e)
         }
     }).finally(() => {

@@ -20,6 +20,10 @@
     background-color: black;
 }
 
+.modal.modal-white, .modal.modal-white > .modal-content {
+    background-color: white;
+}
+
 .modal-content {
     padding: 0 !important; 
 }

@@ -7,6 +7,7 @@ from . import db
 import json
 import requests
 from .error_handler import InvalidState, GoogleConnectionError
+from bleach import clean
 
 auth = Blueprint('auth', __name__)
 def get_google_provider_cfg():
@@ -68,8 +69,8 @@ def login_google_callback():
 
     # add if email_verified
     googleId = userinfo_response["sub"]
-    email = userinfo_response["email"]
-    name = userinfo_response["name"]
+    email = clean(userinfo_response["email"])
+    name = clean(userinfo_response["name"])
     profilePic = userinfo_response["picture"].split('=s')[0]
     cky = "hd" in userinfo_response and userinfo_response["hd"] == 'cky.edu.hk'
 
