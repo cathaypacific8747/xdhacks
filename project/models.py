@@ -103,14 +103,20 @@ class Message(db.Model):
     __tablename__ = 'messages'
 
     messageid = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    destinationuserid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.userid'), nullable=False, index=True)
-    message = db.Column(db.String, default='')
+    destinationuserid = db.Column(UUID(as_uuid=True), db.ForeignKey('users.userid'), nullable=True, index=True)
+    originusername = db.Column(db.String, default='System Broadcast')
+    messagetype = db.Column(db.String, default='system')
+    item = db.Column(db.String, default='Unknown')
+    system = db.Column(db.String, nullable=True, default=None)
     created = db.Column(db.DateTime(), default=datetime.utcnow)
 
     def getDetails(self):
         return {
             'messageid': self.messageid,
-            'message': self.message,
+            'originusername': self.originusername,
+            'messagetype': self.messagetype,
+            'item': self.item,
+            'system': self.system,
             'created': self.created.replace(tzinfo=timezone.utc).timestamp(),
         }
 

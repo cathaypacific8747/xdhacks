@@ -39,7 +39,6 @@ $ ./start.sh
 
 ## Checklist
 - [x] Log in with Google
-- [ ] Post-signup redirecting and handling
 - [x] CSRF Protection, especially during log-in
 - [x] User API - Get self detail (GET `/api/v1/user/detail`)
 - [x] User API - Get other detail (GET `/api/v1/user/detail?userId=_`)
@@ -106,12 +105,15 @@ $ ./start.sh
 - [x] Dashboard template - Manual and automatic updates refreshes box.
 - [x] Listing API - Deleting Listing causes all offers to be deleted.
 - [x] Listing, Offer API - Delete Listing, Cancel Offer, Complete Offer sends notification to message centre.
+- [x] Offer API - Private information granted sends notification to message centre.
 - [x] Show error message if user attempted to cancel/complete offers that are no longer avaliable.
 - [x] Focus/update previous box if selected.
-- [ ] Dashboard Template - Split notificaton.
+- [x] Dashboard API - Split notificaton.
+- [x] Dashboard Template - Split notificaton.
 - [ ] Dashboard Template - Automatic notification polling
 
 - [ ] All templates - Fix duplicate requests due to multiple event listeners.
+- [ ] Post-signup redirecting and handling
 - [x] Listing Template - Modal box on delete listing
 - [ ] Market Sub-template - Modal box on create offer
 - [x] Make email as private information, toggleable

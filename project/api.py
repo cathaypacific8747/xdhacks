@@ -1,6 +1,6 @@
 from flask import Blueprint, json, redirect, url_for, request, session, current_app, abort, jsonify
 from flask_login import current_user
-from .models import Message, User, Listing, Offer
+from .models import User, Listing, Message, Offer
 from . import db
 from .error_handler import APIForbiddenError, GenericInputError
 import re
@@ -175,9 +175,9 @@ def listing_toggleOpen():
     offers = Offer.query.filter_by(listingid=listing.listingid, deleted=False).all()
     for offer in offers:
         if not listing.open:
-            message_new = Message(destinationuserid=offer.buyerid, message=f'{current_user.name} has temporarily disabled their listing: {bookname}.')
+            message_new = Message(destinationuserid=offer.buyerid, originusername=current_user.name, messagetype='listing_disabled', item=bookname)
         else:
-            message_new = Message(destinationuserid=offer.buyerid, message=f'{current_user.name} has re-enabled their listing: {bookname}.')
+            message_new = Message(destinationuserid=offer.buyerid, originusername=current_user.name, messagetype='listing_enabled', item=bookname)
         db.session.add(message_new)
     
     db.session.commit()
@@ -207,7 +207,7 @@ def listing_delete():
     offers = Offer.query.filter_by(listingid=listing.listingid, deleted=False).all()
     for offer in offers:
         offer.deleted = True
-        message_new = Message(destinationuserid=offer.buyerid, message=f'{current_user.name} has deleted their listing: {bookname}.')
+        message_new = Message(destinationuserid=offer.buyerid, originusername=current_user.name, messagetype='listing_deleted', item=bookname)
         db.session.add(message_new)
     
     listing.deleted = True
@@ -314,7 +314,7 @@ def create():
     offer_new = Offer(listingid=listingid, buyerid=buyerid, sellerid=sellerid)
     db.session.add(offer_new)
 
-    message_new = Message(destinationuserid=sellerid, message=f'{current_user.name} has created an offer on your listing: {getBookname(listing.bookid)}.')
+    message_new = Message(destinationuserid=sellerid, originusername=current_user.name, messagetype='offer_created', item=getBookname(listing.bookid))
     db.session.add(message_new)
     db.session.commit()
 
@@ -384,17 +384,27 @@ def offer_togglePublicity():
         raise GenericInputError()
 
     offer = Offer.query.filter_by(offerid=offerid, deleted=False).first()
-    if not offer:
+    listing = Listing.query.filter_by(listingid=offer.listingid, deleted=False, completed=False).first()
+    if not offer or not listing:
         raise GenericInputError('Unfortunately, this offer is no longer avaliable. It may have been deleted or sold out.')
     elif offer.sellerid == current_user.userid:
         offer.sellerpublic = not offer.sellerpublic
         public = offer.sellerpublic
+        if public:
+            message_new = Message(destinationuserid=offer.buyerid, originusername=current_user.name, messagetype='offer_contact_granted', item=getBookname(listing.bookid))
+        else:
+            message_new = Message(destinationuserid=offer.sellerid, originusername=current_user.name, messagetype='offer_contact_request', item=getBookname(listing.bookid))
     elif offer.buyerid == current_user.userid:
         offer.buyerpublic = not offer.buyerpublic
         public = offer.buyerpublic
+        if public:
+            message_new = Message(destinationuserid=offer.sellerid, originusername=current_user.name, messagetype='offer_contact_granted', item=getBookname(listing.bookid))
+        else:
+            message_new = Message(destinationuserid=offer.buyerid, originusername=current_user.name, messagetype='offer_contact_request', item=getBookname(listing.bookid))
     else:
         raise APIForbiddenError()
 
+    db.session.add(message_new)
     db.session.commit()
     return jsonify({
         "status": "success",
@@ -414,14 +424,13 @@ def offer_cancel():
         raise GenericInputError()
     
     offer = Offer.query.filter_by(offerid=offerid, deleted=False).first()
-    if not offer:
+    listing = Listing.query.filter_by(listingid=offer.listingid, deleted=False, completed=False).first()
+    if not offer or not listing:
         raise GenericInputError('Unfortunately, this offer is no longer avaliable. It may have been deleted or sold out.')
     elif current_user.userid == offer.sellerid:
-        listing = Listing.query.filter_by(listingid=offer.listingid, deleted=False, completed=False).first()
-        message_new = Message(destinationuserid=offer.buyerid, message=f'{current_user.name} has cancelled the offer on your listing: {getBookname(listing.bookid)}.')
+        message_new = Message(destinationuserid=offer.buyerid, originusername=current_user.name, messagetype='offer_cancelled', item=getBookname(listing.bookid))
     elif current_user.userid == offer.buyerid:
-        listing = Listing.query.filter_by(listingid=offer.listingid, deleted=False, completed=False).first()
-        message_new = Message(destinationuserid=offer.sellerid, message=f'{current_user.name} has cancelled the offer on your listing: {getBookname(listing.bookid)}.')
+        message_new = Message(destinationuserid=offer.sellerid, originusername=current_user.name, messagetype='offer_cancelled', item=getBookname(listing.bookid))
     else:
         raise APIForbiddenError()
     
@@ -444,19 +453,19 @@ def offer_complete():
         raise GenericInputError()
     
     offer = Offer.query.filter_by(offerid=offerid, deleted=False).first()
-    if not offer:
+    listing = Listing.query.filter_by(listingid=offer.listingid, deleted=False, completed=False).first()
+    if not offer or not listing:
         raise GenericInputError('Unfortunately, this offer is no longer avaliable. It may have been deleted or sold out.')
     elif current_user.userid == offer.sellerid:
+        listing.completed = True
+
         offers = Offer.query.filter_by(listingid=offer.listingid, deleted=False).all()
         for o in offers:
             if o != offer:
                 o.deleted = True
-                message_new = Message(destinationuserid=o.buyerid, message=f"{current_user.name}'s listing in no longer avaliable because it has been sold out: {getBookname(listing.bookid)}.")
+                l = Listing.query.filter_by(listingid=o.listingid, deleted=False, completed=False).first()
+                message_new = Message(destinationuserid=o.buyerid, originusername=current_user.name, messagetype='listing_completed', item=getBookname(l.bookid))
                 db.session.add(message_new)
-        
-        listing = Listing.query.filter_by(listingid=offer.listingid, deleted=False, completed=False).first()
-        listing.completed = True
-
     else:
         raise APIForbiddenError()
     

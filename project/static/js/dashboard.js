@@ -47,6 +47,45 @@ $(document).ready(function() {
             ].map(a => this[a[0]] ? `<div class="chip mb-0 unselectable">${a[1]}</div>` : '').join('') || 'Unset';
         }
     }
+
+    class Message {
+        constructor(data) {
+            for (const key in data) {
+                this[key] = data[key];
+            }
+
+            this.strings = {}
+            switch (this.messagetype) {
+                case 'listing_disabled':
+                    this.strings.display = `<span class="text-bold">${this.originusername}</span>'s <span class="text-bold">${this.item}</span> has been temporarily disabled. A notification will be sent when it is re-enabled.`
+                    break;
+                case 'listing_enabled':
+                    this.strings.display = `<span class="text-bold">${this.originusername}</span>'s <span class="text-bold">${this.item}</span> has been re-enabled.`
+                    break;
+                case 'listing_deleted':
+                    this.strings.display = `<span class="text-bold">${this.originusername}</span>'s <span class="text-bold">${this.item}</span> is no longer avaliable because it has been deleted. The offer has been automatically cancelled.`
+                    break;
+                case 'offer_created':
+                    this.strings.display = `<span class="text-bold">${this.originusername}</span> has created an offer on your listing: <span class="text-bold">${this.item}</span>.`
+                    break;
+                case 'offer_cancelled':
+                    this.strings.display = `<span class="text-bold">${this.originusername}</span> has cancelled the offer on the listing <span class="text-bold">${this.item}</span>.`
+                    break;
+                case 'offer_contact_granted':
+                    this.strings.display = `<span class="text-bold">${this.originusername}</span> has granted you access to their contact information on the listing <span class="text-bold">${this.item}</span>.`
+                    break;
+                case 'offer_contact_request':
+                    this.strings.display = `<span class="text-bold">${this.originusername}</span> has requested to view your contact information on the listing <span class="text-bold">${this.item}</span>.`
+                    break;
+                case 'listing_completed':
+                    this.strings.display = `<span class="text-bold">${this.originusername}</span>'s <span class="text-bold">${this.item}</span> is no longer avaliable because it has been sold out.`
+                    break;
+                default:
+                    this.strings.display = this.system;
+                    break;
+            }
+        }
+    }
     
     var push = Notification.permission == 'granted';
     function loadMesssage() {
@@ -84,14 +123,15 @@ $(document).ready(function() {
             return json.data;
         }).then(messages => {
             let m = '';
-            for (message of messages) {
+            for (let message of messages) {
+                message = new Message(message);
                 const updated = dayjs.unix(message.created);
                 m += `<div class="row mx-0 mb-8 p-8 roundBox lightgrey">
                     <div class="col s3 right-align">
                         <div class="row mb-0 font-size-14">${updated.local().format('DD/MM/YYYY HH:mm:ss')}</div>
                         <div class="row mb-0 font-size-14 text-muted" data-field="updatedRelative" data-val="${message.created}">${updated.local().fromNow()}</div>
                     </div>
-                    <div class="col s9 font-size-14">${message.message}</div>
+                    <div class="col s9 font-size-14">${message.strings.display}</div>
                 </div>`
             }
             $('[data-element="message_box_help"]').html(m ? '' : 'No messages.')
