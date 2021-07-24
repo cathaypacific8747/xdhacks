@@ -3,14 +3,29 @@
     --collapsible-border: 1px solid #ddd;
     --payment-icon-height: 24px;
     --chip-height: 32px;
+    --profile-pic-width: 75%;
 }
 
-.profile-picture {
-    display: inline-block;
-    margin-left: calc((100% - var(--profile-pic-width))/2);
-    width: var(--profile-pic-width);
-    height: 0;
-    padding-bottom: var(--profile-pic-width);
+.row .col.s2 div.profile-picture {
+    position: relative;
+    width: 75%;
+}
+.row .col.s2 div.profile-picture:after {
+    content: '';
+    display: block;
+    padding-bottom: 100%;
+}
+
+.row .col.s2 div.profile-picture img {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 }
 
 .payment-icon {
@@ -28,7 +43,6 @@ li:not(.active) .collapsible-header {
 }
 
 li:not(.active) .collapsible-header:hover {
-    background-color: #edf4fa !important;
     -webkit-transition: background-color 200ms linear;
     -ms-transition: background-color 200ms linear;
     transition: background-color 200ms linear;
@@ -44,22 +58,20 @@ li.active .collapsible-body > div:last-child {
 }
 
 li.active .collapsible-header {
-    background-color: #e0f1fd !important;
     border: var(--collapsible-border);
     border-top-left-radius: .5rem;
     border-top-right-radius: .5rem;
-
 }
 
 [data-offerid]:hover {
-    background-color: #ebf5ec !important;
+    background-color: #ebf5fc !important;
     -webkit-transition: background-color 200ms linear;
     -ms-transition: background-color 200ms linear;
     transition: background-color 200ms linear;
 }
 
 [data-offerid].active {
-    background-color: #e2f5e4 !important;
+    background-color: #e0f1fd !important;
     -webkit-transition: background-color 200ms linear;
     -ms-transition: background-color 200ms linear;
     transition: background-color 200ms linear;
@@ -69,12 +81,8 @@ li.active .collapsible-header {
     width: 100%;
 }
 
-.profile-picture {
-    width: 75%;
-}
-
 .minPicHeight {
-    height: 172px;
+    height: 128px;
 }
 
 .lightlightgrey {
@@ -116,6 +124,10 @@ i.material-icons.unread {
     background-color: black;
 }
 
+.modal.modal-white, .modal.modal-white > .modal-content {
+    background-color: white;
+}
+
 .modal-content {
     padding: 0 !important; 
 }
@@ -128,6 +140,3 @@ i.material-icons.unread {
     border: 1px solid #bbb;
     height: var(--chip-height);
 }
-
-/*     --payment-icon-height: 24px;
-    --chip-height: 32px; */

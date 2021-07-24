@@ -67,11 +67,7 @@
         </div>
         <div class="col s8 p-0 h-full">
             <div class="row mx-0 mb-0 p-12 pl-6 h-full oy-auto">
-                <div class="col s12 lightgrey roundBox h-full oy-auto" data-element="controls">
-                    <div class="center-align valign-center">
-                        Select an item on the list to view more details!
-                    </div>
-                </div>
+                <div class="col s12 lightgrey roundBox h-full oy-auto" data-element="controls"></div>
             </div>
         </div>
     </div>
@@ -81,6 +77,57 @@
                 Click outside or press Esc to close.
             </div>
             <div class="carousel carousel-slider" id="carousel"></div>
+        </div>
+    </div>
+    <div id="cancelmodal" class="modal modal-white roundBox">
+        <div class="modal-content">
+            <div class="row mx-16 mt-16 mb-16">
+                <div class="s12 font-size-24 text-bold">
+                    Are you sure?
+                </div>
+            </div>
+            <div class="row mx-16 mt-0 mb-0">
+                <div class="s12 font-size-16">
+                    <div>This action is irreversible. The <span data-field="cancel_offer_role"></span> will be notified.</div>
+                    <div>Do you want to continue?</div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn px-8 roundBox btn-transparent btn-transparent-danger" data-button="cancel_offer_confirm">
+                <i class="material-icons left">check</i>
+                Yes, cancel offer
+            </a>
+            <a class="btn px-8 mr-8 roundBox btn-transparent btn-transparent-muted modal-close">
+                <i class="material-icons left">clear</i>
+                No, go back
+            </a>
+        </div>
+    </div>
+    <div id="completemodal" class="modal modal-white roundBox">
+        <div class="modal-content">
+            <div class="row mx-16 mt-16 mb-16">
+                <div class="s12 font-size-24 text-bold">
+                    Are you sure?
+                </div>
+            </div>
+            <div class="row mx-16 mt-0 mb-0">
+                <div class="s12 font-size-16">
+                    <div>Completing an offer means that you have already exchanged the book with the buyer.</div>
+                    <div>This will delete the listing and remove all pending buying offers, and will no longer be avaliable to everyone.</div>
+                    <div>This action is irreversible. Do you want to continue?</div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn px-8 roundBox btn-transparent btn-transparent-success" data-button="complete_offer_confirm">
+                <i class="material-icons left">check</i>
+                Yes, complete offer
+            </a>
+            <a class="btn px-8 mr-8 roundBox btn-transparent btn-transparent-muted modal-close">
+                <i class="material-icons left">clear</i>
+                No, go back
+            </a>
         </div>
     </div>
 </div>

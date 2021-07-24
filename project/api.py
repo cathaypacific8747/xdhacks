@@ -159,7 +159,7 @@ def listing_toggleOpen():
     if not listingid:
         raise GenericInputError()
     
-    listing = Listing.query.filter_by(listingid=listingid).first()
+    listing = Listing.query.filter_by(listingid=listingid, deleted=False, completed=False).first()
     if listing.ownerid != current_user.userid:
         raise APIForbiddenError()
     
@@ -182,7 +182,7 @@ def listing_delete():
     if not listingid:
         raise GenericInputError()
     
-    listing = Listing.query.filter_by(listingid=listingid).first()
+    listing = Listing.query.filter_by(listingid=listingid, deleted=False, completed=False).first()
     if listing.ownerid != current_user.userid:
         raise APIForbiddenError()
     
@@ -203,7 +203,7 @@ def aggregate():
     if not data or "bookids" not in data:
         raise GenericInputError()
     
-    query = Listing.query.filter_by(open=True, deleted=False)
+    query = Listing.query.filter_by(open=True, deleted=False, completed=False)
     if data["bookids"]:
         query = query.filter(Listing.bookid.in_(data["bookids"]))
     books = query.with_entities(Listing.bookid, func.count(Listing.bookid), func.min(Listing.price)).group_by(Listing.bookid).limit(40).all()
@@ -230,7 +230,7 @@ def market_detail():
     listings = db.session.query(Listing, User)\
         .filter(Listing.bookid == bookid)\
         .filter(Listing.open == True)\
-        .filter(Listing.deleted == False)\
+        .filter(Listing.deleted == False, Listing.completed == False)\
         .join(User, Listing.ownerid == User.userid)\
         .all()
     
@@ -363,8 +363,10 @@ def offer_togglePublicity():
     if not offerid:
         raise GenericInputError()
 
-    offer = Offer.query.filter_by(offerid=offerid).first()
-    if offer.sellerid == current_user.userid:
+    offer = Offer.query.filter_by(offerid=offerid, deleted=False).first()
+    if not offer:
+        raise GenericInputError()
+    elif offer.sellerid == current_user.userid:
         offer.sellerpublic = not offer.sellerpublic
         public = offer.sellerpublic
     elif offer.buyerid == current_user.userid:
@@ -380,4 +382,57 @@ def offer_togglePublicity():
         "data": {
             "public": public
         }
+    })
+
+@api.delete('/api/v1/offer/cancel')
+def offer_cancel():
+    if not current_user.is_authenticated:
+        raise APIForbiddenError()
+
+    offerid = request.args.get("offerid")
+    if not offerid:
+        raise GenericInputError()
+    
+    offer = Offer.query.filter_by(offerid=offerid, deleted=False).first()
+    if not offer:
+        raise GenericInputError()
+    elif current_user.userid == offer.sellerid or offer.buyerid:
+        offer.deleted = True
+    else:
+        raise APIForbiddenError()
+    
+    db.session.commit()
+    return jsonify({
+        "status": "success",
+        "message": None,
+        "data": None
+    })
+
+@api.delete('/api/v1/offer/complete')
+def offer_complete():
+    if not current_user.is_authenticated:
+        raise APIForbiddenError()
+
+    offerid = request.args.get("offerid")
+    if not offerid:
+        raise GenericInputError()
+    
+    offer = Offer.query.filter_by(offerid=offerid, deleted=False).first()
+    if not offer:
+        raise GenericInputError()
+    elif current_user.userid == offer.sellerid:
+        offers = Offer.query.filter_by(listingid=offer.listingid, deleted=False).all()
+        for o in offers:
+            o.deleted = True
+        
+        listing = Listing.query.filter_by(listingid=offer.listingid, deleted=False, completed=False).first()
+        listing.completed = True
+    else:
+        raise APIForbiddenError()
+    
+    db.session.commit()
+    return jsonify({
+        "status": "success",
+        "message": None,
+        "data": None
     })

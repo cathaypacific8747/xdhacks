@@ -1,17 +1,18 @@
 :root {
+	--link-color-success: #2E7D32;
+	--link-color-success-hover: #2E7D3211;
 	--link-color-primary: #1565C0;
 	--link-color-primary-hover: #1565C011;
 	--link-color-primary-hover2: #1976D211;
 	--link-color-danger: #b73226;
 	--link-color-danger-hover: #b7322611;
 	--link-color-disabled: #999;
+	--link-color-disabled-hover: #99999911;
 	--condition-poor: #b73226;	
 	--condition-fair: #9e9d00;
 	--condition-good: #00a413;
 	--condition-fine: #0029b4;
 }
-
-
 
 /* Background */
 
@@ -410,12 +411,22 @@ body {
 	box-shadow: none;
 }
 
+.btn-transparent-success {
+	color: var(--link-color-success);
+}
+
+.btn-transparent-success:hover, .btn-transparent-success:focus {
+	background-color: var(--link-color-success-hover);
+	transition: background-color 200ms linear;
+}
+
 .btn-transparent-primary {
 	color: var(--link-color-primary);
 }
 
 .btn-transparent-primary:hover, .btn-transparent-primary:focus {
-	background: var(--link-color-primary-hover);
+	background-color: var(--link-color-primary-hover);
+	transition: background-color 200ms linear;
 }
 
 .btn-transparent-danger {
@@ -423,7 +434,17 @@ body {
 }
 
 .btn-transparent-danger:hover, .btn-transparent-danger:focus {
-	background: var(--link-color-danger-hover);
+	background-color: var(--link-color-danger-hover);
+	transition: background-color 200ms linear;
+}
+
+.btn-transparent-muted {
+	color: var(--link-color-disabled);
+}
+
+.btn-transparent-muted:hover, .btn-transparent-muted:focus {
+	background-color: var(--link-color-disabled-hover);
+	transition: background-color 200ms linear;
 }
 
 .btn-transparent-disabled {

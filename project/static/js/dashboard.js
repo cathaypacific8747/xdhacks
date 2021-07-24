@@ -6,6 +6,8 @@ $(document).ready(function() {
             });
         }
     })
+    $('#cancelmodal').modal()
+    $('#completemodal').modal()
 
     $(window).resize(changeDashboardHeight)
     function changeDashboardHeight() {
@@ -26,7 +28,7 @@ $(document).ready(function() {
 
             this.strings = {}
             this.strings.profilePic = `${data.profilePic}=s96-c`
-            this.strings.badgeElem = this.cky ? '<i class="font-size-20 material-icons unselectable tooltipped verified" data-position="right" data-tooltip="This user is a verified CKY student.">verified</i>' : '<i class="font-size-20 material-icons unselectable tooltipped not-verified" data-position="right" data-tooltip="This user may not be a CKY student.">warning</i>'
+            this.strings.badgeElem = this.cky ? '<i class="font-size-14 material-icons unselectable tooltipped verified" data-position="right" data-tooltip="This user is a verified CKY student.">verified</i>' : '<i class="font-size-14 material-icons unselectable tooltipped not-verified" data-position="right" data-tooltip="This user may not be a CKY student.">warning</i>'
             this.strings.negotiable = this.negotiable ? 'Yes<i class="font-size-20 material-icons unselectable negotiable ml-4">check</i>' : 'No<i class="font-size-20 material-icons unselectable not-negotiable ml-4">close</i>'
             this.strings.payment = [
                 ['cash', 'Cash'], 
@@ -133,7 +135,6 @@ $(document).ready(function() {
         }).listing)
         const book = listing.book;
         const user = new User(offer.user);
-        console.log(user)
         const updatePublicity = () => {
             if (public) {
                 $('[data-field="my_publicity_help"]').html('Your contact information is visible to everyone, including the buyer. To hide it from everyone, go to your <a href="/settings">account settings</a>.')
@@ -310,7 +311,7 @@ $(document).ready(function() {
                 My Information
             </div>
         </div>
-        <div class="row mx-0 mt-8 mb-8">
+        <div class="row mx-0 mt-8 mb-0">
             <div class="col s12 p-0 font-size-14">
                 <span data-field="my_publicity_help"></span>
                 <div class="row my-0 px-8">
@@ -319,6 +320,25 @@ $(document).ready(function() {
                         <span data-field="my_publicity_text"></i>
                     </a>
                 </div>
+            </div>
+        </div>
+        <div class="row font-size-20 text-bold mt-8 mb-0">
+            <div class="col s12">
+                Actions
+            </div>
+        </div>
+        <div class="row mx-0 mt-8 mb-8">
+            <div class="col p-0">
+                <a class="btn px-8 roundBox btn-transparent btn-transparent-success" data-button="complete_offer">
+                    <i class="material-icons left">check</i>
+                    Complete Offer
+                </a>
+            </div>
+            <div class="col p-0">
+                <a class="btn px-8 roundBox btn-transparent btn-transparent-danger" data-button="cancel_offer">
+                    <i class="material-icons left">clear</i>
+                    Cancel Offer
+                </a>
             </div>
         </div>
         `);
@@ -391,11 +411,78 @@ $(document).ready(function() {
                 toastError(error);
             });
         })
+
+        if (role == 'seller') {
+            $('[data-button="complete_offer"]').click(() => {
+                $('#completemodal').modal('open');
+            });
+            $('[data-button="complete_offer_confirm"]').click(() => {
+                fetch(`/api/v1/offer/complete?offerid=${offer.offer.offerid}`, {
+                    method: 'DELETE',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then((response) => {
+                    if (response.ok) return response.json();
+                    throw new NetworkError(response);
+                })
+                .then((json) => {
+                    if (json.status == "success") {
+                        $('#completemodal').modal('close');
+                        toast(description='Successfully completed offer.', headerPrefix='', code=1);
+                        loadBox('empty');
+                        loadPanel();
+                        return;
+                    }
+                    throw new APIError(json);
+                })
+                .catch((error) => {
+                    toastError(error);
+                });
+            })
+        } else {
+            $('[data-button="complete_offer"]').addClass("hide");
+        }
+
+
+        $('[data-button="cancel_offer"]').click(() => {
+            $('[data-field="cancel_offer_role"]').html(oppositeRole);
+            $('#cancelmodal').modal('open');
+        });
+        $('[data-button="cancel_offer_confirm"]').click(() => {
+            fetch(`/api/v1/offer/cancel?offerid=${offer.offer.offerid}`, {
+                method: 'DELETE',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then((response) => {
+                if (response.ok) return response.json();
+                throw new NetworkError(response);
+            })
+            .then((json) => {
+                if (json.status == "success") {
+                    $('#cancelmodal').modal('close');
+                    toast(description='Successfully cancelled offer.', headerPrefix='', code=1);
+                    loadBox('empty');
+                    loadPanel();
+                    return;
+                }
+                throw new APIError(json);
+            })
+            .catch((error) => {
+                toastError(error);
+            });
+        })
         
         $('.tooltipped').tooltip()
     }
 
-    function loadBox() {
+    function loadBox(mode='normal') {
+        if (mode == 'empty') $('[data-element="controls"]').attr('data-control', '').removeAttr('data-control-offerid')
         switch ($('[data-element="controls"][data-control]').attr('data-control')) {
             case 'message':
                 loadMesssage();
@@ -405,6 +492,11 @@ $(document).ready(function() {
                 break;
             case 'buyer':
                 loadOffer($('[data-element="controls"][data-control]').attr('data-control-offerid'), 'buyer');
+                break;
+            default:
+                $('[data-element="controls"]').html(`<div class="center-align valign-center">
+                    Select an item on the list to view more details!
+                </div>`)
                 break;
         }
     }
@@ -431,7 +523,7 @@ $(document).ready(function() {
             for (let listingtype in listings) {
                 if (listingtype == 'public') continue;
                 if (listings[listingtype].length == 0) {
-                    $(`[data-element="${listingtype}_help"]`).html(listingtype == 'buyer' ? 'There are no pending offers. Go to the <a href="/market">Market</a> to make an offer.' : 'There are no pending offers. <a href="/sell">Sell</a> a book or wait until someone makes an offer.');
+                    $(`[data-element="${listingtype}_help"]`).html(listingtype == 'buyer' ? 'There are no pending offers. Go to the <a href="/market">Market</a> to make an offer.' : 'There are no pending offers. Start by <a href="/sell">selling a book</a> or wait until someone makes an offer.');
                     $(`[data-element="${listingtype}_progress"]`).addClass("hide");
                     continue;
                 }
@@ -460,12 +552,16 @@ $(document).ready(function() {
                     for (let i = 0; i < results.length; i++) {
                         let lis2 = '';
                         for (const o of listings[listingtype][i].offers) {
-                            lis2 += `<div class="row mb-0 mx-0 valign-wrapper py-8 unselectable" data-offerid="${o.offer.offerid}">
+                            const user = new User(o.user);
+                            lis2 += `<div class="row mb-0 mx-0 py-8 unselectable valign-wrapper" data-offerid="${o.offer.offerid}">
                                 <div class="col s2 px-4 valign-wrapper justify-content-center">
-                                    <img class="profile-picture rounded" src="${o.user.profilePic}=s96-c">
+                                    <div class="profile-picture">
+                                        <img class="rounded" src="${user.strings.profilePic}">
+                                    </div>
                                 </div>
-                                <div class="col s10 px-4 font-size-14">
-                                    ${o.user.name}
+                                <div class="col s10 px-4 font-size-14 valign-wrapper">
+                                    <span class="mr-6">${user.name}</span>
+                                    ${user.strings.badgeElem}
                                 </div>
                             </div>`
                         }
@@ -503,6 +599,7 @@ $(document).ready(function() {
                     $(`[data-element="${listingtype}_progress"]`).addClass("hide");
                 });
             }
+            $('.tooltipped').tooltip()
             $(`[data-offerid]`).click(e => {
                 $('[data-offerid]').removeClass('active')
                 const listingtype = $(e.target).closest('[data-element$="_results"]').attr('data-element').replace('_results', '');
@@ -526,11 +623,11 @@ $(document).ready(function() {
         })
     }
 
-    loadPanel();
     loadBox();
+    loadPanel();
     $('[data-refresh]').click(() => {
-        loadPanel();
         loadBox();
+        loadPanel();
     });
     $('[data-element="message_help"]').click(() => {
         $('[data-element="controls"]').attr('data-control', 'message');
