@@ -1,7 +1,5 @@
-from discord import message
 from flask import Blueprint, json, redirect, url_for, request, session, current_app, abort, jsonify
 from flask_login import current_user
-from sqlalchemy.sql.functions import user
 from .models import Message, User, Listing, Offer
 from . import db
 from .error_handler import APIForbiddenError, GenericInputError
@@ -303,7 +301,7 @@ def create():
     buyerid = current_user.userid
     listing = Listing.query.filter_by(listingid=data["listingid"], open=True, deleted=False, completed=False).first()
     if not listing:
-        raise GenericInputError('Unfortunately, this listing no longer exists.') # listing has been deleted or completed
+        raise GenericInputError('Unfortunately, this listing is no longer avaliable. It may have been deleted by the seller, or sold out.')
     listingid = listing.listingid
     sellerid = listing.ownerid
 
@@ -387,7 +385,7 @@ def offer_togglePublicity():
 
     offer = Offer.query.filter_by(offerid=offerid, deleted=False).first()
     if not offer:
-        raise GenericInputError()
+        raise GenericInputError('Unfortunately, this offer is no longer avaliable. It may have been deleted or sold out.')
     elif offer.sellerid == current_user.userid:
         offer.sellerpublic = not offer.sellerpublic
         public = offer.sellerpublic
@@ -417,7 +415,7 @@ def offer_cancel():
     
     offer = Offer.query.filter_by(offerid=offerid, deleted=False).first()
     if not offer:
-        raise GenericInputError()
+        raise GenericInputError('Unfortunately, this offer is no longer avaliable. It may have been deleted or sold out.')
     elif current_user.userid == offer.sellerid:
         listing = Listing.query.filter_by(listingid=offer.listingid, deleted=False, completed=False).first()
         message_new = Message(destinationuserid=offer.buyerid, message=f'{current_user.name} has cancelled the offer on your listing: {getBookname(listing.bookid)}.')
@@ -447,7 +445,7 @@ def offer_complete():
     
     offer = Offer.query.filter_by(offerid=offerid, deleted=False).first()
     if not offer:
-        raise GenericInputError()
+        raise GenericInputError('Unfortunately, this offer is no longer avaliable. It may have been deleted or sold out.')
     elif current_user.userid == offer.sellerid:
         offers = Offer.query.filter_by(listingid=offer.listingid, deleted=False).all()
         for o in offers:

@@ -106,10 +106,12 @@ $ ./start.sh
 - [x] Dashboard template - Manual and automatic updates refreshes box.
 - [x] Listing API - Deleting Listing causes all offers to be deleted.
 - [x] Listing, Offer API - Delete Listing, Cancel Offer, Complete Offer sends notification to message centre.
-- [ ] Show error message if user attempted to cancel/complete offers that are no longer avaliable.
+- [x] Show error message if user attempted to cancel/complete offers that are no longer avaliable.
+- [x] Focus/update previous box if selected.
+- [ ] Dashboard Template - Split notificaton.
 - [ ] Dashboard Template - Automatic notification polling
 
-- [ ] Fix duplicate requests due to multiple event listeners.
+- [ ] All templates - Fix duplicate requests due to multiple event listeners.
 - [x] Listing Template - Modal box on delete listing
 - [ ] Market Sub-template - Modal box on create offer
 - [x] Make email as private information, toggleable
@@ -120,6 +122,7 @@ $ ./start.sh
 - [ ] Terms of service
 - [ ] I agree to TOS and privacy policy checkbox in Signup Template
 - [x] disallow web crawlers with robots.txt
+- [x] /favicon.ico
 
 ## Enhancements
 

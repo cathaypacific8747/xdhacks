@@ -344,7 +344,6 @@ $(document).ready(function() {
         `);
 
         oppositeRole == 'buyer' && $('[data-field="negotiable_container"]').addClass("hide");
-
         if (!(user.public || offer.offer[`${oppositeRole}public`])) {
             $('[data-field="public"]').html("Private");
             $('[data-field="public_icon"]').html("").attr("data-tooltip", "");
@@ -378,7 +377,6 @@ $(document).ready(function() {
         }
 
         updatePublicity();
-
         $('[data-button="view_image"]').click(() => {
             const carousel = $('#carousel').empty()
             listing.images.forEach(image => {
@@ -409,6 +407,8 @@ $(document).ready(function() {
             })
             .catch((error) => {
                 toastError(error);
+                $('[data-element="controls"]').attr('data-control', 'empty');
+                refresh();
             });
         })
 
@@ -434,20 +434,22 @@ $(document).ready(function() {
                     if (json.status == "success") {
                         $('#completemodal').modal('close');
                         toast(description='Successfully completed offer.', headerPrefix='', code=1);
-                        loadBox('empty');
-                        loadPanel();
+                        $('[data-element="controls"]').attr('data-control', 'empty');
+                        refresh();
                         return;
                     }
                     throw new APIError(json);
                 })
                 .catch((error) => {
+                    $('#completemodal').modal('close');
                     toastError(error);
+                    $('[data-element="controls"]').attr('data-control', 'empty');
+                    refresh();
                 });
             })
         } else {
             $('[data-button="complete_offer"]').addClass("hide");
         }
-
 
         $('[data-button="cancel_offer"]').click(() => {
             $('[data-button="cancel_offer_confirm"]').attr('data-offerid', offer.offer.offerid)
@@ -471,23 +473,25 @@ $(document).ready(function() {
                 if (json.status == "success") {
                     $('#cancelmodal').modal('close');
                     toast(description='Successfully cancelled offer.', headerPrefix='', code=1);
-                    loadBox('empty');
-                    loadPanel();
+                    $('[data-element="controls"]').attr('data-control', 'empty');
+                    refresh();
                     return;
                 }
                 throw new APIError(json);
             })
             .catch((error) => {
+                $('#cancelmodal').modal('close');
                 toastError(error);
+                $('[data-element="controls"]').attr('data-control', 'empty');
+                refresh();
             });
         })
         
         $('.tooltipped').tooltip()
     }
 
-    function loadBox(mode='normal') {
+    function loadBox() {
         $('[data-button]').off(); // remove all event listeners of custom buttons.
-        if (mode == 'empty') $('[data-element="controls"]').attr('data-control', '').removeAttr('data-control-offerid')
         switch ($('[data-element="controls"][data-control]').attr('data-control')) {
             case 'message':
                 loadMesssage();
@@ -499,7 +503,7 @@ $(document).ready(function() {
                 loadOffer($('[data-element="controls"][data-control]').attr('data-control-offerid'), 'buyer');
                 break;
             default:
-                $('[data-element="controls"]').html(`<div class="center-align valign-center">
+                $('[data-element="controls"]').attr('data-control', 'empty').removeAttr('data-control-offerid').html(`<div class="center-align valign-center">
                     Select an item on the list to view more details!
                 </div>`)
                 break;
@@ -507,7 +511,6 @@ $(document).ready(function() {
     }
 
     function loadPanel() {
-        $(`[data-refresh]`).addClass('rotating')
         $('[data-element$="_help"]').removeClass("hide").html("Loading offers...");
         $('[data-element="message_help"]').removeClass("hide").html('<i class="material-icons left">mail</i>View messages');
         $('[data-element$="_progress"]').removeClass("hide");
@@ -628,15 +631,23 @@ $(document).ready(function() {
         })
     }
 
-    loadBox();
-    loadPanel();
-    $('[data-refresh]').click(() => {
-        loadBox();
-        loadPanel();
-    });
+    function refresh() {
+        $(`[data-refresh]`).addClass('rotating')
+        if ($('[data-element="controls"]').attr('data-control') == 'empty') {
+            loadBox();
+            loadPanel();
+        } else {
+            loadPanel();
+            loadBox();
+        }
+    }
+
+    refresh()
+    $('[data-refresh]').click(refresh);
+
     $('[data-element="message_help"]').click(() => {
         $('[data-element="controls"]').attr('data-control', 'message');
-        loadBox();
+        refresh();
     })
 
     setInterval(() => {
