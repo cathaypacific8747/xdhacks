@@ -63,3 +63,11 @@ def help():
 @login_required
 def welcome():
     return render_template('welcome.html')
+
+@main.route('/terms-of-use')
+def tos():
+    return render_template('tos.html')
+
+@main.route('/privacy-notice')
+def privacy():
+    return render_template('privacy.html')

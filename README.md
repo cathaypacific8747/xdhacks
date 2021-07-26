@@ -121,8 +121,8 @@ $ ./start.sh
 - [x] Welcome Template
 - [ ] Help Template
 - [ ] About us Template
-- [ ] Privacy Policy Template
-- [ ] Terms of service Template
+- [x] Privacy Policy Template
+- [x] Terms of service Template
 - [x] I agree to TOS and privacy policy confirmation in Signup Template
 - [x] disallow web crawlers with robots.txt
 - [x] /favicon.ico
