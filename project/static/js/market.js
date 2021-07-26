@@ -18,6 +18,7 @@ $(document).ready(function() {
 
     async function aggregate(bookids=[]) {
         showLoading();
+        $('[data-button="view_details"]').off();
         await fetch('/api/v1/market/aggregate', {
             method: 'POST',
             mode: 'cors',
@@ -112,7 +113,7 @@ $(document).ready(function() {
                 }
                 $('[data-button="view_details"]').click(e => {
                     const bookid = $(e.target).closest('[data-bookid]').attr('data-bookid');
-                    window.open(`/market/${bookid}`, "_blank");
+                    window.location.href = `/market/${bookid}`;
                 })
                 $('[data-element="help"]').empty();
             }).catch(e => {

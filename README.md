@@ -110,9 +110,9 @@ $ ./start.sh
 - [x] Focus/update previous box if selected.
 - [x] Dashboard API - Split notificaton.
 - [x] Dashboard Template - Split notificaton.
-- [ ] Dashboard Template - Automatic notification polling
+- [x] Dashboard Template - Automatic notification polling
 
-- [ ] All templates - Fix duplicate requests due to multiple event listeners.
+- [x] All templates - Fix duplicate requests due to multiple event listeners.
 - [ ] Post-signup redirecting and handling
 - [x] Listing Template - Modal box on delete listing
 - [ ] Market Sub-template - Modal box on create offer
@@ -128,7 +128,6 @@ $ ./start.sh
 
 ## Enhancements
 
-- [ ] Minify
 - [ ] Make relative time from now update dynamically
 - [ ] Site-wide notification polling.
 - [ ] Market API: Book Sort and Listing sort and filter
@@ -142,8 +141,10 @@ $ ./start.sh
 
 ## Before Production Checklist
 - [ ] Remove DEBUG flag in .env
-- [ ] Enable CSRF in API
+- [ ] Switch to axios and enable CSRF in API
 - [ ] Remove useless modules in `requirements.txt`
+- [ ] Flask-Assets (minify)
+- [ ] Flask-Compress (gzip)
 - [ ] SSL certificates
 
 # References

@@ -15,6 +15,7 @@ $(document).ready(function() {
     }
     changeDashboardHeight();
 
+    var newestmessageid = null;
     const unhide_container = container => $(`[data-field="${container}"]`).removeClass("hide");
     String.prototype.capitalise = function() {
         return this.charAt(0).toUpperCase() + this.slice(1);
@@ -58,30 +59,39 @@ $(document).ready(function() {
             switch (this.messagetype) {
                 case 'listing_disabled':
                     this.strings.display = `<span class="text-bold">${this.originusername}</span>'s <span class="text-bold">${this.item}</span> has been temporarily disabled. A notification will be sent when it is re-enabled.`
+                    this.strings.notification = `${this.originusername}'s ${this.item} has been temporarily disabled. A notification will be sent when it is re-enabled.`
                     break;
                 case 'listing_enabled':
                     this.strings.display = `<span class="text-bold">${this.originusername}</span>'s <span class="text-bold">${this.item}</span> has been re-enabled.`
+                    this.strings.notification = `${this.originusername}'s ${this.item} has been re-enabled.`
                     break;
                 case 'listing_deleted':
                     this.strings.display = `<span class="text-bold">${this.originusername}</span>'s <span class="text-bold">${this.item}</span> is no longer avaliable because it has been deleted. The offer has been automatically cancelled.`
+                    this.strings.notification = `${this.originusername}'s ${this.item} is no longer avaliable because it has been deleted. The offer has been automatically cancelled.`          
                     break;
                 case 'offer_created':
                     this.strings.display = `<span class="text-bold">${this.originusername}</span> has created an offer on your listing: <span class="text-bold">${this.item}</span>.`
+                    this.strings.notification = `${this.originusername} has created an offer on your listing: ${this.item}.`                
                     break;
                 case 'offer_cancelled':
                     this.strings.display = `<span class="text-bold">${this.originusername}</span> has cancelled the offer on the listing <span class="text-bold">${this.item}</span>.`
+                    this.strings.notification = `${this.originusername} has cancelled the offer on the listing ${this.item}.`
                     break;
                 case 'offer_contact_granted':
                     this.strings.display = `<span class="text-bold">${this.originusername}</span> has granted you access to their contact information on the listing <span class="text-bold">${this.item}</span>.`
+                    this.strings.notification = `${this.originusername} has granted you access to their contact information on the listing ${this.item}.`
                     break;
                 case 'offer_contact_request':
                     this.strings.display = `<span class="text-bold">${this.originusername}</span> has requested to view your contact information on the listing <span class="text-bold">${this.item}</span>.`
+                    this.strings.notification = `${this.originusername} has requested to view your contact information on the listing ${this.item}.`
                     break;
                 case 'listing_completed':
                     this.strings.display = `<span class="text-bold">${this.originusername}</span>'s <span class="text-bold">${this.item}</span> is no longer avaliable because it has been sold out.`
+                    this.strings.notification = `${this.originusername}'s ${this.item} is no longer avaliable because it has been sold out.`
                     break;
                 default:
                     this.strings.display = this.system;
+                    this.strings.notification = this.system;
                     break;
             }
         }
@@ -96,7 +106,7 @@ $(document).ready(function() {
         }
         $('[data-element="controls"]').html(`<div class="row mb-0">
             <div class="col s12 mt-8" data-element="message_box">
-                <div class="font-size-12 text-italic text-muted mb-0">Keep this tab open to recieve push notifications.</div>
+                <div class="font-size-12 text-italic text-muted mb-0">Keep this window open to recieve push notifications. Updates automatically every 1 minute.</div>
                 <a class="btn px-8 mb-8 roundBox btn-transparent unselectable" data-button="toggle_notification">
                     <i class="material-icons left" data-field="notification_icon"></i>
                     <span data-field="notification_text"></span>
@@ -122,20 +132,39 @@ $(document).ready(function() {
             if (json.status != "success") throw new APIError(json);
             return json.data;
         }).then(messages => {
-            let m = '';
-            for (let message of messages) {
-                message = new Message(message);
-                const updated = dayjs.unix(message.created);
-                m += `<div class="row mx-0 mb-8 p-8 roundBox lightgrey">
-                    <div class="col s3 right-align">
-                        <div class="row mb-0 font-size-14">${updated.local().format('DD/MM/YYYY HH:mm:ss')}</div>
-                        <div class="row mb-0 font-size-14 text-muted" data-field="updatedRelative" data-val="${message.created}">${updated.local().fromNow()}</div>
-                    </div>
-                    <div class="col s9 font-size-14">${message.strings.display}</div>
-                </div>`
+            if (messages.length == 0) {
+                $('[data-element="message_box_help"]').html('No messages.')
+                $('[data-element="message_box"]').empty()
+            } else {
+                $('[data-element="message_box"]').append($(messages.map(message => {
+                    message = new Message(message);
+                    const updated = dayjs.unix(message.created);
+                    return `<div class="row mx-0 mb-8 p-8 roundBox lightgrey">
+                        <div class="col s3 right-align">
+                            <div class="row mb-0 font-size-14">${updated.local().format('DD/MM/YYYY HH:mm:ss')}</div>
+                            <div class="row mb-0 font-size-14 text-muted" data-field="updatedRelative" data-val="${message.created}">${updated.local().fromNow()}</div>
+                        </div>
+                        <div class="col s9 font-size-14">${message.strings.display}</div>
+                    </div>`
+                }).join('')));
+                $('[data-element="message_box_help"]').empty()
+                console.log(newestmessageid)
+                if (newestmessageid) {
+                    console.log(newestmessageid, messages[0].messageid)
+                    if (messages[0].messageid != newestmessageid) {
+                        messages.slice(0, messages.findIndex(message => message.messageid == newestmessageid)).forEach(m => {
+                            if (push) {
+                                m = new Message(m);
+                                new Notification("Swappy", {
+                                    body: m.strings.notification,
+                                    icon: '/static/img/logo/icon.svg'
+                                });
+                            }
+                        })
+                    }
+                }
+                newestmessageid = messages[0].messageid;
             }
-            $('[data-element="message_box_help"]').html(m ? '' : 'No messages.')
-            $('[data-element="message_box"]').append($(m));
         }).catch(e => {
             if (e instanceof APIError) {
                 $('[data-element="message_box_help"]').html("An error occurred in our server. Please try again later.");
@@ -695,4 +724,6 @@ $(document).ready(function() {
             $(this).html(dayjs.unix($(this).attr('data-val')).local().fromNow())
         })
     }, 1000)
+
+    setInterval(refresh, 60000);
 });
