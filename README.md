@@ -115,7 +115,7 @@ $ ./start.sh
 - [x] All templates - Fix duplicate requests due to multiple event listeners.
 - [ ] Post-signup redirecting and handling
 - [x] Listing Template - Modal box on delete listing
-- [ ] Market Sub-template - Modal box on create offer
+- [x] Market Sub-template - Modal box on create offer
 - [x] Make email as private information, toggleable
 - [x] Make contact information to be private by default
 - [ ] Help Template

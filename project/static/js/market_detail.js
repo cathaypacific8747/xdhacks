@@ -6,6 +6,7 @@ $(document).ready(function() {
             });
         }
     })
+    $('#createmodal').modal()
 
     var bookid = $('meta[name=bookid]').attr('content');
     const initialHelpText = "Loading book information...";
@@ -224,6 +225,11 @@ $(document).ready(function() {
                 const parent = $(e.target).closest('[data-listingid]');
                 if (parent.attr('data-invalid') == 'true') return;
                 const listingid = parent.attr('data-listingid');
+                $('[data-button="create_offer_confirm"]').attr('data-listingid', listingid)
+                $('#createmodal').modal('open');
+            })
+            $('[data-button="create_offer_confirm"]').click(e => {
+                const listingid = $(e.target).attr('data-listingid');
                 fetch('/api/v1/offer/create', {
                     method: 'POST',
                     mode: 'cors',
@@ -244,6 +250,8 @@ $(document).ready(function() {
                     toast(description='Successfully created offer. Please go to the <a href="/dashboard">dashboard</a> for further steps.', headerPrefix='', code=1);
                 }).catch(e => {
                     toastError(e);
+                }).finally(() => {
+                    $('#createmodal').modal('close');
                 })
             })
             $('[data-element="help"]').empty();

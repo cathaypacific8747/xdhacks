@@ -63,14 +63,14 @@ li.active .collapsible-header {
     border-top-right-radius: .5rem;
 }
 
-[data-offerid]:hover {
+div[data-offerid]:hover {
     background-color: #ebf5fc !important;
     -webkit-transition: background-color 200ms linear;
     -ms-transition: background-color 200ms linear;
     transition: background-color 200ms linear;
 }
 
-[data-offerid].active {
+div[data-offerid].active {
     background-color: #e0f1fd !important;
     -webkit-transition: background-color 200ms linear;
     -ms-transition: background-color 200ms linear;
