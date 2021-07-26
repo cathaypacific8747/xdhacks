@@ -11,10 +11,11 @@
         <div class="col s12 m6 offset-m3">
             <div class="card roundBox translucent">
                 <div class="card-content center-align">
-                    <span class="card-title text-bold">Log in</span>
-                    <div class="font-size-16">To access the platform, log in with your account.</div>
-                    <div class="font-size-14">Don't have an account? <a href="/signup">Signup</a> instead.</div>
-                    <div class="abcRioButton abcRioButtonLightBlue mt-16 mx-auto" id="signinButton">
+                    <span class="card-title text-bold">Sign up</span>
+                    <div class="font-size-16">To access the platform, sign up with your CKY Google account or personal Google account.</div>
+                    <div class="font-size-14 text-muted">Already have an account? <a href="/login">Login</a> instead.</div>
+
+                    <div class="abcRioButton abcRioButtonLightBlue mt-16 mx-auto" id="signupButton">
                         <div class="abcRioButtonContentWrapper">
                             <div class="abcRioButtonIcon" style="padding:8px">
                                 <div style="width:18px;height:18px;">
@@ -30,10 +31,18 @@
                                 </div>
                             </div>
                             <span style="font-size:13px;line-height:34px;" class="abcRioButtonContents">
-                                Sign in with Google
+                                Sign up with Google
                             </span>
                         </div>
                     </div>
+                    <div class="mt-16 font-size-14">
+                        Select your CKY Google account (ending with @cky.edu.hk) whenever possible.
+                    </div>
+                    <div class="font-size-14 valign-wrapper justify-content-center unselectable tooltipped" data-position="bottom" data-tooltip="To ensure authenticity, CKY Google accounts will be given a verified badge, whereas personal Google accounts will be given a warning badge.">
+                        <i class="font-size-14 material-icons unselectable mr-4 text-muted">help</i>
+                        <span>Why?</span>
+                    </div>
+                    <div class="mt-16 font-size-12 text-muted">By signing up, you agree to our <a href="/terms-of-service">terms of service</a> and the <a href="/privacy-policy">privacy policy</a>.</div>
                 </div>
             </div>
         </div>
@@ -42,5 +51,5 @@
 {% endblock %}
 
 {% block scripts %}
-    <script type="text/javascript" src="{{ url_for('static', filename='js/login.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/signup.js') }}"></script>
 {% endblock %}

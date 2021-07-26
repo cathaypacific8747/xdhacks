@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row valign-wrapper">
+        <div class="col s12">
+            <div class="font-size-32 text-bold mb-8">Welcome, {{current_user.name}}!</div>
+        </div>
+    </div>
+    <div class="row valign-wrapper">
+        <div class="col s12">
+            {% if current_user.cky %}
+            <div class="font-size-16">You have successfully signed up as a verified CKY student!</div>
+            {% else %}
+                <div class="font-size-16">You have successfully signed up as a unverified account.</div>
+                <div class="font-size-16">This means that a warning badge will appear next to your name across the site.</div>
+                <div class="font-size-16">To verify your account, <a href="/signup">sign up</a> with a CKY account instead.</div>
+            {% endif %}
+            <div class="font-size-16 mt-16">We recommend you to read our <a href="/help">help</a> page, to understand how this platform works.</div>
+            <div class="font-size-16">You can always read our help page in the navigation bar.</div>
+            <div class="font-size-16 mt-16">Be sure to configure your settings at the <a href="/settings">settings</a> page before you sell or buy any books!</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

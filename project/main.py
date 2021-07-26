@@ -53,3 +53,13 @@ def market(bookid=None):
 @login_required
 def dashboard():
     return render_template('dashboard.html')
+
+@main.route('/help')
+@login_required
+def help():
+    return render_template('help.html')
+
+@main.route('/welcome')
+@login_required
+def welcome():
+    return render_template('welcome.html')

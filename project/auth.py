@@ -20,6 +20,10 @@ def get_google_provider_cfg():
 def login():
     return render_template('login.html')
 
+@auth.route('/signup')
+def signup():
+    return render_template('signup.html')
+
 @auth.route('/login_google')
 def login_google():
     token = request.args.get("token") # csrf
@@ -83,8 +87,7 @@ def login_google_callback():
     db.session.add(user_new)
     db.session.commit()
     login_user(user_new)
-    # flash('Signup successful!', 'success')
-    return redirect(url_for('main.index'))
+    return redirect(url_for('main.welcome'))
 
 @auth.route('/logout')
 @login_required

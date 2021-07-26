@@ -113,16 +113,17 @@ $ ./start.sh
 - [x] Dashboard Template - Automatic notification polling
 
 - [x] All templates - Fix duplicate requests due to multiple event listeners.
-- [ ] Post-signup redirecting and handling
+- [x] Post-signup redirecting and handling
 - [x] Listing Template - Modal box on delete listing
 - [x] Market Sub-template - Modal box on create offer
 - [x] Make email as private information, toggleable
 - [x] Make contact information to be private by default
+- [x] Welcome Template
 - [ ] Help Template
-- [ ] About us
-- [ ] Privacy Policy
-- [ ] Terms of service
-- [ ] I agree to TOS and privacy policy checkbox in Signup Template
+- [ ] About us Template
+- [ ] Privacy Policy Template
+- [ ] Terms of service Template
+- [x] I agree to TOS and privacy policy confirmation in Signup Template
 - [x] disallow web crawlers with robots.txt
 - [x] /favicon.ico
 
