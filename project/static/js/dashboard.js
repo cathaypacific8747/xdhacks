@@ -133,8 +133,8 @@ $(document).ready(function() {
             return json.data;
         }).then(messages => {
             if (messages.length == 0) {
+                console.log('NO')
                 $('[data-element="message_box_help"]').html('No messages.')
-                $('[data-element="message_box"]').empty()
             } else {
                 $('[data-element="message_box"]').append($(messages.map(message => {
                     message = new Message(message);

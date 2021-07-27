@@ -21,9 +21,6 @@ class User(UserMixin, db.Model):
     wechatPay = db.Column(db.Boolean, default=False)
     alipay = db.Column(db.Boolean, default=False)
     eCheque = db.Column(db.Boolean, default=False)
-    # account_type
-    buyer = db.Column(db.Boolean, default=True)
-    seller = db.Column(db.Boolean, default=True)
     # sellerDetails
     negotiable = db.Column(db.Boolean, default=False)
     inSchoolExchange = db.Column(db.Boolean, default=False)

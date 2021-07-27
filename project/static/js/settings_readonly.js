@@ -67,26 +67,6 @@ $(document).ready(function() {
             }
         }
 
-        update_accountType() {
-            if (this.data.seller) {
-                $('[data-field="seller_information_container"]').removeClass("hide")
-                $('[data-field="seller"]').removeClass("hide");
-            } else {
-                $('[data-field="seller_information_container"]').addClass("hide")
-                $('[data-field="seller"]').addClass("hide");
-            }
-            if (this.data.buyer) {
-                $('[data-field="buyer"]').removeClass("hide");
-            } else {
-                $('[data-field="buyer"]').addClass("hide");
-            }
-            if (this.data.buyer || this.data.seller) {
-                $(`[data-field="account_type_loader"]`).html("").addClass("hide");
-            } else {
-                $(`[data-field="account_type_loader"]`).html("Unset").removeClass("hide");
-            }
-        }
-
         update_sellerDeliveryMethods() {
             if (this.data.inSchoolExchange) {
                 $('[data-field="inSchoolExchange"]').removeClass("hide");
@@ -185,8 +165,8 @@ $(document).ready(function() {
             this.remove_loader("payment_information_loader");
             this.update_payment();
 
-            this.remove_loader("account_type_loader");
-            this.update_accountType();
+            // this.remove_loader("account_type_loader");
+            // this.update_accountType();
 
             this.remove_loader("seller_delivery_methods_loader");
             this.update_sellerDeliveryMethods();

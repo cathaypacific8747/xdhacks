@@ -119,8 +119,8 @@ $ ./start.sh
 - [x] Make email as private information, toggleable
 - [x] Make contact information to be private by default
 - [x] Welcome Template
-- [ ] Help Template
 - [ ] About us Template
+- [ ] Help Template
 - [x] Privacy Policy Template
 - [x] Terms of service Template
 - [x] I agree to TOS and privacy policy confirmation in Signup Template
@@ -128,8 +128,8 @@ $ ./start.sh
 - [x] /favicon.ico
 - [ ] Stress user responsibility!
 - [ ] Flask-Mail
-- [ ] Fix notification bug
-- [ ] Remove buyer/seller toggle
+- [x] Fix notification bug
+- [x] Remove buyer/seller toggle
 
 ## Enhancements
 

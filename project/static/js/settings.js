@@ -90,41 +90,6 @@ $(document).ready(function() {
             this.update_payment_edit()
         }
 
-        update_accountType_edit_options() {
-            if ($('[data-editfield="seller"]').is(':checked')) {
-                $('[data-field="seller_information_container"]').removeClass("hide")
-            } else {
-                $('[data-field="seller_information_container"]').addClass("hide")
-            }
-        }
-        update_accountType_edit() {
-            $('[data-editfield="buyer"]').prop("checked", this.data.buyer);
-            $('[data-editfield="seller"]').prop("checked", this.data.seller).click(() => {
-                this.update_accountType_edit_options();
-            });
-            this.update_accountType_edit_options();
-        }
-        update_accountType() {
-            if (this.data.seller) {
-                $('[data-field="seller_information_container"]').removeClass("hide")
-                $('[data-field="seller"]').removeClass("hide");
-            } else {
-                $('[data-field="seller_information_container"]').addClass("hide")
-                $('[data-field="seller"]').addClass("hide");
-            }
-            if (this.data.buyer) {
-                $('[data-field="buyer"]').removeClass("hide");
-            } else {
-                $('[data-field="buyer"]').addClass("hide");
-            }
-            if (this.data.buyer || this.data.seller) {
-                $(`[data-field="account_type_loader"]`).html("").addClass("hide");
-            } else {
-                $(`[data-field="account_type_loader"]`).html("Unset").removeClass("hide");
-            }
-            this.update_accountType_edit()
-        }
-
         update_sellerDeliveryMethods_edit() {
             $('[data-editfield="inSchoolExchange"]').prop("checked", this.data.inSchoolExchange);
             $('[data-editfield="meetup"]').prop("checked", this.data.meetup);
@@ -305,9 +270,6 @@ $(document).ready(function() {
             this.remove_loader("payment_information_loader");
             this.update_payment();
 
-            this.remove_loader("account_type_loader");
-            this.update_accountType();
-
             this.remove_loader("seller_delivery_methods_loader");
             this.update_sellerDeliveryMethods();
 
@@ -387,25 +349,6 @@ $(document).ready(function() {
             })
         }
 
-        getInput_accountType() {
-            let input = {};
-            input.buyer = $('[data-editfield="buyer"]').is(':checked');
-            input.seller = $('[data-editfield="seller"]').is(':checked');
-            return input;
-        }
-        bindSaveAction_accountType() {
-            $(`[data-save="account_type"]`).click(() => {
-                const input = this.getInput_accountType();
-                this.save_settings(input).then(updatedData => {
-                    if (updatedData) {
-                        this.data = Object.assign(this.data, updatedData);
-                        this.update_accountType();
-                        this.save_visual('account_type');
-                    }
-                })
-            })
-        }
-
         getInput_sellerDeliveryMethods() {
             let input = {};
             input.inSchoolExchange = $('[data-editfield="inSchoolExchange"]').is(':checked');
@@ -477,7 +420,6 @@ $(document).ready(function() {
 
         bindSaveActions() {
             this.bindSaveAction_payment();
-            this.bindSaveAction_accountType();
             this.bindSaveAction_sellerDeliveryMethods();
             this.bindSaveAction_sellerNegotiable();
             this.bindSaveAction_contactInformation();
