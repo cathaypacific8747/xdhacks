@@ -60,6 +60,19 @@ $(document).ready(function() {
             }
         }
 
+        update_emailnotifications_edit() {
+            $('[data-editfield="email_notifications"]').prop("checked", this.data.emailnotifications);
+        }
+        update_emailnotifications() {
+            // rename negotiable class.
+            if (this.data.emailnotifications) {
+                $('[data-field="email_notifications"]').removeClass("not-negotiable").addClass("negotiable").html("check");
+            } else {
+                $('[data-field="email_notifications"]').removeClass("negotiable").addClass("not-negotiable").html("close");
+            }
+            this.update_emailnotifications_edit()
+        }
+
         update_payment_edit() {
             const paymentInformations = ['cash', 'octopus', 'payme', 'tapngo', 'bankTransfer', 'eCheque', 'alipay', 'wechatPay'];
             for (let p of paymentInformations) {
@@ -267,6 +280,9 @@ $(document).ready(function() {
         populate() {
             this.update_profile();
 
+            this.remove_loader("email_notifications_loader");
+            this.update_emailnotifications();
+
             this.remove_loader("payment_information_loader");
             this.update_payment();
 
@@ -286,8 +302,8 @@ $(document).ready(function() {
         }
 
         bindEditActions() {
+            this.bindEditAction('email_notifications')
             this.bindEditAction('payment_information');
-            this.bindEditAction('account_type');
             this.bindEditAction('seller_delivery_methods');
             this.bindEditAction('seller_negotiable');
             this.bindEditAction('contact_information');
@@ -322,6 +338,24 @@ $(document).ready(function() {
             $(`[data-save="${section}"]`).addClass("hide");
             $(`[data-section="${section}_display"]`).removeClass("hide");
             $(`[data-edit="${section}"]`).removeClass("hide");
+        }
+
+        getInput_emailnotifications() {
+            let input = {};
+            input.emailnotifications = $('[data-editfield="email_notifications"]').is(':checked');
+            return input;
+        }
+        bindSaveAction_emailnotifications() {
+            $(`[data-save="email_notifications"]`).click(() => {
+                const input = this.getInput_emailnotifications();
+                this.save_settings(input).then(updatedData => {
+                    if (updatedData) {
+                        this.data = Object.assign(this.data, updatedData);
+                        this.update_emailnotifications();
+                        this.save_visual('email_notifications');
+                    }
+                })
+            })
         }
 
         getInput_payment() {
@@ -419,6 +453,7 @@ $(document).ready(function() {
         }
 
         bindSaveActions() {
+            this.bindSaveAction_emailnotifications();
             this.bindSaveAction_payment();
             this.bindSaveAction_sellerDeliveryMethods();
             this.bindSaveAction_sellerNegotiable();

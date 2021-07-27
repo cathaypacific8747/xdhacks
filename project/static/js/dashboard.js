@@ -106,6 +106,7 @@ $(document).ready(function() {
         }
         $('[data-element="controls"]').html(`<div class="row mb-0">
             <div class="col s12 mt-8" data-element="message_box">
+                <div class="font-size-12 text-italic text-muted mb-0">To send notifications to your e-mail, navigate to your <a href="/settings">account settings</a>.</div>
                 <div class="font-size-12 text-italic text-muted mb-0">Keep this window open to recieve push notifications. Updates automatically every 1 minute.</div>
                 <a class="btn px-8 mb-8 roundBox btn-transparent unselectable" data-button="toggle_notification">
                     <i class="material-icons left" data-field="notification_icon"></i>

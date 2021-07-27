@@ -83,7 +83,6 @@ $(document).ready(function() {
             } else {
                 $('[data-field="delivery"]').addClass("hide");
             }
-
             if (this.data.inSchoolExchange || this.data.meetup || this.data.delivery) {
                 $(`[data-field="seller_delivery_methods_loader"]`).html("").addClass("hide");
             } else {
@@ -164,9 +163,6 @@ $(document).ready(function() {
 
             this.remove_loader("payment_information_loader");
             this.update_payment();
-
-            // this.remove_loader("account_type_loader");
-            // this.update_accountType();
 
             this.remove_loader("seller_delivery_methods_loader");
             this.update_sellerDeliveryMethods();

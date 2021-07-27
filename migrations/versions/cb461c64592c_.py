@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 15b6f162dcff
+Revision ID: cb461c64592c
 Revises: 
-Create Date: 2021-07-27 11:04:11.467898
+Create Date: 2021-07-27 12:54:38.826229
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '15b6f162dcff'
+revision = 'cb461c64592c'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,6 +24,7 @@ def upgrade():
     sa.Column('name', sa.String(length=70), nullable=True),
     sa.Column('profilePic', sa.String(length=100), nullable=True),
     sa.Column('cky', sa.Boolean(), nullable=True),
+    sa.Column('emailnotifications', sa.Boolean(), nullable=True),
     sa.Column('cash', sa.Boolean(), nullable=True),
     sa.Column('octopus', sa.Boolean(), nullable=True),
     sa.Column('payme', sa.Boolean(), nullable=True),
@@ -32,8 +33,6 @@ def upgrade():
     sa.Column('wechatPay', sa.Boolean(), nullable=True),
     sa.Column('alipay', sa.Boolean(), nullable=True),
     sa.Column('eCheque', sa.Boolean(), nullable=True),
-    sa.Column('buyer', sa.Boolean(), nullable=True),
-    sa.Column('seller', sa.Boolean(), nullable=True),
     sa.Column('negotiable', sa.Boolean(), nullable=True),
     sa.Column('inSchoolExchange', sa.Boolean(), nullable=True),
     sa.Column('meetup', sa.Boolean(), nullable=True),

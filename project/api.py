@@ -42,7 +42,7 @@ def user_detail():
     return jsonify({
         "status": "success",
         "message": None,
-        "data": user.getDetails(overridepublic=not bool(userid))
+        "data": user.getDetails(overridepublic=not bool(userid), myself=not bool(userid))
     })
 
 @api.patch('/api/v1/user/update')
@@ -102,8 +102,8 @@ async def upload():
 
     if not bookid:
         raise GenericInputError()
-    if not intable(price) or int(price) < 0 and int(price) >= 1000:
-        raise GenericInputError(description="Price must be a positive integer.")
+    if not intable(price) or int(price) < 0 and int(price) >= 10000:
+        raise GenericInputError(description="price must be an integer between 0 and 9999, inclusive.")
     if not intable(condition) or int(condition) not in [0, 1, 2, 3]:
         raise GenericInputError()
     if not intable(notes) or int(notes) not in [0, 1, 2]:

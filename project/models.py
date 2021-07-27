@@ -12,6 +12,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(70), index=True)
     profilePic = db.Column(db.String(100))
     cky = db.Column(db.Boolean, default=False)
+    emailnotifications = db.Column(db.Boolean, default=False)
     # payment_information
     cash = db.Column(db.Boolean, default=False)
     octopus = db.Column(db.Boolean, default=False)
@@ -37,16 +38,19 @@ class User(UserMixin, db.Model):
     telegram = db.Column(db.Boolean, default=False)
     customContactInfo = db.Column(db.String, default='')
 
-    def getInvalidKeys(self, read=True, public=True):
-        if read:
-            invalid = ["googleId"] if public else ["googleId", "email", "discord", "instagram", "phone", "whatsapp", "signal", "telegram", "wechat", "customContactInfo"]
+    def getInvalidKeys(self, read=True, public=True, myself=False):
+        print(read, public, myself)
+        if myself:
+            invalid = ["googleId"]
+        elif read:
+            invalid = ["googleId", "emailnotifications"] if public else ["googleId", "emailnotifications", "email", "discord", "instagram", "phone", "whatsapp", "signal", "telegram", "wechat", "customContactInfo"]
         else:
             invalid = ["userid", "googleId", "email", "name", "profilePic", "cky"]
         return invalid + [k for k in list(vars(self)) if '_' in k]
     
-    def getDetails(self, overridepublic=False):
+    def getDetails(self, overridepublic=False, myself=False):
         data = vars(self)
-        invalidKeys = self.getInvalidKeys(read=True, public=self.public or overridepublic)
+        invalidKeys = self.getInvalidKeys(read=True, public=self.public or overridepublic, myself=myself)
 
         for k in data.copy():
             if k in invalidKeys:
