@@ -126,11 +126,16 @@ $ ./start.sh
 - [x] I agree to TOS and privacy policy confirmation in Signup Template
 - [x] disallow web crawlers with robots.txt
 - [x] /favicon.ico
+- [ ] Stress user responsibility!
+- [ ] Flask-Mail
+- [ ] Fix notification bug
+- [ ] Remove buyer/seller toggle
 
 ## Enhancements
 
 - [ ] Make relative time from now update dynamically
 - [ ] Site-wide notification polling.
+- [ ] Email notification
 - [ ] Market API: Book Sort and Listing sort and filter
 - [ ] Cache Book Names, ISBNs and use full-text search for Market Template
 - [ ] Image override if image isn't avaliable
@@ -139,11 +144,19 @@ $ ./start.sh
 - [ ] Admin accounts (regenDB, inventoryControl)
 - [ ] Conform to REST standards
 - [x] Optimise Error Handling Algorithm
-
-## Before Production Checklist
-- [ ] Remove DEBUG flag in .env
-- [ ] Switch to axios and enable CSRF in API
 - [ ] Remove useless modules in `requirements.txt`
+
+- [ ] About us - add email
+- [ ] Remove buyer/seller toggle
+- [ ] Listing Negotiable instead of user negotiable
+- [ ] Modal for enabling public information
+- [ ] email notification
+- [ ] Book list
+- [ ] Other schools
+
+## Production Checklist
+- [ ] Switch to axios and enable CSRF in API
+- [ ] Remove DEBUG flag in .env
 - [ ] Flask-Assets (minify)
 - [ ] Flask-Compress (gzip)
 - [ ] SSL certificates

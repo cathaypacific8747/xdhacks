@@ -71,8 +71,6 @@ def user_update():
     if 'phone' in data and data['phone']:
         if not re.match(r'[^0,1,7]{1}[0-9]{7}', data['phone']):
             raise GenericInputError(description='Phone number must be a correct Hong Kong phone number.')
-        if len(data['customContactInfo']) > 8:
-            raise GenericInputError(description='Phone number must be a correct Hong Kong phone number.')
 
     if 'customContactInfo' in data and data['customContactInfo']:
         if len(data['customContactInfo']) > 200:

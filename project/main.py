@@ -20,6 +20,11 @@ def noindex():
 def favicon():
     return send_from_directory(os.path.join(current_app.root_path, 'static/img/favicon'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
+@main.route('/welcome')
+@login_required
+def welcome():
+    return render_template('welcome.html')
+
 @main.route('/settings')
 @main.route('/profile/<string:userid>')
 @login_required
@@ -55,14 +60,12 @@ def dashboard():
     return render_template('dashboard.html')
 
 @main.route('/help')
-@login_required
 def help():
     return render_template('help.html')
 
-@main.route('/welcome')
-@login_required
-def welcome():
-    return render_template('welcome.html')
+@main.route('/about-us')
+def aboutus():
+    return render_template('aboutus.html')
 
 @main.route('/terms-of-use')
 def tos():
