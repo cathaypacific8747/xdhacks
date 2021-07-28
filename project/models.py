@@ -2,7 +2,9 @@ from datetime import datetime, timezone
 from sqlalchemy.dialects.postgresql import UUID, VARCHAR, ARRAY
 import uuid
 from flask_login import UserMixin
-from . import db
+from flask_mail import Message as Mail
+from . import db, mail
+from os import environ as env
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -120,6 +122,23 @@ class Message(db.Model):
             'system': self.system,
             'created': self.created.replace(tzinfo=timezone.utc).timestamp(),
         }
+    
+    def sendEmail(self, originuserid=''):
+        if self.messagetype == 'offer_created':
+            target = User.query.filter_by(userid=self.destinationuserid).first()
+            if target and target.emailnotifications:
+                hostname = env['HOSTNAME']
+                new_mail = Mail(subject='New Offer', html=f'''Hi there,<br />
+                <br />
+                Your listing <b>{self.item}</b> has recieved an offer from <a href="https://{hostname}/profile/{originuserid}">{self.originusername}</a>.<br />
+                For more details, please visit your <a href="https://{hostname}/dashboard">dashboard</a>.<br />
+                <br />
+                You can change your email notifications under your <a href="https://{hostname}/settings">account settings</a>.<br />
+                If you have any questions, feel free to contact us at cheuna2@cky.edu.hk.<br />
+                <br />
+                ~ Swappy
+                ''', recipients=[target.email])
+                mail.send(new_mail)
 
 class Offer(db.Model):
     __tablename__ = 'offers'

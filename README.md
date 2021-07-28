@@ -126,11 +126,11 @@ $ ./start.sh
 - [x] I agree to TOS and privacy policy confirmation in Signup Template
 - [x] disallow web crawlers with robots.txt
 - [x] /favicon.ico
-- [ ] Flask-Mail
+- [x] Flask-Mail
 - [x] Fix notification bug
 - [x] Remove buyer/seller toggle
 - [x] Settings Template - Add email notifications toggle
-- [ ] Messages API - Add email with Flask-Mail
+- [x] Messages API - Add email with Flask-Mail
 
 ## Enhancements
 

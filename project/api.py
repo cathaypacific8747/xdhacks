@@ -279,7 +279,7 @@ def messages():
     if not current_user.is_authenticated:
         raise APIForbiddenError()
 
-    messages = Message.query.filter_by(destinationuserid=current_user.userid).order_by(Message.created.desc()).all()
+    messages = Message.query.filter_by(destinationuserid=current_user.userid).order_by(Message.created.desc()).limit(20).all()
 
     return jsonify({
         "status": "success",
@@ -313,6 +313,7 @@ def create():
     db.session.add(offer_new)
 
     message_new = Message(destinationuserid=sellerid, originusername=current_user.name, messagetype='offer_created', item=getBookname(listing.bookid))
+    message_new.sendEmail(originuserid=current_user.userid)
     db.session.add(message_new)
     db.session.commit()
 

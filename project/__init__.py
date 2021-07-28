@@ -6,15 +6,18 @@ from dotenv import load_dotenv
 from oauthlib.oauth2 import WebApplicationClient
 from flask_wtf.csrf import CSRFProtect
 from flask_migrate import Migrate
+from flask_mail import Mail
 import discord
 import asyncio
 from threading import Thread
+import ast
 
 load_dotenv()
 db = SQLAlchemy()
 migrate = Migrate()
 csrf = CSRFProtect()
 login_manager = LoginManager()
+mail = Mail()
 
 def create_app(run=False):
     app = Flask(__name__)
@@ -24,7 +27,7 @@ def create_app(run=False):
     app.config['FLASK_APP'] = env['FLASK_APP']
     app.config['SECRET_KEY'] = env['SECRET_KEY']
     app.config['SQLALCHEMY_DATABASE_URI'] = env['SQLALCHEMY_DATABASE_URI']
-    app.config['FLASK_DEBUG'] = env['FLASK_DEBUG']
+    app.config['FLASK_DEBUG'] = env['FLASK_DEBUG'] == 'True'
 
     app.config['GOOGLE_CLIENT_ID'] = env['GOOGLE_CLIENT_ID']
     app.config['GOOGLE_CLIENT_SECRET'] = env['GOOGLE_CLIENT_SECRET']
@@ -33,10 +36,19 @@ def create_app(run=False):
     app.config['DISCORD_BOT_TOKEN'] = env['DISCORD_BOT_TOKEN']
     app.config['DISCORD_STORAGE_CHANNEL_ID'] = env['DISCORD_STORAGE_CHANNEL_ID']
 
+    app.config['MAIL_SERVER'] = env['MAIL_SERVER']
+    app.config['MAIL_PORT'] = env['MAIL_PORT']
+    app.config['MAIL_USE_TLS'] = env['MAIL_USE_TLS'] == 'True'
+    app.config['MAIL_USE_SSL'] = env['MAIL_USE_SSL'] == 'True'
+    app.config['MAIL_USERNAME'] = env['MAIL_USERNAME']
+    app.config['MAIL_PASSWORD'] = env['MAIL_PASSWORD']
+    app.config['MAIL_DEFAULT_SENDER'] = ast.literal_eval(env['MAIL_DEFAULT_SENDER']) # tuple
+
     db.init_app(app)
     from .models import User, Listing, Offer
     migrate.init_app(app, db)
     csrf.init_app(app)
+    mail.init_app(app)
 
     # setup login
     login_manager.login_view = 'auth.login'
@@ -45,28 +57,26 @@ def create_app(run=False):
     # OAuth2
     app.client = WebApplicationClient(app.config['GOOGLE_CLIENT_ID'])
 
-    if run:
-        class discordClient(discord.Client):
-            async def on_ready(self):
-                self.channel = await self.fetch_channel(app.config['DISCORD_STORAGE_CHANNEL_ID'])
-                app.logger.info('Discord bot is running.')
+    class discordClient(discord.Client):
+        async def on_ready(self):
+            self.channel = await self.fetch_channel(app.config['DISCORD_STORAGE_CHANNEL_ID'])
+            app.logger.info('Discord bot is running.')
 
-        class Threader(Thread):
-            def __init__(self):
-                Thread.__init__(self)
-                self.loop = asyncio.get_event_loop()
-                self.start()
+    class Threader(Thread):
+        def __init__(self):
+            Thread.__init__(self)
+            self.loop = asyncio.get_event_loop()
+            self.start()
 
-            async def starter(self):
-                self.client = discordClient(guild_subscriptions=False)
-                await self.client.start(app.config['DISCORD_BOT_TOKEN'])
+        async def starter(self):
+            self.client = discordClient(guild_subscriptions=False)
+            await self.client.start(app.config['DISCORD_BOT_TOKEN'])
 
-            def run(self):
-                self.loop.create_task(self.starter())
-                self.loop.run_forever()
+        def run(self):
+            self.loop.create_task(self.starter())
+            self.loop.run_forever()
 
-
-        app.discordThread = Threader()        
+    app.discordThread = Threader()        
 
     @login_manager.user_loader
     def load_user(userid):
