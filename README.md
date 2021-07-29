@@ -121,7 +121,7 @@ $ ./start.sh
 - [x] Welcome Template
 - [x] About us Template
 - [x] Help Template - Stress user responsibility!
-- [ ] Base and Help Template - Quick links to help
+- [x] Base and Help Template - Quick links to help
 - [x] Privacy Policy Template
 - [x] Terms of service Template
 - [x] I agree to TOS and privacy policy confirmation in Signup Template
@@ -132,6 +132,7 @@ $ ./start.sh
 - [x] Remove buyer/seller toggle
 - [x] Settings Template - Add email notifications toggle
 - [x] Messages API - Add email with Flask-Mail
+- [ ] Show unsupported warning on mobile
 
 ## Enhancements
 

@@ -41,4 +41,4 @@ def handle_error(e):
             "code": code,
             "message": description,
         })
-    return render_template('error.html', code=code, description=description)
+    return render_template('error.html', code=code, description=description, help='master')

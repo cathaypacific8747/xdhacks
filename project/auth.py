@@ -18,11 +18,11 @@ def get_google_provider_cfg():
 
 @auth.route('/login')
 def login():
-    return render_template('login.html')
+    return render_template('login.html', help='master')
 
 @auth.route('/signup')
 def signup():
-    return render_template('signup.html')
+    return render_template('signup.html', help='master')
 
 @auth.route('/login_google')
 def login_google():
