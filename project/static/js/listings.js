@@ -15,9 +15,9 @@ $(document).ready(function() {
     fetch('/api/v1/listing/detail', {
         method: 'GET',
         mode: 'cors',
-        headers: {
+        headers: csrfprotect({
             'Content-Type': 'application/json'
-        }
+        })
     }).then(response => {
         if (!response.ok) throw new NetworkError;
         return response.json();
@@ -173,9 +173,9 @@ $(document).ready(function() {
                 fetch(`/api/v1/listing/toggleOpen?listingId=${listingId}`, {
                     method: 'PUT',
                     mode: 'cors',
-                    headers: {
+                    headers: csrfprotect({
                         'Content-Type': 'application/json'
-                    },
+                    })
                 })
                 .then((response) => {
                     if (response.ok) return response.json();
@@ -203,9 +203,9 @@ $(document).ready(function() {
                 fetch(`/api/v1/listing/delete?listingid=${listingid}`, {
                     method: 'DELETE',
                     mode: 'cors',
-                    headers: {
+                    headers: csrfprotect({
                         'Content-Type': 'application/json'
-                    },
+                    })
                 }).then(response => {
                     if (!response.ok) throw new NetworkError(response);
                     return response.json();

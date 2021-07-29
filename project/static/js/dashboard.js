@@ -123,9 +123,9 @@ $(document).ready(function() {
         fetch('/api/v1/dashboard/messages', {
             method: 'GET',
             mode: 'cors',
-            headers: {
+            headers: csrfprotect({
                 'Content-Type': 'application/json'
-            }
+            })
         }).then(response => {
             if (!response.ok) throw new NetworkError;
             return response.json();
@@ -459,9 +459,9 @@ $(document).ready(function() {
             fetch(`/api/v1/offer/togglePublicity?offerid=${offer.offer.offerid}`, {
                 method: 'PUT',
                 mode: 'cors',
-                headers: {
+                headers: csrfprotect({
                     'Content-Type': 'application/json'
-                },
+                })
             })
             .then((response) => {
                 if (response.ok) return response.json();
@@ -492,9 +492,9 @@ $(document).ready(function() {
                 fetch(`/api/v1/offer/complete?offerid=${offerid}`, {
                     method: 'DELETE',
                     mode: 'cors',
-                    headers: {
+                    headers: csrfprotect({
                         'Content-Type': 'application/json'
-                    },
+                    })
                 })
                 .then((response) => {
                     if (response.ok) return response.json();
@@ -531,9 +531,9 @@ $(document).ready(function() {
             fetch(`/api/v1/offer/cancel?offerid=${offerid}`, {
                 method: 'DELETE',
                 mode: 'cors',
-                headers: {
+                headers: csrfprotect({
                     'Content-Type': 'application/json'
-                },
+                })
             })
             .then((response) => {
                 if (response.ok) return response.json();
@@ -588,9 +588,9 @@ $(document).ready(function() {
         fetch('/api/v1/offer/detail', {
             method: 'GET',
             mode: 'cors',
-            headers: {
+            headers: csrfprotect({
                 'Content-Type': 'application/json'
-            }
+            })
         }).then(response => {
             if (!response.ok) throw new NetworkError;
             return response.json();

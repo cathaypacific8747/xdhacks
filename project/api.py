@@ -1,7 +1,7 @@
 from flask import Blueprint, json, redirect, url_for, request, session, current_app, abort, jsonify
 from flask_login import current_user
 from .models import User, Listing, Message, Offer
-from . import db
+from . import db, csrf
 from .error_handler import APIForbiddenError, GenericInputError
 import re
 from bleach import clean
@@ -27,6 +27,10 @@ def getBookname(bookid):
         return f'{name}'
     except Exception:
         return 'Unknown'
+
+@api.before_request
+def check_csrf():
+    csrf.protect()
 
 @api.get('/api/v1/user/detail')
 def user_detail():
@@ -119,7 +123,6 @@ async def upload():
                 f[0].save(mem)
                 mem.seek(0)
                 size = mem.getbuffer().nbytes
-                print(size)
                 if size <= 0 or size >= 8e6:
                     raise GenericInputError(description='File size is too large.')
                 future = asyncio.run_coroutine_threadsafe(store(file=discord.File(fp=mem, filename=f'{uuid.uuid4()}.{extension}')), current_app.discordThread.loop).result()

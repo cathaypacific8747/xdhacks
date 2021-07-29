@@ -3,9 +3,9 @@ $(document).ready(function() {
     fetch(`/api/v1/user/detail?userid=${userid}`, {
         method: 'GET',
         mode: 'cors',
-        headers: {
+        headers: csrfprotect({
             'Content-Type': 'application/json'
-        }
+        }),
     }).then(response => {
         if (response.ok) return response.json();
         throw new NetworkError(response);

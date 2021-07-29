@@ -41,7 +41,6 @@ class User(UserMixin, db.Model):
     customContactInfo = db.Column(db.String, default='')
 
     def getInvalidKeys(self, read=True, public=True, myself=False):
-        print(read, public, myself)
         if myself:
             invalid = ["googleId"]
         elif read:

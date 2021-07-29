@@ -22,9 +22,9 @@ $(document).ready(function() {
         await fetch('/api/v1/market/aggregate', {
             method: 'POST',
             mode: 'cors',
-            headers: {
+            headers: csrfprotect({
                 'Content-Type': 'application/json'
-            },
+            }),
             body: JSON.stringify({
                 bookids: bookids
             })

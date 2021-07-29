@@ -15,9 +15,9 @@ $(document).ready(function() {
     fetch(`/api/v1/listing/detail?userid=${userid}`, {
         method: 'GET',
         mode: 'cors',
-        headers: {
+        headers: csrfprotect({
             'Content-Type': 'application/json'
-        }
+        })
     }).then(response => {
         if (!response.ok) throw new NetworkError;
         return response.json();

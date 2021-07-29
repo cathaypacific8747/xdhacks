@@ -89,9 +89,9 @@ $(document).ready(function() {
         return await fetch(`/api/v1/market/detail?bookid=${bookid}`, {
             method: 'GET',
             mode: 'cors',
-            headers: {
+            headers: csrfprotect({
                 'Content-Type': 'application/json'
-            }
+            })
         }).then(response => {
             if (response.ok) return response.json();
             throw new NetworkError(response);
@@ -233,9 +233,9 @@ $(document).ready(function() {
                 fetch('/api/v1/offer/create', {
                     method: 'POST',
                     mode: 'cors',
-                    headers: {
+                    headers: csrfprotect({
                         'Content-Type': 'application/json'
-                    },
+                    }),
                     body: JSON.stringify({
                         listingid: listingid
                     })

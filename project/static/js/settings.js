@@ -4,9 +4,9 @@ $(document).ready(function() {
     fetch('/api/v1/user/detail', {
         method: 'GET',
         mode: 'cors',
-        headers: {
+        headers: csrfprotect({
             'Content-Type': 'application/json'
-        }
+        }),
     }).then(response => {
         if (response.ok) return response.json();
         throw new NetworkError(response);
@@ -314,9 +314,9 @@ $(document).ready(function() {
             return await fetch('api/v1/user/update', {
                 method: 'PATCH',
                 mode: 'cors',
-                headers: {
+                headers: csrfprotect({
                     'Content-Type': 'application/json'
-                },
+                }),
                 body: JSON.stringify(updateData)
             }).then(response => {
                 if (!response.ok) throw new NetworkError;

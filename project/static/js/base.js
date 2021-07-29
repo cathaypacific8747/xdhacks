@@ -1,9 +1,8 @@
 var csrftoken = $('meta[name=csrf-token]').attr('content');
-$.ajaxSetup({
-    headers: {
-        'X-CSRFToken': csrftoken
-    }
-})
+window.csrfprotect = options => {
+    options['X-CSRFToken'] = csrftoken;
+    return options
+}
 
 $(document).ready(function() {
     $('.dropdown-trigger').dropdown({

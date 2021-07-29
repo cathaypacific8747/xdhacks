@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from os import environ as env
@@ -11,6 +11,8 @@ import discord
 import asyncio
 from threading import Thread
 import ast
+
+from werkzeug.wrappers import request
 
 load_dotenv()
 db = SQLAlchemy()
@@ -43,6 +45,9 @@ def create_app(run=False):
     app.config['MAIL_USERNAME'] = env['MAIL_USERNAME']
     app.config['MAIL_PASSWORD'] = env['MAIL_PASSWORD']
     app.config['MAIL_DEFAULT_SENDER'] = ast.literal_eval(env['MAIL_DEFAULT_SENDER']) # tuple
+
+    app.config['WTF_CSRF_METHODS'] = ast.literal_eval(env['WTF_CSRF_METHODS']) # tuple
+    app.config['WTF_CSRF_CHECK_DEFAULT'] = env['WTF_CSRF_CHECK_DEFAULT'] == 'True'
 
     db.init_app(app)
     from .models import User, Listing, Offer
@@ -91,6 +96,5 @@ def create_app(run=False):
     app.register_blueprint(main_blueprint)
     app.register_blueprint(error_blueprint)
     app.register_blueprint(api_blueprint)
-    csrf.exempt(api_blueprint) # REMOVE
 
     return app

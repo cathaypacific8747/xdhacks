@@ -134,6 +134,7 @@ $ ./start.sh
 
 ## Enhancements
 
+- [ ] Show unsupported browser warning for mobile.
 - [ ] Make relative time from now update dynamically
 - [ ] Site-wide notification polling.
 - [ ] Email notification
@@ -148,7 +149,6 @@ $ ./start.sh
 - [ ] Remove useless modules in `requirements.txt`
 
 - [ ] About us - add email
-- [ ] Remove buyer/seller toggle
 - [ ] Listing Negotiable instead of user negotiable
 - [ ] Modal for enabling public information
 - [ ] email notification
@@ -156,7 +156,7 @@ $ ./start.sh
 - [ ] Other schools
 
 ## Production Checklist
-- [ ] Switch to axios and enable CSRF in API
+- [x] Enable CSRF in API
 - [ ] Remove DEBUG flag in .env
 - [ ] Flask-Assets (minify)
 - [ ] Flask-Compress (gzip)
