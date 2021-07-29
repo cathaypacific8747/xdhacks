@@ -119,8 +119,9 @@ $ ./start.sh
 - [x] Make email as private information, toggleable
 - [x] Make contact information to be private by default
 - [x] Welcome Template
-- [ ] About us Template
-- [ ] Help Template - Stress user responsibility!
+- [x] About us Template
+- [x] Help Template - Stress user responsibility!
+- [ ] Base and Help Template - Quick links to help
 - [x] Privacy Policy Template
 - [x] Terms of service Template
 - [x] I agree to TOS and privacy policy confirmation in Signup Template

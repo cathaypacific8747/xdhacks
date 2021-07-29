@@ -68,7 +68,7 @@ $(document).ready(function() {
             }
         }).catch(e => {
             if (e instanceof NoGoogleBooksResultsError) {
-                $('[data-element="help"]').html("No results found. Please check your inputs.");
+                $('[data-element="help"]').html(`<div>No results found. Please check your inputs.</div><div>If you are searching by ISBN, add an <span class="text-bold">isbn:</span> prefix.</div><div>For more information about prefixes, check the <a href="/help#query">query</a> section of help.</div>`);
             } else if (e instanceof NetworkError) {
                 $('[data-element="help"]').html("An error occured when retrieving data. Please check your connection or try again.");
             } else {
