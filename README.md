@@ -136,10 +136,8 @@ $ ./start.sh
 
 ## Enhancements
 
-- [ ] Show unsupported browser warning for mobile.
 - [ ] Make relative time from now update dynamically
 - [ ] Site-wide notification polling.
-- [ ] Email notification
 - [ ] Market API: Book Sort and Listing sort and filter
 - [ ] Cache Book Names, ISBNs and use full-text search for Market Template
 - [ ] Image override if image isn't avaliable
@@ -150,7 +148,7 @@ $ ./start.sh
 - [x] Optimise Error Handling Algorithm
 - [ ] Remove useless modules in `requirements.txt`
 
-- [ ] About us - add email
+- [x] About us - add email
 - [ ] Listing Negotiable instead of user negotiable
 - [ ] Modal for enabling public information
 - [ ] email notification
@@ -159,9 +157,9 @@ $ ./start.sh
 
 ## Production Checklist
 - [x] Enable CSRF in API
-- [ ] Remove DEBUG flag in .env
-- [ ] Flask-Assets (minify)
 - [ ] Flask-Compress (gzip)
+- [ ] Flask-Assets (minify)
+- [ ] Remove DEBUG flag in .env
 - [ ] SSL certificates
 
 # References

@@ -7,6 +7,7 @@ from oauthlib.oauth2 import WebApplicationClient
 from flask_wtf.csrf import CSRFProtect
 from flask_migrate import Migrate
 from flask_mail import Mail
+from flask_compress import Compress
 import discord
 import asyncio
 from threading import Thread
@@ -20,6 +21,7 @@ migrate = Migrate()
 csrf = CSRFProtect()
 login_manager = LoginManager()
 mail = Mail()
+compress = Compress()
 
 def create_app(run=False):
     app = Flask(__name__)
@@ -48,12 +50,15 @@ def create_app(run=False):
 
     app.config['WTF_CSRF_METHODS'] = ast.literal_eval(env['WTF_CSRF_METHODS']) # tuple
     app.config['WTF_CSRF_CHECK_DEFAULT'] = env['WTF_CSRF_CHECK_DEFAULT'] == 'True'
+    
+    app.config['COMPRESS_MIMETYPES'] = ast.literal_eval(env['COMPRESS_MIMETYPES'])
 
     db.init_app(app)
     from .models import User, Listing, Offer
     migrate.init_app(app, db)
-    csrf.init_app(app)
     mail.init_app(app)
+    csrf.init_app(app)
+    compress.init_app(app)
 
     # setup login
     login_manager.login_view = 'auth.login'
