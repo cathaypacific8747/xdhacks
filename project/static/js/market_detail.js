@@ -5,13 +5,13 @@ $(document).ready(function() {
                 indicators: true,
             });
         }
-    })
-    $('#createmodal').modal()
+    });
+    $('#createmodal').modal();
 
     var bookid = $('meta[name=bookid]').attr('content');
-    const initialHelpText = "Loading book information...";
-    $('[data-element="help"]').removeClass("hide").html(initialHelpText);
-    $('[data-element="progress"]').removeClass("hide");
+    const initialHelpText = 'Loading book information...';
+    $('[data-element="help"]').removeClass('hide').html(initialHelpText);
+    $('[data-element="progress"]').removeClass('hide');
 
     class Owner {
         constructor(data) {
@@ -19,10 +19,10 @@ $(document).ready(function() {
                 this[key] = data[key];
             }
 
-            this.strings = {}
-            this.strings.profilePic = `${data.profilePic}=s96-c`
-            this.strings.badgeElem = this.cky ? '<i class="font-size-20 material-icons unselectable tooltipped verified" data-position="right" data-tooltip="This user is a verified CKY student.">verified</i>' : '<i class="font-size-20 material-icons unselectable tooltipped not-verified" data-position="right" data-tooltip="This user may not be a CKY student.">warning</i>'
-            this.strings.negotiable = this.negotiable ? 'Yes<i class="font-size-20 material-icons unselectable negotiable ml-4">check</i>' : 'No<i class="font-size-20 material-icons unselectable not-negotiable ml-4">close</i>'
+            this.strings = {};
+            this.strings.profilePic = `${data.profilePic}=s96-c`;
+            this.strings.badgeElem = this.cky ? '<i class="font-size-20 material-icons unselectable tooltipped verified" data-position="right" data-tooltip="This user is a verified CKY student.">verified</i>' : '<i class="font-size-20 material-icons unselectable tooltipped not-verified" data-position="right" data-tooltip="This user may not be a CKY student.">warning</i>';
+            this.strings.negotiable = this.negotiable ? 'Yes<i class="font-size-20 material-icons unselectable negotiable ml-4">check</i>' : 'No<i class="font-size-20 material-icons unselectable not-negotiable ml-4">close</i>';
             this.strings.payment = [
                 ['cash', 'Cash'], 
                 ['octopus', 'Octopus'], 
@@ -82,10 +82,10 @@ $(document).ready(function() {
                     <div class="col font-size-16">Dimensions: ${book.strings.dimensions}</div>
                 </div>
             </div>
-        </div>`)
+        </div>`);
         return book;
     }).then(async book => {
-        $('[data-element="help"]').html("Loading offers...");
+        $('[data-element="help"]').html('Loading offers...');
         return await fetch(`/api/v1/market/detail?bookid=${bookid}`, {
             method: 'GET',
             mode: 'cors',
@@ -96,11 +96,11 @@ $(document).ready(function() {
             if (response.ok) return response.json();
             throw new NetworkError(response);
         }).then(json => {
-            if (json.status != "success") throw new APIError(json);
+            if (json.status != 'success') throw new APIError(json);
             if (json.data.length == 0) throw new APIError(json);
             return json.data;
         }).then(listings => {
-            let resultsContainer = $('[data-element="offer_results"]')
+            let resultsContainer = $('[data-element="offer_results"]');
             for (const l of listings) {
                 const listing = new Listing(l);
                 const owner = new Owner(l.owner);
@@ -206,28 +206,28 @@ $(document).ready(function() {
                             </a>
                         </div>
                     </div>
-                </div>`)
+                </div>`);
                 resultsContainer.append(elem);
             }
             $('[data-button="view_profile"]').click(e => {
                 const owneruserid = $(e.target).closest('[data-owneruserid]').attr('data-owneruserid');
                 window.location.href = `/profile/${owneruserid}`;
-            })
+            });
             $('[data-button="view_image"]').click(e => {
-                const carousel = $('#carousel').empty()
+                const carousel = $('#carousel').empty();
                 const listingid = $(e.target).closest('[data-listingid]').attr('data-listingid');
                 listings.find(x => x.listingid == listingid).images.forEach(image => {
                     carousel.append(`<a class="carousel-item justify-content-center"><img src="${image}"></a>`);
-                })
+                });
                 $('#imagemodal').modal('open');
-            })
+            });
             $('[data-button="create_offer"]').click(e => {
                 const parent = $(e.target).closest('[data-listingid]');
                 if (parent.attr('data-invalid') == 'true') return;
                 const listingid = parent.attr('data-listingid');
-                $('[data-button="create_offer_confirm"]').attr('data-listingid', listingid)
+                $('[data-button="create_offer_confirm"]').attr('data-listingid', listingid);
                 $('#createmodal').modal('open');
-            })
+            });
             $('[data-button="create_offer_confirm"]').click(e => {
                 const listingid = $(e.target).attr('data-listingid');
                 fetch('/api/v1/offer/create', {
@@ -243,34 +243,34 @@ $(document).ready(function() {
                     if (!response.ok) throw new NetworkError;
                     return response.json();
                 }).then(json => {
-                    if (json.status != "success") throw new APIError(json);
+                    if (json.status != 'success') throw new APIError(json);
                     return json.data;
                 }).then(() => {
-                    $(e.target).removeClass('btn-transparent-primary').addClass('btn-transparent-disabled tooltipped')
+                    $(e.target).removeClass('btn-transparent-primary').addClass('btn-transparent-disabled tooltipped');
                     toast(description='Successfully created offer. Please go to the <a href="/dashboard">dashboard</a> for further steps.', headerPrefix='', code=1);
                 }).catch(e => {
                     toastError(e);
                 }).finally(() => {
                     $('#createmodal').modal('close');
-                })
-            })
+                });
+            });
             $('[data-element="help"]').empty();
             return;
         }).catch(e => {
             throw e;
-        })
+        });
     }).catch(e => {
         if (e instanceof NoGoogleBooksResultsError) {
-            $('[data-element="help"]').html("This book does not exist.");
+            $('[data-element="help"]').html('This book does not exist.');
         } else if (e instanceof APIError) {
-            $('[data-element="help"]').html("There are no offers avaliable for the moment, please try again later.");
+            $('[data-element="help"]').html('There are no offers avaliable for the moment, please try again later.');
         } else if (e instanceof NetworkError) {
-            $('[data-element="help"]').html("An error occured when retrieving data. Please check your connection or try again.");
+            $('[data-element="help"]').html('An error occured when retrieving data. Please check your connection or try again.');
         } else {
             console.error(e);
         }
     }).finally(() => {
-        $('[data-element="progress"]').addClass("hide");
-        $('.tooltipped').tooltip()
+        $('[data-element="progress"]').addClass('hide');
+        $('.tooltipped').tooltip();
     });
 });

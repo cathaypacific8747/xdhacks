@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 $(document).ready(function() {
     $('#imagemodal').modal({
         onOpenEnd: () => {
@@ -5,21 +6,21 @@ $(document).ready(function() {
                 indicators: true,
             });
         }
-    })
-    $('#cancelmodal').modal()
-    $('#completemodal').modal()
+    });
+    $('#cancelmodal').modal();
+    $('#completemodal').modal();
 
-    $(window).resize(changeDashboardHeight)
+    $(window).resize(changeDashboardHeight);
     function changeDashboardHeight() {
         $('#dashboard').height($(window).height() - $('#dashboard').offset().top - 32);
     }
     changeDashboardHeight();
 
     var newestmessageid = null;
-    const unhide_container = container => $(`[data-field="${container}"]`).removeClass("hide");
+    const unhide_container = container => $(`[data-field="${container}"]`).removeClass('hide');
     String.prototype.capitalise = function() {
         return this.charAt(0).toUpperCase() + this.slice(1);
-    }
+    };
 
     class User {
         constructor(data) {
@@ -27,10 +28,10 @@ $(document).ready(function() {
                 this[key] = data[key];
             }
 
-            this.strings = {}
-            this.strings.profilePic = `${data.profilePic}=s96-c`
-            this.strings.badgeElem = this.cky ? '<i class="font-size-14 material-icons unselectable tooltipped verified" data-position="right" data-tooltip="This user is a verified CKY student.">verified</i>' : '<i class="font-size-14 material-icons unselectable tooltipped not-verified" data-position="right" data-tooltip="This user may not be a CKY student.">warning</i>'
-            this.strings.negotiable = this.negotiable ? 'Yes<i class="font-size-20 material-icons unselectable negotiable ml-4">check</i>' : 'No<i class="font-size-20 material-icons unselectable not-negotiable ml-4">close</i>'
+            this.strings = {};
+            this.strings.profilePic = `${data.profilePic}=s96-c`;
+            this.strings.badgeElem = this.cky ? '<i class="font-size-14 material-icons unselectable tooltipped verified" data-position="right" data-tooltip="This user is a verified CKY student.">verified</i>' : '<i class="font-size-14 material-icons unselectable tooltipped not-verified" data-position="right" data-tooltip="This user may not be a CKY student.">warning</i>';
+            this.strings.negotiable = this.negotiable ? 'Yes<i class="font-size-20 material-icons unselectable negotiable ml-4">check</i>' : 'No<i class="font-size-20 material-icons unselectable not-negotiable ml-4">close</i>';
             this.strings.payment = [
                 ['cash', 'Cash'], 
                 ['octopus', 'Octopus'], 
@@ -55,44 +56,44 @@ $(document).ready(function() {
                 this[key] = data[key];
             }
 
-            this.strings = {}
+            this.strings = {};
             switch (this.messagetype) {
-                case 'listing_disabled':
-                    this.strings.display = `<span class="text-bold">${this.originusername}</span>'s <span class="text-bold">${this.item}</span> has been temporarily disabled. A notification will be sent when it is re-enabled.`
-                    this.strings.notification = `${this.originusername}'s ${this.item} has been temporarily disabled. A notification will be sent when it is re-enabled.`
-                    break;
-                case 'listing_enabled':
-                    this.strings.display = `<span class="text-bold">${this.originusername}</span>'s <span class="text-bold">${this.item}</span> has been re-enabled.`
-                    this.strings.notification = `${this.originusername}'s ${this.item} has been re-enabled.`
-                    break;
-                case 'listing_deleted':
-                    this.strings.display = `<span class="text-bold">${this.originusername}</span>'s <span class="text-bold">${this.item}</span> is no longer avaliable because it has been deleted. The offer has been automatically cancelled.`
-                    this.strings.notification = `${this.originusername}'s ${this.item} is no longer avaliable because it has been deleted. The offer has been automatically cancelled.`          
-                    break;
-                case 'offer_created':
-                    this.strings.display = `<span class="text-bold">${this.originusername}</span> has created an offer on your listing: <span class="text-bold">${this.item}</span>.`
-                    this.strings.notification = `${this.originusername} has created an offer on your listing: ${this.item}.`                
-                    break;
-                case 'offer_cancelled':
-                    this.strings.display = `<span class="text-bold">${this.originusername}</span> has cancelled the offer on the listing <span class="text-bold">${this.item}</span>.`
-                    this.strings.notification = `${this.originusername} has cancelled the offer on the listing ${this.item}.`
-                    break;
-                case 'offer_contact_granted':
-                    this.strings.display = `<span class="text-bold">${this.originusername}</span> has granted you access to their contact information on the listing <span class="text-bold">${this.item}</span>.`
-                    this.strings.notification = `${this.originusername} has granted you access to their contact information on the listing ${this.item}.`
-                    break;
-                case 'offer_contact_request':
-                    this.strings.display = `<span class="text-bold">${this.originusername}</span> has requested to view your contact information on the listing <span class="text-bold">${this.item}</span>.`
-                    this.strings.notification = `${this.originusername} has requested to view your contact information on the listing ${this.item}.`
-                    break;
-                case 'listing_completed':
-                    this.strings.display = `<span class="text-bold">${this.originusername}</span>'s <span class="text-bold">${this.item}</span> is no longer avaliable because it has been sold out.`
-                    this.strings.notification = `${this.originusername}'s ${this.item} is no longer avaliable because it has been sold out.`
-                    break;
-                default:
-                    this.strings.display = this.system;
-                    this.strings.notification = this.system;
-                    break;
+            case 'listing_disabled':
+                this.strings.display = `<span class="text-bold">${this.originusername}</span>'s <span class="text-bold">${this.item}</span> has been temporarily disabled. A notification will be sent when it is re-enabled.`;
+                this.strings.notification = `${this.originusername}'s ${this.item} has been temporarily disabled. A notification will be sent when it is re-enabled.`;
+                break;
+            case 'listing_enabled':
+                this.strings.display = `<span class="text-bold">${this.originusername}</span>'s <span class="text-bold">${this.item}</span> has been re-enabled.`;
+                this.strings.notification = `${this.originusername}'s ${this.item} has been re-enabled.`;
+                break;
+            case 'listing_deleted':
+                this.strings.display = `<span class="text-bold">${this.originusername}</span>'s <span class="text-bold">${this.item}</span> is no longer avaliable because it has been deleted. The offer has been automatically cancelled.`;
+                this.strings.notification = `${this.originusername}'s ${this.item} is no longer avaliable because it has been deleted. The offer has been automatically cancelled.`;          
+                break;
+            case 'offer_created':
+                this.strings.display = `<span class="text-bold">${this.originusername}</span> has created an offer on your listing: <span class="text-bold">${this.item}</span>.`;
+                this.strings.notification = `${this.originusername} has created an offer on your listing: ${this.item}.`;                
+                break;
+            case 'offer_cancelled':
+                this.strings.display = `<span class="text-bold">${this.originusername}</span> has cancelled the offer on the listing <span class="text-bold">${this.item}</span>.`;
+                this.strings.notification = `${this.originusername} has cancelled the offer on the listing ${this.item}.`;
+                break;
+            case 'offer_contact_granted':
+                this.strings.display = `<span class="text-bold">${this.originusername}</span> has granted you access to their contact information on the listing <span class="text-bold">${this.item}</span>.`;
+                this.strings.notification = `${this.originusername} has granted you access to their contact information on the listing ${this.item}.`;
+                break;
+            case 'offer_contact_request':
+                this.strings.display = `<span class="text-bold">${this.originusername}</span> has requested to view your contact information on the listing <span class="text-bold">${this.item}</span>.`;
+                this.strings.notification = `${this.originusername} has requested to view your contact information on the listing ${this.item}.`;
+                break;
+            case 'listing_completed':
+                this.strings.display = `<span class="text-bold">${this.originusername}</span>'s <span class="text-bold">${this.item}</span> is no longer avaliable because it has been sold out.`;
+                this.strings.notification = `${this.originusername}'s ${this.item} is no longer avaliable because it has been sold out.`;
+                break;
+            default:
+                this.strings.display = this.system;
+                this.strings.notification = this.system;
+                break;
             }
         }
     }
@@ -130,12 +131,12 @@ $(document).ready(function() {
             if (!response.ok) throw new NetworkError;
             return response.json();
         }).then(json => {
-            if (json.status != "success") throw new APIError(json);
+            if (json.status != 'success') throw new APIError(json);
             return json.data;
         }).then(messages => {
             if (messages.length == 0) {
-                console.log('NO')
-                $('[data-element="message_box_help"]').html('No messages.')
+                console.log('NO');
+                $('[data-element="message_box_help"]').html('No messages.');
             } else {
                 $('[data-element="message_box"]').append($(messages.map(message => {
                     message = new Message(message);
@@ -146,37 +147,37 @@ $(document).ready(function() {
                             <div class="row mb-0 font-size-14 text-muted" data-field="updatedRelative" data-val="${message.created}">${updated.local().fromNow()}</div>
                         </div>
                         <div class="col s9 font-size-14">${message.strings.display}</div>
-                    </div>`
+                    </div>`;
                 }).join('')));
-                $('[data-element="message_box_help"]').empty()
-                console.log(newestmessageid)
+                $('[data-element="message_box_help"]').empty();
+                console.log(newestmessageid);
                 if (newestmessageid) {
-                    console.log(newestmessageid, messages[0].messageid)
+                    console.log(newestmessageid, messages[0].messageid);
                     if (messages[0].messageid != newestmessageid) {
                         messages.slice(0, messages.findIndex(message => message.messageid == newestmessageid)).forEach(m => {
                             if (push) {
                                 m = new Message(m);
-                                new Notification("Swappy", {
+                                new Notification('Swappy', {
                                     body: m.strings.notification,
                                     icon: '/static/img/logo/icon.svg'
                                 });
                             }
-                        })
+                        });
                     }
                 }
                 newestmessageid = messages[0].messageid;
             }
         }).catch(e => {
             if (e instanceof APIError) {
-                $('[data-element="message_box_help"]').html("An error occurred in our server. Please try again later.");
+                $('[data-element="message_box_help"]').html('An error occurred in our server. Please try again later.');
             } else if (e instanceof NetworkError) {
-                $('[data-element="message_box_help"]').html("An error occured when retrieving data. Please check your connection or try again.");
+                $('[data-element="message_box_help"]').html('An error occured when retrieving data. Please check your connection or try again.');
             } else {
-                console.error(e)
+                console.error(e);
             }
         }).finally(() => {
-            $('[data-element="message_progress"]').addClass("hide");
-        })
+            $('[data-element="message_progress"]').addClass('hide');
+        });
         $('[data-button="toggle_notification"]').click(() => {
             if (push) {
                 push = false;
@@ -189,40 +190,40 @@ $(document).ready(function() {
                     Notification.requestPermission((permission) => {
                         push = permission == 'granted';
                         updateButton(push);
-                    })
+                    });
                 }
             }
-        })
+        });
     }
 
     function loadOffer(offerid, role) {
         const oppositeRole = role == 'seller' ? 'buyer' : 'seller';
-        const public = listings.public;
+        const ispublic = listings.public;
         let offer;
         const listing = new Listing(listings[role].find(e => {
             offer = e.offers.find(f => f.offer.offerid == offerid);
             return Boolean(offer);
-        }).listing)
+        }).listing);
         const book = listing.book;
         const user = new User(offer.user);
         const updatePublicity = () => {
-            if (public) {
-                $('[data-field="my_publicity_help"]').html('Your contact information is visible to everyone, including the buyer. To hide it from everyone, go to your <a href="/settings">account settings</a>.')
+            if (ispublic) {
+                $('[data-field="my_publicity_help"]').html('Your contact information is visible to everyone, including the buyer. To hide it from everyone, go to your <a href="/settings">account settings</a>.');
             } else {
                 if (offer.offer[`${role}public`]) {
-                    $('[data-field="my_publicity_help"]').html(`Your contact information is not visible to everyone, but is visible to the ${oppositeRole}.`)
-                    $('[data-button="my_publicity_toggle"]').removeClass("btn-transparent-primary").addClass("btn-transparent-danger");
-                    $('[data-field="my_publicity_icon"]').html('remove_circle_outline')
-                    $('[data-field="my_publicity_text"]').html(`Revoke ${oppositeRole}'s access to contact information`)
+                    $('[data-field="my_publicity_help"]').html(`Your contact information is not visible to everyone, but is visible to the ${oppositeRole}.`);
+                    $('[data-button="my_publicity_toggle"]').removeClass('btn-transparent-primary').addClass('btn-transparent-danger');
+                    $('[data-field="my_publicity_icon"]').html('remove_circle_outline');
+                    $('[data-field="my_publicity_text"]').html(`Revoke ${oppositeRole}'s access to contact information`);
                 } else {
-                    $('[data-field="my_publicity_help"]').html(`Your contact information is not visible to anyone. The ${oppositeRole} would like to view your contact information.`)
-                    $('[data-button="my_publicity_toggle"]').removeClass("btn-transparent-danger").addClass("btn-transparent-primary");
-                    $('[data-field="my_publicity_icon"]').html('check_circle_outline')
-                    $('[data-field="my_publicity_text"]').html(`Grant ${oppositeRole}'s access to contact information`)
+                    $('[data-field="my_publicity_help"]').html(`Your contact information is not visible to anyone. The ${oppositeRole} would like to view your contact information.`);
+                    $('[data-button="my_publicity_toggle"]').removeClass('btn-transparent-danger').addClass('btn-transparent-primary');
+                    $('[data-field="my_publicity_icon"]').html('check_circle_outline');
+                    $('[data-field="my_publicity_text"]').html(`Grant ${oppositeRole}'s access to contact information`);
                 }
-                $('[data-button="my_publicity_toggle"]').removeClass("hide")
+                $('[data-button="my_publicity_toggle"]').removeClass('hide');
             }
-        }
+        };
 
         $('[data-element="controls"]').html(`<div class="row font-size-20 text-bold mt-8 mb-0">
             <div class="col s12">
@@ -413,47 +414,47 @@ $(document).ready(function() {
         </div>
         `);
 
-        oppositeRole == 'buyer' && $('[data-field="negotiable_container"]').addClass("hide");
+        oppositeRole == 'buyer' && $('[data-field="negotiable_container"]').addClass('hide');
         if (!(user.public || offer.offer[`${oppositeRole}public`])) {
-            $('[data-field="public"]').html("Private");
-            $('[data-field="public_icon"]').html("").attr("data-tooltip", "");
-            $('[data-field="public_container"]').removeClass("hide");
+            $('[data-field="public"]').html('Private');
+            $('[data-field="public_icon"]').html('').attr('data-tooltip', '');
+            $('[data-field="public_container"]').removeClass('hide');
         } else {
             if (user.email) {
                 $('[data-field="email"]').html(user.email);
-                unhide_container("email_container")
+                unhide_container('email_container');
             }
             if (user.discord) {
-                $('[data-field="discord_icon"]').attr("src", "/static/img/contact/discord.png");
+                $('[data-field="discord_icon"]').attr('src', '/static/img/contact/discord.png');
                 $('[data-field="discord"]').html(user.discord);
-                unhide_container("discord_container");
+                unhide_container('discord_container');
             }
             if (user.instagram) {
-                $('[data-field="instagram_icon"]').attr("src", "/static/img/contact/instagram.png");
+                $('[data-field="instagram_icon"]').attr('src', '/static/img/contact/instagram.png');
                 $('[data-field="instagram"]').html(user.instagram);
-                unhide_container("instagram_container");
+                unhide_container('instagram_container');
             }
             if (user.phone) {
                 $('[data-field="phone"]').html(user.phone);
-                if (user.whatsapp) $('[data-field="whatsapp"]').attr("src", "/static/img/contact/whatsapp.png")
-                if (user.signal) $('[data-field="signal"]').attr("src", "/static/img/contact/signal.png")
-                if (user.telegram) $('[data-field="telegram"]').attr("src", "/static/img/contact/telegram.png")
-                unhide_container("phone_container");
+                if (user.whatsapp) $('[data-field="whatsapp"]').attr('src', '/static/img/contact/whatsapp.png');
+                if (user.signal) $('[data-field="signal"]').attr('src', '/static/img/contact/signal.png');
+                if (user.telegram) $('[data-field="telegram"]').attr('src', '/static/img/contact/telegram.png');
+                unhide_container('phone_container');
             }
             if (user.customContactInfo) {
                 $('[data-field="customContactInfo"]').html(user.customContactInfo);
-                unhide_container("customContactInfo_container");
+                unhide_container('customContactInfo_container');
             }
         }
 
         updatePublicity();
         $('[data-button="view_image"]').click(() => {
-            const carousel = $('#carousel').empty()
+            const carousel = $('#carousel').empty();
             listing.images.forEach(image => {
                 carousel.append(`<a class="carousel-item justify-content-center"><img src="${image}"></a>`);
-            })
+            });
             $('#imagemodal').modal('open');
-        })
+        });
 
         $('[data-button="my_publicity_toggle"]').click(() => {
             fetch(`/api/v1/offer/togglePublicity?offerid=${offer.offer.offerid}`, {
@@ -463,28 +464,28 @@ $(document).ready(function() {
                     'Content-Type': 'application/json'
                 })
             })
-            .then((response) => {
-                if (response.ok) return response.json();
-                throw new NetworkError(response);
-            })
-            .then((json) => {
-                if (json.status == "success") {
-                    offer.offer[`${role}public`] = json.data.public
-                    updatePublicity();
-                    return;
-                }
-                throw new APIError(json);
-            })
-            .catch((error) => {
-                toastError(error);
-                $('[data-element="controls"]').attr('data-control', 'empty');
-                refresh();
-            });
-        })
+                .then((response) => {
+                    if (response.ok) return response.json();
+                    throw new NetworkError(response);
+                })
+                .then((json) => {
+                    if (json.status == 'success') {
+                        offer.offer[`${role}public`] = json.data.public;
+                        updatePublicity();
+                        return;
+                    }
+                    throw new APIError(json);
+                })
+                .catch((error) => {
+                    toastError(error);
+                    $('[data-element="controls"]').attr('data-control', 'empty');
+                    refresh();
+                });
+        });
 
         if (role == 'seller') {
             $('[data-button="complete_offer"]').click(() => {
-                $('[data-button="complete_offer_confirm"]').attr('data-offerid', offer.offer.offerid)
+                $('[data-button="complete_offer_confirm"]').attr('data-offerid', offer.offer.offerid);
                 $('#completemodal').modal('open');
             });
             $('[data-button="complete_offer_confirm"]').click(e => {
@@ -496,33 +497,33 @@ $(document).ready(function() {
                         'Content-Type': 'application/json'
                     })
                 })
-                .then((response) => {
-                    if (response.ok) return response.json();
-                    throw new NetworkError(response);
-                })
-                .then((json) => {
-                    if (json.status == "success") {
+                    .then((response) => {
+                        if (response.ok) return response.json();
+                        throw new NetworkError(response);
+                    })
+                    .then((json) => {
+                        if (json.status == 'success') {
+                            $('#completemodal').modal('close');
+                            toast(description='Successfully completed offer.', headerPrefix='', code=1);
+                            $('[data-element="controls"]').attr('data-control', 'empty');
+                            refresh();
+                            return;
+                        }
+                        throw new APIError(json);
+                    })
+                    .catch((error) => {
                         $('#completemodal').modal('close');
-                        toast(description='Successfully completed offer.', headerPrefix='', code=1);
+                        toastError(error);
                         $('[data-element="controls"]').attr('data-control', 'empty');
                         refresh();
-                        return;
-                    }
-                    throw new APIError(json);
-                })
-                .catch((error) => {
-                    $('#completemodal').modal('close');
-                    toastError(error);
-                    $('[data-element="controls"]').attr('data-control', 'empty');
-                    refresh();
-                });
-            })
+                    });
+            });
         } else {
-            $('[data-button="complete_offer"]').addClass("hide");
+            $('[data-button="complete_offer"]').addClass('hide');
         }
 
         $('[data-button="cancel_offer"]').click(() => {
-            $('[data-button="cancel_offer_confirm"]').attr('data-offerid', offer.offer.offerid)
+            $('[data-button="cancel_offer_confirm"]').attr('data-offerid', offer.offer.offerid);
             $('[data-field="cancel_offer_role"]').html(oppositeRole);
             $('#cancelmodal').modal('open');
         });
@@ -535,55 +536,55 @@ $(document).ready(function() {
                     'Content-Type': 'application/json'
                 })
             })
-            .then((response) => {
-                if (response.ok) return response.json();
-                throw new NetworkError(response);
-            })
-            .then((json) => {
-                if (json.status == "success") {
+                .then((response) => {
+                    if (response.ok) return response.json();
+                    throw new NetworkError(response);
+                })
+                .then((json) => {
+                    if (json.status == 'success') {
+                        $('#cancelmodal').modal('close');
+                        toast(description='Successfully cancelled offer.', headerPrefix='', code=1);
+                        $('[data-element="controls"]').attr('data-control', 'empty');
+                        refresh();
+                        return;
+                    }
+                    throw new APIError(json);
+                })
+                .catch((error) => {
                     $('#cancelmodal').modal('close');
-                    toast(description='Successfully cancelled offer.', headerPrefix='', code=1);
+                    toastError(error);
                     $('[data-element="controls"]').attr('data-control', 'empty');
                     refresh();
-                    return;
-                }
-                throw new APIError(json);
-            })
-            .catch((error) => {
-                $('#cancelmodal').modal('close');
-                toastError(error);
-                $('[data-element="controls"]').attr('data-control', 'empty');
-                refresh();
-            });
-        })
+                });
+        });
         
-        $('.tooltipped').tooltip()
+        $('.tooltipped').tooltip();
     }
 
     function loadBox() {
         $('[data-button]').off(); // remove all event listeners of custom buttons.
         switch ($('[data-element="controls"][data-control]').attr('data-control')) {
-            case 'message':
-                loadMesssage();
-                break;
-            case 'seller':
-                loadOffer($('[data-element="controls"][data-control]').attr('data-control-offerid'), 'seller');
-                break;
-            case 'buyer':
-                loadOffer($('[data-element="controls"][data-control]').attr('data-control-offerid'), 'buyer');
-                break;
-            default:
-                $('[data-element="controls"]').attr('data-control', 'empty').removeAttr('data-control-offerid').html(`<div class="center-align valign-center">
+        case 'message':
+            loadMesssage();
+            break;
+        case 'seller':
+            loadOffer($('[data-element="controls"][data-control]').attr('data-control-offerid'), 'seller');
+            break;
+        case 'buyer':
+            loadOffer($('[data-element="controls"][data-control]').attr('data-control-offerid'), 'buyer');
+            break;
+        default:
+            $('[data-element="controls"]').attr('data-control', 'empty').removeAttr('data-control-offerid').html(`<div class="center-align valign-center">
                     Select an item on the list to view more details!
-                </div>`)
-                break;
+                </div>`);
+            break;
         }
     }
 
     function loadPanel() {
-        $('[data-element$="_help"]').removeClass("hide").html("Loading offers...");
-        $('[data-element="message_help"]').removeClass("hide").html('<i class="material-icons left">mail</i>View messages');
-        $('[data-element$="_progress"]').removeClass("hide");
+        $('[data-element$="_help"]').removeClass('hide').html('Loading offers...');
+        $('[data-element="message_help"]').removeClass('hide').html('<i class="material-icons left">mail</i>View messages');
+        $('[data-element$="_progress"]').removeClass('hide');
         $('[data-element$="_results"]').empty();
         fetch('/api/v1/offer/detail', {
             method: 'GET',
@@ -595,14 +596,14 @@ $(document).ready(function() {
             if (!response.ok) throw new NetworkError;
             return response.json();
         }).then(json => {
-            if (json.status != "success") throw new APIError(json);
+            if (json.status != 'success') throw new APIError(json);
             return json.data;
         }).then(async listings => {
             for (let listingtype in listings) {
                 if (listingtype == 'public') continue;
                 if (listings[listingtype].length == 0) {
                     $(`[data-element="${listingtype}_help"]`).html(listingtype == 'buyer' ? 'There are no pending offers. Go to the <a href="/market">Market</a> to make an offer.' : 'There are no pending offers. Start by <a href="/sell">selling a book</a> or wait until someone makes an offer.');
-                    $(`[data-element="${listingtype}_progress"]`).addClass("hide");
+                    $(`[data-element="${listingtype}_progress"]`).addClass('hide');
                     continue;
                 }
                 await Promise.all(
@@ -613,7 +614,7 @@ $(document).ready(function() {
                             headers: {
                                 'Content-Type': 'application/json'
                             }
-                        })
+                        });
                     })
                 ).then(responses => {
                     return Promise.all(responses.map(response => {
@@ -641,7 +642,7 @@ $(document).ready(function() {
                                     <span class="mr-6">${user.name}</span>
                                     ${user.strings.badgeElem}
                                 </div>
-                            </div>`
+                            </div>`;
                         }
                         const book = new Book(results[i]);
                         listings[listingtype][i].listing.book = book;
@@ -657,7 +658,7 @@ $(document).ready(function() {
                                 </div>
                             </div>
                             <div class="collapsible-body p-0 border-none">${lis2}</div>
-                        </li>`
+                        </li>`;
                     }
                     $(`[data-element="${listingtype}_results"]`).html(`<ul class="collapsible box-shadow-none border-none">${lis}</ul>`);
                     $('.collapsible').collapsible({
@@ -666,43 +667,43 @@ $(document).ready(function() {
                     $(`[data-element="${listingtype}_help"]`).addClass('hide').empty();
                 }).catch(e => {
                     if (e instanceof NoGoogleBooksResultsError) {
-                        $(`[data-element="${listingtype}_help"]`).html("An error occurred in Google's servers. Please try again later.");
+                        $(`[data-element="${listingtype}_help"]`).html('An error occurred in Google\'s servers. Please try again later.');
                     } else if (e instanceof NetworkError) {
-                        $(`[data-element="${listingtype}_help"]`).html("An error occured when retrieving data. Please check your connection or try again.");
+                        $(`[data-element="${listingtype}_help"]`).html('An error occured when retrieving data. Please check your connection or try again.');
                     } else {
-                        $(`[data-element="${listingtype}_help"]`).html("An unknown error occured.");
+                        $(`[data-element="${listingtype}_help"]`).html('An unknown error occured.');
                         console.error(e);
                     }
                 }).finally(() => {
-                    $(`[data-element="${listingtype}_progress"]`).addClass("hide");
+                    $(`[data-element="${listingtype}_progress"]`).addClass('hide');
                 });
             }
-            $('.tooltipped').tooltip()
-            $(`[data-offerid]`).click(e => {
-                $('[data-offerid]').removeClass('active')
+            $('.tooltipped').tooltip();
+            $('[data-offerid]').click(e => {
+                $('[data-offerid]').removeClass('active');
                 const listingtype = $(e.target).closest('[data-element$="_results"]').attr('data-element').replace('_results', '');
-                const offerid = $(e.target).closest('[data-offerid]').addClass('active').attr('data-offerid')
+                const offerid = $(e.target).closest('[data-offerid]').addClass('active').attr('data-offerid');
                 $('[data-element="controls"]').attr('data-control', listingtype).attr('data-control-offerid', offerid);
                 loadBox();
-            })
+            });
             window.listings = listings;
         }).catch(e => {
             if (e instanceof APIError) {
-                $('[data-element$="_help"]').html("An error occurred in our server. Please try again later.");
+                $('[data-element$="_help"]').html('An error occurred in our server. Please try again later.');
             } else if (e instanceof NetworkError) {
-                $('[data-element$="_help"]').html("An error occured when retrieving data. Please check your connection or try again.");
+                $('[data-element$="_help"]').html('An error occured when retrieving data. Please check your connection or try again.');
             } else {
-                console.error(e)
+                console.error(e);
             }
         }).finally(() => {
             const updated = dayjs();
-            $(`[data-field="updated"]`).html(`${updated.local().format('DD/MM/YYYY HH:mm:ss')} (<span data-field="updatedRelative" data-val="${updated.valueOf()/1000}">a few seconds ago</span>)`);
-            $(`[data-refresh]`).removeClass('rotating')
-        })
+            $('[data-field="updated"]').html(`${updated.local().format('DD/MM/YYYY HH:mm:ss')} (<span data-field="updatedRelative" data-val="${updated.valueOf()/1000}">a few seconds ago</span>)`);
+            $('[data-refresh]').removeClass('rotating');
+        });
     }
 
     function refresh() {
-        $(`[data-refresh]`).addClass('rotating')
+        $('[data-refresh]').addClass('rotating');
         if ($('[data-element="controls"]').attr('data-control') == 'empty') {
             loadBox();
             loadPanel();
@@ -712,19 +713,19 @@ $(document).ready(function() {
         }
     }
 
-    refresh()
+    refresh();
     $('[data-refresh]').click(refresh);
 
     $('[data-element="message_help"]').click(() => {
         $('[data-element="controls"]').attr('data-control', 'message');
         refresh();
-    })
+    });
 
     setInterval(() => {
         $('[data-field="updatedRelative"][data-val]').each(function() {
-            $(this).html(dayjs.unix($(this).attr('data-val')).local().fromNow())
-        })
-    }, 1000)
+            $(this).html(dayjs.unix($(this).attr('data-val')).local().fromNow());
+        });
+    }, 1000);
 
     setInterval(refresh, 60000);
 });

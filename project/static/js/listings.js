@@ -5,12 +5,12 @@ $(document).ready(function() {
                 indicators: true,
             });
         }
-    })
-    $('#deletemodal').modal()
+    });
+    $('#deletemodal').modal();
 
-    const initialHelpText = "Loading your listings...";
-    $('[data-element="help"]').removeClass("hide").html(initialHelpText);
-    $('[data-element="progress"]').removeClass("hide");
+    const initialHelpText = 'Loading your listings...';
+    $('[data-element="help"]').removeClass('hide').html(initialHelpText);
+    $('[data-element="progress"]').removeClass('hide');
 
     fetch('/api/v1/listing/detail', {
         method: 'GET',
@@ -22,7 +22,7 @@ $(document).ready(function() {
         if (!response.ok) throw new NetworkError;
         return response.json();
     }).then(json => {
-        if (json.status != "success") throw new APIError(json);
+        if (json.status != 'success') throw new APIError(json);
         if (json.data.length == 0) {
             $('[data-element="help"]').html('You do not have any listings, start by creating one!');
             throw new ControlledError();
@@ -37,7 +37,7 @@ $(document).ready(function() {
                     headers: {
                         'Content-Type': 'application/json'
                     }
-                })
+                });
             })
         ).then(responses => {
             return Promise.all(responses.map(response => {
@@ -50,10 +50,10 @@ $(document).ready(function() {
                 return json;
             }));
         }).then(results => {
-            let resultsContainer = $('[data-element="listings_results"]')
+            let resultsContainer = $('[data-element="listings_results"]');
             for (let i = 0; i < results.length; i++) {
                 let book = new Book(results[i]);
-                let listing = new Listing(listings[i])
+                let listing = new Listing(listings[i]);
                 let elem = $(`<div class="row mx-0 mb-8 p-8 roundBox book" data-listingid="${listing.listingid}">
                     <div class="col s2 mx-0 p-0 minPicHeight shimmerBG">
                         <img class="google-book-image roundBox" src="${book.strings.thumbSmall}" onload="removeShimmer(this.parentElement);removeMinPicHeight(this.parentElement)" data-field="thumb">
@@ -160,15 +160,15 @@ $(document).ready(function() {
             }
             $('[data-element="help"]').addClass('hide').empty();
             $('[data-button="view_image"]').click(e => {
-                const carousel = $('#carousel').empty()
+                const carousel = $('#carousel').empty();
                 const listingid = $(e.target).closest('[data-listingid]').attr('data-listingid');
                 listings.find(x => x.listingid == listingid).images.forEach(image => {
                     carousel.append(`<a class="carousel-item justify-content-center"><img src="${image}"></a>`);
-                })
-                $('#imagemodal').modal('open')
-            })
+                });
+                $('#imagemodal').modal('open');
+            });
             $('[data-button="toggle_visibility"]').click(e => {
-                const parentElement = $(e.target).closest('[data-listingid]')
+                const parentElement = $(e.target).closest('[data-listingid]');
                 const listingId = parentElement.attr('data-listingid');
                 fetch(`/api/v1/listing/toggleOpen?listingId=${listingId}`, {
                     method: 'PUT',
@@ -177,27 +177,27 @@ $(document).ready(function() {
                         'Content-Type': 'application/json'
                     })
                 })
-                .then((response) => {
-                    if (response.ok) return response.json();
-                    throw new NetworkError(response);
-                })
-                .then((json) => {
-                    if (json.status == "success") {
-                        parentElement.find('[data-field="openIcon"]').html(json.data.open ? 'visibility' : 'visibility_off');
-                        parentElement.find('[data-field="open"]').html(json.data.open ? 'Public' : 'Hidden');
-                        return;
-                    }
-                    throw new APIError(json);
-                })
-                .catch((error) => {
-                    toastError(error);
-                });
-            })
+                    .then((response) => {
+                        if (response.ok) return response.json();
+                        throw new NetworkError(response);
+                    })
+                    .then((json) => {
+                        if (json.status == 'success') {
+                            parentElement.find('[data-field="openIcon"]').html(json.data.open ? 'visibility' : 'visibility_off');
+                            parentElement.find('[data-field="open"]').html(json.data.open ? 'Public' : 'Hidden');
+                            return;
+                        }
+                        throw new APIError(json);
+                    })
+                    .catch((error) => {
+                        toastError(error);
+                    });
+            });
             $('[data-button="delete"]').click(e => {
                 const listingid = $(e.target).closest('[data-listingid]').attr('data-listingid');
                 $('[data-button="delete_confirm"]').attr('data-listingid', listingid);
-                $('#deletemodal').modal('open')
-            })
+                $('#deletemodal').modal('open');
+            });
             $('[data-button="delete_confirm"]').click(e => {
                 const listingid = $(e.target).attr('data-listingid');
                 fetch(`/api/v1/listing/delete?listingid=${listingid}`, {
@@ -210,30 +210,30 @@ $(document).ready(function() {
                     if (!response.ok) throw new NetworkError(response);
                     return response.json();
                 }).then(json => {
-                    if (json.status == "success") {
+                    if (json.status == 'success') {
                         $('#completemodal').modal('close');
-                        window.location.reload()
+                        window.location.reload();
                         return;
                     }
                     throw new APIError(json);
                 }).catch(error => {
                     toastError(error);
                 });
-            })
+            });
         }).catch(e => {
             throw e;
         });
     }).catch(e => {
         if (e instanceof NoGoogleBooksResultsError) {
-            $('[data-element="help"]').html("An error occurred in Google's servers. Please try again later.");
+            $('[data-element="help"]').html('An error occurred in Google\'s servers. Please try again later.');
         } else if (e instanceof APIError) {
-            $('[data-element="help"]').html("An error occurred in our server. Please try again later.");
+            $('[data-element="help"]').html('An error occurred in our server. Please try again later.');
         } else if (e instanceof NetworkError) {
-            $('[data-element="help"]').html("An error occured when retrieving data. Please check your connection or try again.");
+            $('[data-element="help"]').html('An error occured when retrieving data. Please check your connection or try again.');
         } else if (!(e instanceof ControlledError)) {
-            console.error(e)
+            console.error(e);
         }
     }).finally(() => {
-        $('[data-element="progress"]').addClass("hide");
+        $('[data-element="progress"]').addClass('hide');
     });
 });

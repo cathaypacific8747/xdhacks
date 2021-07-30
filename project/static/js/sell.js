@@ -1,24 +1,24 @@
 Dropzone.autoDiscover = false;
 
 $(document).ready(function() {
-    const initialHelpText = "Start by typing in the book's ISBN, name, author or publisher.";
+    const initialHelpText = 'Start by typing in the book\'s ISBN, name, author or publisher.';
     $('[data-element="help"]').html(initialHelpText);
 
     function delay(fn, ms) {
-        let timer = 0
+        let timer = 0;
         return function(...args) {
-            clearTimeout(timer)
-            timer = setTimeout(fn.bind(this, ...args), ms || 0)
-        }
+            clearTimeout(timer);
+            timer = setTimeout(fn.bind(this, ...args), ms || 0);
+        };
     }
 
     function search(string) {
         if (!string) {
             $('[data-element="help"]').html(initialHelpText);
-            $('[data-element="google_book_results"]').addClass("hide").empty();
+            $('[data-element="google_book_results"]').addClass('hide').empty();
             return;
         }
-        $('[data-element="progress"]').removeClass("hide");
+        $('[data-element="progress"]').removeClass('hide');
         $('[data-element="help"]').empty();
 
         fetch(`https://www.googleapis.com/books/v1/volumes?q=${string}&orderBy=relevance&maxResults=40`, {
@@ -34,8 +34,8 @@ $(document).ready(function() {
             if (json.totalItems == 0) throw new NoGoogleBooksResultsError();
             return json.items;
         }).then(result => {
-            let resultsContainer = $('[data-element="google_book_results"]')
-            resultsContainer.empty().removeClass("hide");
+            let resultsContainer = $('[data-element="google_book_results"]');
+            resultsContainer.empty().removeClass('hide');
             for (let item of result) {
                 let book = new Book(item);
                 let elem = $(`<div class="row mx-0 mb-8 p-8 roundBox unselectable book" data-googleid="${book.googleId}">
@@ -57,25 +57,25 @@ $(document).ready(function() {
                         </div>
                     </div>
                 </div>`).click((e) => {
-                    $('[data-googleid]').removeClass("book-selected");
-                    $(e.target).closest('[data-googleid]').toggleClass("book-selected");
+                    $('[data-googleid]').removeClass('book-selected');
+                    $(e.target).closest('[data-googleid]').toggleClass('book-selected');
                 });
                 resultsContainer.append(elem);
             }
-            $('[data-element="help"]').html("Select a book from the list below.");
+            $('[data-element="help"]').html('Select a book from the list below.');
             if (resultsContainer.children().length == 1) {
                 resultsContainer.find('[data-googleid]').click();
             }
         }).catch(e => {
             if (e instanceof NoGoogleBooksResultsError) {
-                $('[data-element="help"]').html(`<div>No results found. Please check your inputs.</div><div>If you are searching by ISBN, add an <span class="text-bold">isbn:</span> prefix.</div><div>For more information about prefixes, check the <a href="/help#query">query</a> section of help.</div>`);
+                $('[data-element="help"]').html('<div>No results found. Please check your inputs.</div><div>If you are searching by ISBN, add an <span class="text-bold">isbn:</span> prefix.</div><div>For more information about prefixes, check the <a href="/help#query">query</a> section of help.</div>');
             } else if (e instanceof NetworkError) {
-                $('[data-element="help"]').html("An error occured when retrieving data. Please check your connection or try again.");
+                $('[data-element="help"]').html('An error occured when retrieving data. Please check your connection or try again.');
             } else {
-                console.error(e)
+                console.error(e);
             }
         }).finally(() => {
-            $('[data-element="progress"]').addClass("hide");
+            $('[data-element="progress"]').addClass('hide');
         });
     }
 
@@ -88,19 +88,19 @@ $(document).ready(function() {
         }
     });
 
-    $("#bookDropzone").dropzone({
-        url: "/api/v1/listing/upload",
+    $('#bookDropzone').dropzone({
+        url: '/api/v1/listing/upload',
         thumbnailHeight: 210,
         thumbnailWidth: 140,
         maxFilesize: 8,
         maxFiles: 5,
         parallelUploads: 5,
-        dictResponseError: "An error occurred when trying to upload. Please try again.",
-        dictFileTooBig: "Image size too large ({{filesize}}MB), must be less than {{maxFilesize}}MB.",
-        dictCancelUpload: "",
-        acceptedFiles: "image/*",
+        dictResponseError: 'An error occurred when trying to upload. Please try again.',
+        dictFileTooBig: 'Image size too large ({{filesize}}MB), must be less than {{maxFilesize}}MB.',
+        dictCancelUpload: '',
+        acceptedFiles: 'image/*',
         autoProcessQueue: false,
-        parasmName: "file",
+        parasmName: 'file',
         uploadMultiple: true, 
         previewTemplate: `
             <div class="dz-preview dz-file-preview center-align">
@@ -124,7 +124,7 @@ $(document).ready(function() {
         `,
         init: function() {
             let dz = this;
-            dz.on("maxfilesexceeded", (file, response) => {
+            dz.on('maxfilesexceeded', (file, response) => {
                 this.removeFile(file);
             }).on('sendingmultiple', (data, xhr, formData) => {
                 formData.append('bookid', dz.bookid);
@@ -132,28 +132,28 @@ $(document).ready(function() {
                 formData.append('condition', dz.condition);
                 formData.append('notes', dz.notes);
                 formData.append('remarks', dz.remarks);
-            }).on("totaluploadprogress", (progress) => {
-                $(".dz-upload").width(`${progress}%`);
-            }).on("successmultiple", (file, response) => {
-                if (response.status == "success") {
-                    window.location.replace("/listings");
+            }).on('totaluploadprogress', (progress) => {
+                $('.dz-upload').width(`${progress}%`);
+            }).on('successmultiple', (file, response) => {
+                if (response.status == 'success') {
+                    window.location.replace('/listings');
                 } else {
-                    toast("An error occurred while trying to upload the book. Please check your inputs or try again later.")
+                    toast('An error occurred while trying to upload the book. Please check your inputs or try again later.');
                 }
-            })
+            });
         },
         headers: {
             'X-CSRFToken': csrftoken // should be added automatically, but just in case
         }
-    })
+    });
 
-    $("#sellButton").click(() => {
-        let dz = Dropzone.forElement(".dropzone");
-        dz.bookid = $('.book-selected').attr("data-googleid");
+    $('#sellButton').click(() => {
+        let dz = Dropzone.forElement('.dropzone');
+        dz.bookid = $('.book-selected').attr('data-googleid');
         dz.price = $('[data-field="price"]').val();
-        dz.condition = $("input[name='condition']:checked").val();
-        dz.notes = $("input[name='notes']:checked").val();
+        dz.condition = $('input[name=\'condition\']:checked').val();
+        dz.notes = $('input[name=\'notes\']:checked').val();
         dz.remarks = $('[data-field="remarks"]').val();
-        dz.bookid && dz.price && dz.condition && dz.notes && dz.getQueuedFiles().length ? dz.processQueue() : toast('Please ensure that all inputs have been inputted correctly.', 'Input', 3)
+        dz.bookid && dz.price && dz.condition && dz.notes && dz.getQueuedFiles().length ? dz.processQueue() : toast('Please ensure that all inputs have been inputted correctly.', 'Input', 3);
     });
 });

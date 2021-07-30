@@ -1,4 +1,5 @@
 from flask import Flask, request
+from flask_minify.main import Minify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from os import environ as env
@@ -7,11 +8,13 @@ from oauthlib.oauth2 import WebApplicationClient
 from flask_wtf.csrf import CSRFProtect
 from flask_migrate import Migrate
 from flask_mail import Mail
+from flask_assets import Environment, Bundle
 from flask_compress import Compress
 import discord
 import asyncio
 from threading import Thread
 import ast
+from .bundles import bundles
 
 from werkzeug.wrappers import request
 
@@ -21,6 +24,7 @@ migrate = Migrate()
 csrf = CSRFProtect()
 login_manager = LoginManager()
 mail = Mail()
+assets = Environment()
 compress = Compress()
 
 def create_app(run=False):
@@ -52,13 +56,23 @@ def create_app(run=False):
     app.config['WTF_CSRF_CHECK_DEFAULT'] = env['WTF_CSRF_CHECK_DEFAULT'] == 'True'
     
     app.config['COMPRESS_MIMETYPES'] = ast.literal_eval(env['COMPRESS_MIMETYPES'])
+    app.config['CLOSURE_COMPRESSOR_OPTIMIZATION'] = env['CLOSURE_COMPRESSOR_OPTIMIZATION']
+    app.config['CLOSURE_COMPRESSOR_PATH'] = env['CLOSURE_COMPRESSOR_PATH']
+    app.config['CLOSURE_EXTRA_ARGS'] = ast.literal_eval(env['CLOSURE_EXTRA_ARGS'])
 
     db.init_app(app)
     from .models import User, Listing, Offer
     migrate.init_app(app, db)
     mail.init_app(app)
     csrf.init_app(app)
+    assets.init_app(app)
     compress.init_app(app)
+
+    with app.app_context():
+        for b in bundles:
+            print(f'Bundling {b}...')
+            assets.register(b, bundles[b])
+            bundles[b].build()
 
     # setup login
     login_manager.login_view = 'auth.login'

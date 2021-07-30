@@ -134,5 +134,7 @@
 {% endblock %}
 
 {% block scripts %}
-    <script type="text/javascript" src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    {% assets "js_dashboard" %}
+        <script defer type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
 {% endblock %}

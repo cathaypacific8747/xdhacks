@@ -9,3 +9,9 @@
     </div>
 </div>
 {% endblock %}
+
+{% block scripts %}
+    {% assets "js_base" %}
+        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+{% endblock %}

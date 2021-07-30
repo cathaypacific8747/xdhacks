@@ -5,14 +5,28 @@ A place for us to store code for xdhacks 2021.
 ## Installation
 Setup Postgres
 ```
-$ sudo apt install libpq-dev python3-dev
+$ sudo apt update
 $ sudo apt-get update
+$ sudo apt install libpq-dev python3-dev
 $ sudo apt-get -y install postgresql
 $ sudo service postgresql restart # if error
 $ sudo -u postgres psql
 postgres=# CREATE DATABASE flask;
 postgres=# \password postgres
 postgres=# \q
+```
+
+Install java
+```
+$ sudo apt install default-jre
+```
+
+Install node
+```
+$ sudo apt install nodejs
+$ sudo apt install npm
+$ sudo npm install --global babel-cli
+$ sudo npm install --global @babel/preset-env
 ```
 
 Migration commands
@@ -154,11 +168,13 @@ $ ./start.sh
 - [ ] email notification
 - [ ] Book list
 - [ ] Other schools
+- [ ] Use SCSS instead of CSS
 
 ## Production Checklist
 - [x] Enable CSRF in API
-- [ ] Flask-Compress (gzip)
-- [ ] Flask-Assets (minify)
+- [x] Flask-Compress (gzip)
+- [x] Flask-Assets (minify js)
+- [x] Flask-Assets (minify css)
 - [ ] Remove DEBUG flag in .env
 - [ ] SSL certificates
 

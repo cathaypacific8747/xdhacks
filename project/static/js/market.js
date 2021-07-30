@@ -1,19 +1,19 @@
 $(document).ready(function() {
-    const initialHelpText = "Loading...";
+    const initialHelpText = 'Loading...';
     $('[data-element="help"]').html(initialHelpText);
 
     function delay(fn, ms) {
-        let timer = 0
+        let timer = 0;
         return function(...args) {
-            clearTimeout(timer)
-            timer = setTimeout(fn.bind(this, ...args), ms || 0)
-        }
+            clearTimeout(timer);
+            timer = setTimeout(fn.bind(this, ...args), ms || 0);
+        };
     }
 
     function showLoading() {
-        $('[data-element="progress"]').removeClass("hide");
+        $('[data-element="progress"]').removeClass('hide');
         $('[data-element="help"]').html(initialHelpText);
-        $('[data-element="market_results"]').empty()
+        $('[data-element="market_results"]').empty();
     }
 
     async function aggregate(bookids=[]) {
@@ -32,7 +32,7 @@ $(document).ready(function() {
             if (response.ok) return response.json();
             throw new NetworkError(response);
         }).then(json => {
-            if (json.status != "success") throw new APIError(json);
+            if (json.status != 'success') throw new APIError(json);
             if (json.data.length == 0) throw new NoGoogleBooksResultsError();
             return json.data;
         }).then(async data => {
@@ -44,7 +44,7 @@ $(document).ready(function() {
                         headers: {
                             'Content-Type': 'application/json'
                         }
-                    })
+                    });
                 })
             ).then(responses => {
                 return Promise.all(responses.map(response => {
@@ -114,21 +114,21 @@ $(document).ready(function() {
                 $('[data-button="view_details"]').click(e => {
                     const bookid = $(e.target).closest('[data-bookid]').attr('data-bookid');
                     window.location.href = `/market/${bookid}`;
-                })
+                });
                 $('[data-element="help"]').empty();
             }).catch(e => {
                 throw e;
             });
         }).catch(e => {
             if (e instanceof NoGoogleBooksResultsError) {
-                $('[data-element="help"]').html(`<div>No results found. Please check your inputs.</div><div>If you are searching by ISBN, add an <span class="text-bold">isbn:</span> prefix.</div><div>For more information about prefixes, check the <a href="/help#query">query</a> section of help.</div>`);
+                $('[data-element="help"]').html('<div>No results found. Please check your inputs.</div><div>If you are searching by ISBN, add an <span class="text-bold">isbn:</span> prefix.</div><div>For more information about prefixes, check the <a href="/help#query">query</a> section of help.</div>');
             } else if (e instanceof NetworkError) {
-                $('[data-element="help"]').html("An error occured when retrieving data. Please check your connection or try again.");
+                $('[data-element="help"]').html('An error occured when retrieving data. Please check your connection or try again.');
             } else {
                 console.error(e);
             }
         }).finally(() => {
-            $('[data-element="progress"]').addClass("hide");
+            $('[data-element="progress"]').addClass('hide');
         });
     }
 
@@ -152,14 +152,14 @@ $(document).ready(function() {
             await aggregate(json.items.map(e => e.id));
         }).catch(e => {
             if (e instanceof NoGoogleBooksResultsError) {
-                $('[data-element="help"]').html(`<div>No results found. Please check your inputs.</div><div>If you are searching by ISBN, add an <span class="text-bold">isbn:</span> prefix.</div><div>For more information about prefixes, check the <a href="/help#query">query</a> section of help.</div>`);
+                $('[data-element="help"]').html('<div>No results found. Please check your inputs.</div><div>If you are searching by ISBN, add an <span class="text-bold">isbn:</span> prefix.</div><div>For more information about prefixes, check the <a href="/help#query">query</a> section of help.</div>');
             } else if (e instanceof NetworkError) {
-                $('[data-element="help"]').html("An error occured when retrieving data. Please check your connection or try again.");
+                $('[data-element="help"]').html('An error occured when retrieving data. Please check your connection or try again.');
             } else {
                 console.error(e);
             }
         }).finally(() => {
-            $('[data-element="progress"]').addClass("hide");
+            $('[data-element="progress"]').addClass('hide');
         });
     }
 

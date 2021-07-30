@@ -4,7 +4,7 @@ backlog = 2048
 workers = 1
 worker_class = 'sync'
 worker_connections = 1000
-timeout = 30
+timeout = 600 # 5 mins
 keepalive = 2
 spew = False # spews all python lines
 
