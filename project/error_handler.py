@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, jsonify
 from sqlalchemy.sql.expression import desc
 from werkzeug.exceptions import HTTPException
 import traceback
+from htmlmin import minify
 
 err = Blueprint('error_handlers', __name__)
 
@@ -41,4 +42,4 @@ def handle_error(e):
             "code": code,
             "message": description,
         })
-    return render_template('error.html', code=code, description=description, help='master')
+    return minify(render_template('error.html', code=code, description=description, help='master'), remove_empty_space=True)

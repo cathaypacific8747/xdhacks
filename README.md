@@ -176,7 +176,7 @@ $ ./start.sh
 - [x] Flask-Compress (gzip)
 - [x] Flask-Assets (minify js)
 - [x] Flask-Assets (minify css)
-- [ ] Minify HTML
+- [x] Minify HTML
 - [ ] Final read-through API for vulnerabilities
 - [ ] .env
 - [ ] Download SSL certificates from Cloudflare

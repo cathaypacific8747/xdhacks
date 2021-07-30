@@ -8,6 +8,7 @@ import json
 import requests
 from .error_handler import InvalidState, GoogleConnectionError
 from bleach import clean
+from htmlmin import minify
 
 auth = Blueprint('auth', __name__)
 def get_google_provider_cfg():
@@ -18,11 +19,11 @@ def get_google_provider_cfg():
 
 @auth.route('/login')
 def login():
-    return render_template('login.html', help='master')
+    return minify(render_template('login.html', help='master'), remove_empty_space=True)
 
 @auth.route('/signup')
 def signup():
-    return render_template('signup.html', help='master')
+    return minify(render_template('signup.html', help='master'), remove_empty_space=True)
 
 @auth.route('/login_google')
 def login_google():
