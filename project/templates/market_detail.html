@@ -1,9 +1,14 @@
 {% extends "base.html" %}
 
+{% block stylesheets %}
+    {% assets "css_market_detail" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets %}
+{% endblock %}
+
 {% block head %}
     {{ super() }}
     <meta name="bookid" content="{{ bookid }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/market_detail.css') }}">
 {% endblock %}
 
 {% block content %}

@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
-{% block head %}
-    {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/signinButton.css') }}">
+{% block stylesheets %}
+    {% assets "css_signinButton" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets %}
 {% endblock %}
 
 {% block content %}

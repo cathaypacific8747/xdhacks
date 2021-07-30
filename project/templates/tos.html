@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
-{% block head %}
-    {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/tos.css') }}">
+{% block stylesheets %}
+    {% assets "css_tos" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets %}
 {% endblock %}
 
 {% block content %}
@@ -222,7 +223,7 @@
                 Privacy Policy
             </div>
             <div>
-                We care about data privacy and security. By using the Site or the Marketplace Offerings, you agree to be bound by our <a class="/privacy-notice">Privacy Policy</a> posted on the Site.
+                We care about data privacy and security. By using the Site or the Marketplace Offerings, you agree to be bound by our <a href="/privacy-notice">Privacy Notice</a> posted on the Site.
             </div>
             <div class="subtitle">
                 Copyright Infringements

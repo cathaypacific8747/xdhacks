@@ -135,7 +135,6 @@ $(document).ready(function() {
             return json.data;
         }).then(messages => {
             if (messages.length == 0) {
-                console.log('NO');
                 $('[data-element="message_box_help"]').html('No messages.');
             } else {
                 $('[data-element="message_box"]').append($(messages.map(message => {
@@ -150,9 +149,7 @@ $(document).ready(function() {
                     </div>`;
                 }).join('')));
                 $('[data-element="message_box_help"]').empty();
-                console.log(newestmessageid);
                 if (newestmessageid) {
-                    console.log(newestmessageid, messages[0].messageid);
                     if (messages[0].messageid != newestmessageid) {
                         messages.slice(0, messages.findIndex(message => message.messageid == newestmessageid)).forEach(m => {
                             if (push) {

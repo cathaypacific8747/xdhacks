@@ -150,6 +150,7 @@ $ ./start.sh
 
 ## Enhancements
 
+- [ ] Add meta (e.g. for discord)
 - [ ] Make relative time from now update dynamically
 - [ ] Site-wide notification polling.
 - [ ] Market API: Book Sort and Listing sort and filter
@@ -167,7 +168,7 @@ $ ./start.sh
 - [ ] Modal for enabling public information
 - [ ] email notification
 - [ ] Book list
-- [ ] Other schools
+- [ ] School-specific domains
 - [ ] Use SCSS instead of CSS
 
 ## Production Checklist
@@ -175,8 +176,10 @@ $ ./start.sh
 - [x] Flask-Compress (gzip)
 - [x] Flask-Assets (minify js)
 - [x] Flask-Assets (minify css)
-- [ ] Remove DEBUG flag in .env
-- [ ] SSL certificates
+- [ ] Minify HTML
+- [ ] Final read-through API for vulnerabilities
+- [ ] .env
+- [ ] Download SSL certificates from Cloudflare
 
 # References
 - https://digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login

@@ -1,9 +1,14 @@
 {% extends "base.html" %}
 
+{% block stylesheets %}
+    {% assets "css_listings_readonly" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets %}
+{% endblock %}
+
 {% block head %}
     {{ super() }}
     <meta name="userid" content="{{ userid }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/listings_readonly.css') }}">
 {% endblock %}
 
 {% block content %}

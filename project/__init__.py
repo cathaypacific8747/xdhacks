@@ -70,7 +70,7 @@ def create_app(run=False):
 
     with app.app_context():
         for b in bundles:
-            print(f'Bundling {b}...')
+            app.logger.info(f'Bundling {b}...')
             assets.register(b, bundles[b])
             bundles[b].build()
 

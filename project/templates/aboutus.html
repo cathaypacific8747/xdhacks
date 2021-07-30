@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% block stylesheets %}
+    {% assets "css_base" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets %}
+{% endblock %}
+
 {% block content %}
 <div class="container">
     <div class="row">
@@ -32,7 +38,7 @@
                 </li>
                 <li class="mt-16">
                     <div class="text-bold">Walter Kwong - Mentor's Assistant</div>
-                    <div>Walter handled many administrative tasks and served as an enthusiastic and cheerful supporter when various challenges arise.</div>
+                    <div>Walter handled many administrative tasks and served as an enthusiastic and cheerful supporter when various challenges arose.</div>
                 </li>
                 <li class="mt-16">
                     <div class="text-bold">Abraham Cheung - Lead Developer</div>
