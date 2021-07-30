@@ -141,6 +141,12 @@ body {
 	margin-left: 2rem;
 }
 
+.left-0 {
+	left: 0 !important;
+	transform: unset !important;
+	-webkit-transform: unset !important;
+}
+
 /* PADDINGS */
 
 .px-4 {
@@ -342,9 +348,10 @@ body {
 }
 
 #toast-container {
-	top: 1rem;
-	right: 1rem;
-	max-width: 20%;
+	top: 3rem !important;
+	right: 1rem !important;
+	left: unset !important;
+	max-width: 30%;
 }
 
 .toastGeneral {

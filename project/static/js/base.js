@@ -165,6 +165,7 @@ $(document).ready(function() {
                 </div>
             </div>`,
             classes: `toastGeneral ${toastClass} roundBox`,
+            displayLength: 9999999
         })
     }
 
@@ -185,5 +186,9 @@ $(document).ready(function() {
 
     window.removeMinPicHeight = function(e) {
         $(e).removeClass('minPicHeight');
+    }
+
+    if ($(window).width() < 768) {
+        toast(description='Elements will appear glitched on mobile. Please use a computer or enable the "request a desktop site" option. View <a href="/help#master">help</a> for more details.', headerPrefix='Incompatibility', code=2)
     }
 });

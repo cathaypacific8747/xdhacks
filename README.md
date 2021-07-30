@@ -132,7 +132,7 @@ $ ./start.sh
 - [x] Remove buyer/seller toggle
 - [x] Settings Template - Add email notifications toggle
 - [x] Messages API - Add email with Flask-Mail
-- [ ] Show unsupported warning on mobile
+- [x] Show unsupported warning on mobile
 
 ## Enhancements
 
