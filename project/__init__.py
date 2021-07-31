@@ -8,14 +8,12 @@ from flask_wtf.csrf import CSRFProtect
 from flask_migrate import Migrate
 from flask_mail import Mail
 from flask_assets import Environment
-from flask_compress import Compress
+# from flask_compress import Compress
 import discord
 import asyncio
 from threading import Thread
 import ast
 from .bundles import bundles
-
-from werkzeug.wrappers import request
 
 load_dotenv()
 db = SQLAlchemy()
@@ -24,7 +22,7 @@ csrf = CSRFProtect()
 login_manager = LoginManager()
 mail = Mail()
 assets = Environment()
-compress = Compress()
+# compress = Compress()
 
 def create_app(run=False):
     app = Flask(__name__)
@@ -54,7 +52,7 @@ def create_app(run=False):
     app.config['WTF_CSRF_METHODS'] = ast.literal_eval(env['WTF_CSRF_METHODS']) # tuple
     app.config['WTF_CSRF_CHECK_DEFAULT'] = env['WTF_CSRF_CHECK_DEFAULT'] == 'True'
     
-    app.config['COMPRESS_MIMETYPES'] = ast.literal_eval(env['COMPRESS_MIMETYPES'])
+    # app.config['COMPRESS_MIMETYPES'] = ast.literal_eval(env['COMPRESS_MIMETYPES'])
     app.config['CLOSURE_COMPRESSOR_OPTIMIZATION'] = env['CLOSURE_COMPRESSOR_OPTIMIZATION']
     app.config['CLOSURE_COMPRESSOR_PATH'] = env['CLOSURE_COMPRESSOR_PATH']
     app.config['CLOSURE_EXTRA_ARGS'] = ast.literal_eval(env['CLOSURE_EXTRA_ARGS'])
@@ -65,7 +63,7 @@ def create_app(run=False):
     mail.init_app(app)
     csrf.init_app(app)
     assets.init_app(app)
-    compress.init_app(app)
+    # compress.init_app(app)
 
     with app.app_context():
         for b in bundles:

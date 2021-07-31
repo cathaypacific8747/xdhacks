@@ -323,7 +323,11 @@ $(document).ready(function() {
                 return response.json();
             }).then(json => {
                 if (json.status == 'success') {
-                    toast(json.message, '', 1);
+                    toast({
+                        description: json.message,
+                        headerPrefix: '',
+                        code: 1
+                    });
                     return json.data;
                 }
                 throw new APIError(json);

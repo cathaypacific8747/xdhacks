@@ -134,8 +134,11 @@ $(document).ready(function() {
     window.NoGoogleBooksResultsError = NoGoogleBooksResultsError;
     window.ControlledError = ControlledError;
 
-    window.toast = function(description='An unknown error occured', headerPrefix='', code=3) {
-        headerPrefix = headerPrefix ? `${headerPrefix} `: '';
+    window.toast = function(obj) {
+        const description = obj.description || 'An unknown error occurred';
+        const headerPrefix = `${obj.headerPrefix} ` || '';
+        const code = obj.code || 3;
+
         let header, toastClass;
         switch (code) {
         case 3:
@@ -170,11 +173,17 @@ $(document).ready(function() {
 
     window.toastError = function(e) {
         if (e instanceof NetworkError) {
-            toast(e.message, 'Network', 3);
+            toast({
+                description: e.message,
+                headerPrefix: 'Network',
+                code: 3
+            });
         } else if (e instanceof APIError) {
-            toast(e.message, 'Server', 3);
-        } else {
-            toast('DEBUG: Something went wrong. Please try again later', 'Unknown', 3);
+            toast({
+                description: e.message,
+                headerPrefix: 'Server',
+                code: 3
+            });
         }
         console.error(e);
     };
@@ -188,6 +197,10 @@ $(document).ready(function() {
     };
 
     if ($(window).width() < 768) {
-        toast(description='Elements will appear glitched on mobile. Please use a computer or enable the "request a desktop site" option. View <a href="/help#master">help</a> for more details.', headerPrefix='Incompatibility', code=2);
+        toast({
+            description: 'Elements will appear glitched on mobile. Please use a computer or enable the "request a desktop site" option. View <a href="/help#master">help</a> for more details.',
+            headerPrefix: 'Incompatibility',
+            code: 2
+        });
     }
 });

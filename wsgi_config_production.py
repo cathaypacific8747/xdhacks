@@ -9,9 +9,7 @@ keepalive = 2
 spew = False # spews all python lines
 
 errorlog = '-'
-loglevel = 'debug'
-accesslog = '-'
-access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
+loglevel = 'warning'
 
 certfile = 'keys/cert.pem'
 keyfile = 'keys/key.pem'

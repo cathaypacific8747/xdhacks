@@ -501,7 +501,11 @@ $(document).ready(function() {
                     .then((json) => {
                         if (json.status == 'success') {
                             $('#completemodal').modal('close');
-                            toast(description='Successfully completed offer.', headerPrefix='', code=1);
+                            toast({
+                                description: 'Successfully completed offer.',
+                                headerPrefix: '',
+                                code: 1
+                            });
                             $('[data-element="controls"]').attr('data-control', 'empty');
                             refresh();
                             return;
@@ -540,7 +544,11 @@ $(document).ready(function() {
                 .then((json) => {
                     if (json.status == 'success') {
                         $('#cancelmodal').modal('close');
-                        toast(description='Successfully cancelled offer.', headerPrefix='', code=1);
+                        toast({
+                            description: 'Successfully cancelled offer.',
+                            headerPrefix: '',
+                            code: 1
+                        });
                         $('[data-element="controls"]').attr('data-control', 'empty');
                         refresh();
                         return;

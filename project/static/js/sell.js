@@ -138,7 +138,9 @@ $(document).ready(function() {
                 if (response.status == 'success') {
                     window.location.replace('/listings');
                 } else {
-                    toast('An error occurred while trying to upload the book. Please check your inputs or try again later.');
+                    toast({
+                        description: 'An error occurred while trying to upload the book. Please check your inputs or try again later.',
+                    });
                 }
             });
         },
@@ -154,6 +156,10 @@ $(document).ready(function() {
         dz.condition = $('input[name=\'condition\']:checked').val();
         dz.notes = $('input[name=\'notes\']:checked').val();
         dz.remarks = $('[data-field="remarks"]').val();
-        dz.bookid && dz.price && dz.condition && dz.notes && dz.getQueuedFiles().length ? dz.processQueue() : toast('Please ensure that all inputs have been inputted correctly.', 'Input', 3);
+        dz.bookid && dz.price && dz.condition && dz.notes && dz.getQueuedFiles().length ? dz.processQueue() : toast({
+            description: 'Please ensure that all inputs have been inputted correctly.',
+            headerPrefix: 'Input',
+            code: 3
+        });
     });
 });
