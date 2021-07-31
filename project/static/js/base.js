@@ -197,7 +197,7 @@ $(document).ready(function() {
         $(e).removeClass('minPicHeight');
     };
 
-    if ($(window).width() < 768) {
+    if ($(window).width() < 448) {
         toast({
             description: 'Elements may appear glitched on mobile. Please use a computer, or try rotating your device into the horizontal orientation. View <a href="/help#master">help</a> for more details.',
             headerPrefix: 'Incompatibility',
