@@ -199,7 +199,7 @@ $(document).ready(function() {
 
     if ($(window).width() < 768) {
         toast({
-            description: 'Elements will appear glitched on mobile. Please use a computer or enable the "request a desktop site" option. View <a href="/help#master">help</a> for more details.',
+            description: 'Elements may appear glitched on mobile. Please use a computer, or try rotating your device into the horizontal orientation. View <a href="/help#master">help</a> for more details.',
             headerPrefix: 'Incompatibility',
             code: 2
         });

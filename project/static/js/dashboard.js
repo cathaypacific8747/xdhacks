@@ -156,7 +156,7 @@ $(document).ready(function() {
                                 m = new Message(m);
                                 new Notification('Swappy', {
                                     body: m.strings.notification,
-                                    icon: '/static/img/logo/icon.svg'
+                                    icon: '/static/img/logo/icon.png'
                                 });
                             }
                         });
