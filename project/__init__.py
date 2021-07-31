@@ -1,5 +1,4 @@
-from flask import Flask, request
-from flask_minify.main import Minify
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from os import environ as env
@@ -8,7 +7,7 @@ from oauthlib.oauth2 import WebApplicationClient
 from flask_wtf.csrf import CSRFProtect
 from flask_migrate import Migrate
 from flask_mail import Mail
-from flask_assets import Environment, Bundle
+from flask_assets import Environment
 from flask_compress import Compress
 import discord
 import asyncio
@@ -100,7 +99,8 @@ def create_app(run=False):
             self.loop.create_task(self.starter())
             self.loop.run_forever()
 
-    app.discordThread = Threader()        
+    if run:
+        app.discordThread = Threader()        
 
     @login_manager.user_loader
     def load_user(userid):

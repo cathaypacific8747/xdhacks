@@ -1,7 +1,5 @@
-from project.auth import login
 from flask import Blueprint, render_template, Response, send_from_directory, current_app
-from flask_login import login_required, current_user
-from flask.helpers import flash
+from flask_login import login_required
 import os
 from htmlmin import minify
 

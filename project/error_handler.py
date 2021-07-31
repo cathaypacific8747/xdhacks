@@ -1,7 +1,6 @@
-from flask import Blueprint, render_template, request, jsonify
-from sqlalchemy.sql.expression import desc
-from werkzeug.exceptions import HTTPException
 import traceback
+from flask import Blueprint, render_template, request, jsonify
+from werkzeug.exceptions import HTTPException
 from htmlmin import minify
 
 err = Blueprint('error_handlers', __name__)

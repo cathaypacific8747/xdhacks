@@ -16,14 +16,63 @@ postgres=# \password postgres
 postgres=# \q
 ```
 
-Install venv
+Activate venv
 ```
-$ sudo apt install python3-pip python3-venv -y
+$ sudo apt install -y python3-pip python3-venv git
+$ python3 -m venv venv
+$ . venv/bin/activate
+```
+
+Setup nginx
+```
+$ sudo apt install -y nginx
+$ sudo rm /etc/nginx/sites-enabled/default
+$ sudo nano /etc/nginx/sites-enabled/swappy
+server {
+        listen 443 ssl http2;
+        ssl_certificate /root/xdhacks/keys/origin_cloudflare.pem;
+        ssl_certificate_key /root/xdhacks/keys/origin_cloudflare_key.pem;
+
+        server_name swappyapp.me www.swappyapp.me;
+
+        location /static {
+                alias /root/xdhacks/project/static;
+        }
+
+        location / {
+                proxy_pass https://127.0.0.1:8000;
+                include /etc/nginx/proxy_params;
+                proxy_redirect off;
+        }
+}
+$ sudo systemctl restart nginx
+```
+
+Setup supervisor
+```
+$ sudo apt install -y supervisor
+$ sudo nano /etc/supervisor/conf.d/swappy.conf
+[program:swappy]
+directory=/root/xdhacks/
+environment=PATH="/root/xdhacks/venv/bin"
+command=start.sh
+user=root
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+stderr_logfile=/var/log/swappy/error.log
+stdout_logfile=/var/log/swappy/out.log
+$ sudo mkdir -p /var/log/swappy
+$ sudo touch /var/log/swappy/error.log
+$ sudo touch /var/log/swappy/out.log
+$ sudo systemctl start supervisor
+$ supervisorctl # monitoring
 ```
 
 Install java
 ```
-$ sudo apt install default-jre
+$ sudo apt install -y default-jre
 ```
 
 Migration commands
@@ -35,7 +84,6 @@ $ flask db upgrade
 
 Run flask
 ```
-$ . venv/bin/activate
 $ pip3 install -r requirements.txt
 $ openssl req -x509 -newkey rsa:4096 -nodes -out keys/cert.pem -keyout keys/key.pem -days 365
 $ gunicorn -c wsgi_config_debug.py wsgi:app
