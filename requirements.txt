@@ -13,7 +13,7 @@ cffi==1.14.5
 chardet==4.0.0
 click==8.0.1
 closure==20191111
-closure-linter==2.3.19
+closure-linter==2.3.13
 coloredlogs==15.0.1
 cryptography==3.4.7
 cssmin==0.2.0
@@ -43,7 +43,6 @@ mccabe==0.6.1
 multidict==5.1.0
 oauthlib==3.1.1
 packaging==20.9
-pkg_resources==0.0.0
 ply==3.11
 psycopg2==2.9.1
 pycparser==2.20
