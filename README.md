@@ -16,17 +16,14 @@ postgres=# \password postgres
 postgres=# \q
 ```
 
+Install venv
+```
+$ sudo apt install python3-pip python3-venv -y
+```
+
 Install java
 ```
 $ sudo apt install default-jre
-```
-
-Install node
-```
-$ sudo apt install nodejs
-$ sudo apt install npm
-$ sudo npm install --global babel-cli
-$ sudo npm install --global @babel/preset-env
 ```
 
 Migration commands
