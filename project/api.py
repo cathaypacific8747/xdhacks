@@ -4,7 +4,7 @@ from .models import User, Listing, Message, Offer
 from . import db, csrf
 from .error_handler import APIForbiddenError, GenericInputError
 import re
-from bleach import clean
+from bleach import clean as clean_raw
 import asyncio
 from werkzeug.utils import secure_filename
 import uuid
@@ -14,6 +14,8 @@ from sqlalchemy import func
 import requests
 
 api = Blueprint('api', __name__)
+def clean(string):
+    return clean_raw(string, tags=[], attributes=[], styles=[], protocols=[])
 
 def intable(string):
     try:
@@ -80,7 +82,7 @@ def user_update():
         if len(data['customContactInfo']) > 200:
             raise GenericInputError(description='Custom contact information must be less than or equal to 200 characters.')
         data['customContactInfo'] = clean(data['customContactInfo'])
-
+    
     current_user.updateDetails(data)
     db.session.commit()
     return jsonify({
