@@ -45,6 +45,19 @@ server {
                 proxy_redirect off;
         }
 }
+$ sudo nano /etc/nginx/nginx.conf
+
+client_max_body_size 16M;
+
+gzip on;
+gzip_vary on;
+gzip_proxied any;
+gzip_comp_level 6;
+gzip_buffers 16 8k;
+gzip_http_version 1.1;
+gzip_min_length 256;
+gzip_types image/* text/plain text/css application/json application/javascript text/xml text/html application/xml application/xml+rss text/javascript;
+
 $ sudo systemctl restart nginx
 ```
 
