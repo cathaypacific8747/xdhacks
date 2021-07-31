@@ -246,7 +246,7 @@ $(document).ready(function() {
                     if (json.status != 'success') throw new APIError(json);
                     return json.data;
                 }).then(() => {
-                    $(e.target).removeClass('btn-transparent-primary').addClass('btn-transparent-disabled tooltipped');
+                    $(`[data-listingid="${listing}"] [data-button="create_offer"]`).removeClass('btn-transparent-primary').addClass('btn-transparent-disabled tooltipped');
                     toast({
                         description: 'Successfully created offer. Please go to the <a href="/dashboard">dashboard</a> for further steps.',
                         headerPrefix: '',
