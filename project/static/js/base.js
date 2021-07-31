@@ -34,8 +34,9 @@ $(document).ready(function() {
             this.imagelinks = data?.volumeInfo?.imageLinks;
             // this.retailPrice = data?.saleInfo?.listPrice?.amount;
             // this.retailPriceCurrency = data?.saleInfo?.listPrice?.currencyCode;
-            this.thumbSmall = this.imagelinks?.smallThumbnail;
+            this.thumbSmall = this.imagelinks?.smallThumbnail?.replace('http', 'https');
             this.thumbLarge = this.imagelinks?.extraLarge ? this.imagelinks.extraLarge : this.imagelinks?.large ? this.imagelinks.large : this.imagelinks?.medium ? this.imagelinks.medium : this.imagelinks?.small ? this.imagelinks.small : this.imagelinks?.thumbnail ? this.imagelinks.thumbnail : this.imagelinks?.smallThumbnail;
+            this.thumbLarge = this.thumbLarge?.replace('http', 'https');
 
             this.strings = {};
             this.strings.title = this.title || 'Unknown';
