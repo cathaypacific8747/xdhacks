@@ -195,7 +195,8 @@ $ ./start.sh
 
 ## Enhancements
 
-- [ ] Add meta (e.g. for discord)
+- [x] Add meta (e.g. for discord)
+- [ ] Use Google Chat API (service accounts) instead of emails.
 - [ ] Make relative time from now update dynamically
 - [ ] Site-wide notification polling.
 - [ ] Market API: Book Sort and Listing sort and filter
@@ -222,9 +223,9 @@ $ ./start.sh
 - [x] Flask-Assets (minify js)
 - [x] Flask-Assets (minify css)
 - [x] Minify HTML
-- [ ] Final read-through API for vulnerabilities
-- [ ] .env
-- [ ] Download SSL certificates from Cloudflare
+- [x] Final read-through API for vulnerabilities
+- [x] .env
+- [x] Download SSL certificates from Cloudflare
 
 # References
 - https://digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login
