@@ -75,7 +75,7 @@ def login_google_callback():
     email = clean(userinfo_response["email"])
     name = clean(userinfo_response["name"])
     profilePic = userinfo_response["picture"].split('=s')[0]
-    cky = "hd" in userinfo_response and userinfo_response["hd"] == 'cky.edu.hk'
+    cky = "hd" in userinfo_response and 'cky.edu.hk' in userinfo_response["hd"]
 
     user = User.query.filter_by(googleId=googleId).first()
     if user is not None:
