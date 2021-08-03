@@ -113,7 +113,8 @@ $(document).ready(function() {
                 }
                 $('[data-button="view_details"]').click(e => {
                     const bookid = $(e.target).closest('[data-bookid]').attr('data-bookid');
-                    window.location.href = `/market/${bookid}`;
+                    window.open(`/market/${bookid}`, '_blank').focus(); // open in new tab while we are building the book cache
+                    // window.location.href = `/market/${bookid}`;
                 });
                 $('[data-element="help"]').empty();
             }).catch(e => {
@@ -123,7 +124,7 @@ $(document).ready(function() {
             if (e instanceof NoGoogleBooksResultsError) {
                 $('[data-element="help"]').html('<div>No results found. Please check your inputs.</div><div>If you are searching by ISBN, add an <span class="text-bold">isbn:</span> prefix.</div><div>For more information about prefixes, check the <a href="/help#query">query</a> section of help.</div>');
             } else if (e instanceof NetworkError) {
-                $('[data-element="help"]').html('An error occured when retrieving data. Please check your connection or try again.');
+                $('[data-element="help"]').html("<div>An error has occured when retrieving data.</div><div>This may have been caused due to excessive requests to Google, resulting in a temporary rate limit.</div><div>We are working on a fix for this issue.</div><div>Please try again in 5 minutes.</div>");
             } else {
                 console.error(e);
             }
