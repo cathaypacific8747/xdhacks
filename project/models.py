@@ -5,6 +5,18 @@ from flask_login import UserMixin
 from flask_mail import Message as Mail
 from . import db, mail
 from os import environ as env
+import requests
+
+def chain(root, *keys):
+    result = root
+    for k in keys:
+        if isinstance(result, dict):
+            result = result.get(k, None)
+        else:
+            result = getattr(result, k, None)
+        if result is None:
+            break
+    return result
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -159,3 +171,74 @@ class Offer(db.Model):
             'buyerpublic': self.buyerpublic,
             'sellerpublic': self.sellerpublic,
         }
+
+class Book(db.Model):
+    __tablename__ = 'books'
+
+    listingid = db.Column(db.String, primary_key=True, index=True)
+    title = db.Column(db.String)
+    isbn = db.Column(db.String)
+    authors = db.Column(ARRAY(db.String))
+    language = db.Column(db.String)
+    # plurality = db.Column(db.String)
+    publisher = db.Column(db.String)
+    publishedDate = db.Column(db.String)
+    pageCount = db.Column(db.Integer)
+    # dimensions = db.Column(db.String)
+    height = db.Column(db.String)
+    width = db.Column(db.String)
+    thickness = db.Column(db.String)
+    thumbSmall = db.Column(db.String)
+
+    def fromGoogle(self, bookid):
+        try:
+            data = requests.get(f'https://www.googleapis.com/books/v1/volumes/{bookid}').json()
+        except Exception:
+            data = {}
+        
+        self.title = chain(data, 'title')
+        self.isbn = ''
+        isbns = chain(data, 'volumeInfo', 'industryIdentifiers')
+        if isbns is not None:
+            for e in isbns:
+                if chain(e, 'type') == 'ISBN_13':
+                    self.isbn = chain(e, 'identifier')
+                    break
+        self.authors = chain(data, 'volumeInfo', 'authors')
+        self.language = chain(data, 'volumeInfo', 'language')
+        self.publisher = chain(data, 'volumeInfo', 'publisher')
+        self.publishedDate = chain(data, 'volumeInfo', 'publishedDate')
+        self.pageCount = chain(data, 'volumeInfo', 'pageCount')
+        self.height = chain(data, 'volumeInfo', 'dimensions', 'height')
+        self.width = chain(data, 'volumeInfo', 'dimensions', 'width')
+        self.thickness = chain(data, 'volumeInfo', 'dimensions', 'thickness')
+        self.thumbSmall = chain(data, 'volumeInfo', 'imageLinks', 'smallThumbnail')
+
+        return self
+
+    # this.googleId = data?.id;
+    # this.title = data?.volumeInfo?.title;
+    # this.isbn = data?.volumeInfo?.industryIdentifiers?.find(e => e.type == 'ISBN_13')?.identifier;
+    # this.authors = data?.volumeInfo?.authors;
+    # this.language = data?.volumeInfo?.language;
+    # this.publisher = data?.volumeInfo?.publisher;
+    # this.publishedDate = data?.volumeInfo?.publishedDate;
+    # this.pageCount = data?.volumeInfo?.pageCount;
+    # this.height = data?.volumeInfo?.dimensions?.height;
+    # this.width = data?.volumeInfo?.dimensions?.width;
+    # this.thickness = data?.volumeInfo?.dimensions?.thickness;
+    # this.imagelinks = data?.volumeInfo?.imageLinks;
+    # this.thumbSmall = this.imagelinks?.smallThumbnail?.replace('http', 'https');
+    # this.thumbLarge = this.imagelinks?.extraLarge ? this.imagelinks.extraLarge : this.imagelinks?.large ? this.imagelinks.large : this.imagelinks?.medium ? this.imagelinks.medium : this.imagelinks?.small ? this.imagelinks.small : this.imagelinks?.thumbnail ? this.imagelinks.thumbnail : this.imagelinks?.smallThumbnail;
+    # this.thumbLarge = this.thumbLarge?.replace('http', 'https');
+
+    # this.strings = {};
+    # this.strings.title = this.title || 'Unknown';
+    # this.strings.isbn = this.isbn || 'Unknown';
+    # this.strings.authors = this.authors ? this.authors.join(this.language && this.language.includes('en') ? ', ' : '、') : 'Unknown';
+    # this.strings.plurality = this.authors ? this.authors.length > 1 ? 's' : '' : '';
+    # this.strings.publisher = this.publisher || 'Unknown';
+    # this.strings.publishedDate = this.publishedDate || 'Unknown';
+    # this.strings.pageCount = this.pageCount || 'Unknown';
+    # this.strings.dimensions = (this.height && this.width && this.thickness) ? `Height - ${this.height}, Width - ${this.width}, Thickness - ${this.thickness}` : 'Unknown';
+    # this.strings.thumbSmall = this.thumbSmall ? this.thumbSmall : this.thumbLarge ? this.thumbLarge : 'https://books.google.com.hk/googlebooks/images/no_cover_thumb.gif';

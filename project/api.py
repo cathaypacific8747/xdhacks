@@ -139,6 +139,85 @@ async def upload():
         "message": None
     })
 
+    # window.Book = class {
+    #     constructor(data) {
+    #         this.googleId = data?.id;
+    #         this.title = data?.volumeInfo?.title;
+    #         this.isbn = data?.volumeInfo?.industryIdentifiers?.find(e => e.type == 'ISBN_13')?.identifier;
+    #         this.authors = data?.volumeInfo?.authors;
+    #         this.language = data?.volumeInfo?.language;
+    #         this.publisher = data?.volumeInfo?.publisher;
+    #         this.publishedDate = data?.volumeInfo?.publishedDate;
+    #         this.pageCount = data?.volumeInfo?.pageCount;
+    #         this.height = data?.volumeInfo?.dimensions?.height;
+    #         this.width = data?.volumeInfo?.dimensions?.width;
+    #         this.thickness = data?.volumeInfo?.dimensions?.thickness;
+    #         this.imagelinks = data?.volumeInfo?.imageLinks;
+    #         this.thumbSmall = this.imagelinks?.smallThumbnail?.replace('http', 'https');
+    #         this.thumbLarge = this.imagelinks?.extraLarge ? this.imagelinks.extraLarge : this.imagelinks?.large ? this.imagelinks.large : this.imagelinks?.medium ? this.imagelinks.medium : this.imagelinks?.small ? this.imagelinks.small : this.imagelinks?.thumbnail ? this.imagelinks.thumbnail : this.imagelinks?.smallThumbnail;
+    #         this.thumbLarge = this.thumbLarge?.replace('http', 'https');
+
+    #         this.strings = {};
+    #         this.strings.title = this.title || 'Unknown';
+    #         this.strings.isbn = this.isbn || 'Unknown';
+    #         this.strings.authors = this.authors ? this.authors.join(this.language && this.language.includes('en') ? ', ' : '、') : 'Unknown';
+    #         this.strings.plurality = this.authors ? this.authors.length > 1 ? 's' : '' : '';
+    #         this.strings.publisher = this.publisher || 'Unknown';
+    #         this.strings.publishedDate = this.publishedDate || 'Unknown';
+    #         this.strings.pageCount = this.pageCount || 'Unknown';
+    #         this.strings.dimensions = (this.height && this.width && this.thickness) ? `Height - ${this.height}, Width - ${this.width}, Thickness - ${this.thickness}` : 'Unknown';
+    #         this.strings.thumbSmall = this.thumbSmall ? this.thumbSmall : this.thumbLarge ? this.thumbLarge : 'https://books.google.com.hk/googlebooks/images/no_cover_thumb.gif';
+    #     }
+    # };
+
+@api.post('/api/v2/listing/upload')
+async def upload_v2():
+    if not current_user.is_authenticated:
+        raise APIForbiddenError()
+
+    async def store(file):
+        return await current_app.discordThread.client.channel.send(file=file)
+
+    ownerid = current_user.userid
+    bookid = request.form.get('bookid')
+    price = request.form.get('price')
+    condition = request.form.get('condition')
+    notes = request.form.get('notes')
+    remarks = request.form.get('remarks')
+
+    if not bookid:
+        raise GenericInputError()
+    if not intable(price) or int(price) < 0 and int(price) >= 10000:
+        raise GenericInputError(description="price must be an integer between 0 and 9999, inclusive.")
+    if not intable(condition) or int(condition) not in [0, 1, 2, 3]:
+        raise GenericInputError()
+    if not intable(notes) or int(notes) not in [0, 1, 2]:
+        raise GenericInputError()
+    bookid = clean(bookid)
+    remarks = clean(remarks)
+
+    images = []
+    for _, f in request.files.lists():
+        extension = secure_filename(f[0].filename).split('.')[-1].lower() 
+        if f[0].mimetype.split('/')[0] == 'image' and extension:
+            with BytesIO() as mem:
+                f[0].save(mem)
+                mem.seek(0)
+                size = mem.getbuffer().nbytes
+                if size <= 0 or size >= 8e6:
+                    raise GenericInputError(description='File size is too large.')
+                future = asyncio.run_coroutine_threadsafe(store(file=discord.File(fp=mem, filename=f'{uuid.uuid4()}.{extension}')), current_app.discordThread.loop).result()
+                images.append(future.attachments[0].url)
+    
+    listing = Listing(ownerid=ownerid, bookid=bookid, price=price, condition=condition, notes=notes, remarks=remarks, images=images)
+    db.session.add(listing)
+    db.session.commit()
+
+    return jsonify({
+        "status": "success",
+        "message": None
+    })
+
 @api.get('/api/v1/listing/detail')
 def listing_detail():
     if not current_user.is_authenticated:
